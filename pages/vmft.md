@@ -143,9 +143,9 @@ Primary 的执行流程：
   Backup 启用之前，需要将 buffer 中的 Log entry 全部执行完。
   
   由于网络工作在 TCP 层，如果在 failure over 期间发生了 Backup 发送了重复的网络请求，TCP 会当做重复包丢弃。
-### 脑裂问题
-
-Test-And-Set disk server。
+- ### 脑裂问题
+- 通过使用一个Test-And-Set disk server，来提供一个原子性的保证。用于确定一个唯一的 Primary。
+-
 - ### 关于 VMware-FT 的疑问 #TODO 
   
   **Primary 与 Backup 之间的operation 发送是否需要同步？**
