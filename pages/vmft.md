@@ -132,9 +132,8 @@ Primary 的执行流程：
 ### 输出规则
 
 因为在Replicated state machine 中可能会出现各种问题导致无法同步状态。所以，设计了一个 VM-FT 的对外（client）输出规则。满足这个规则的情况下，可以避免因为 fail over 导致整个 VM-FT 系统对外的不一致状态。
-#### Failure over
-
-探活：
+- #### Failure over
+	- 探活：
 - Primary 和 Backup 之间 heartbeat
 - Logging Channel 之间的流量监控
   
@@ -143,8 +142,9 @@ Primary 的执行流程：
   Backup 启用之前，需要将 buffer 中的 Log entry 全部执行完。
   
   由于网络工作在 TCP 层，如果在 failure over 期间发生了 Backup 发送了重复的网络请求，TCP 会当做重复包丢弃。
-- ### 脑裂问题
-- 通过使用一个Test-And-Set disk server，来提供一个原子性的保证。用于确定一个唯一的 Primary。
+- ### VMware-FT 如何解决脑裂问题 #split-brain
+	- 通过使用一个Test-And-Set disk server，来提供一个原子性的保证。用于确定一个唯一的 Primary。
+	- TODO Test-And-Set disk server是如何工作的？
 -
 - ### 关于 VMware-FT 的疑问 #TODO 
   
