@@ -1,0 +1,23 @@
+- #APM
+- 概览
+  针对从服务到云原生的可观测性平台，用于收集、分析、聚合以及数据可视化。
+	- 为什么使用 SkyWalking？
+	  SkyWalking 为多种使用场景下的分布式系统提供了观测和监控的支持。首先，针对传统的方式，SkyWalking 提供了各种 agent。对于多语言、CD 环境，以及云原生等愈发负载的环境中。
+	- **SkyWalking**的抽象：
+		- `Service` —— 对外请求具有相同行为的一组 workload。
+		- `Service Instance` —— `Service` 中的一个实例。类似于 k8s 中的`Pods`的概念。它并不一定是一个操作系统进程。如果你使用的是 ^instrument agent^ 的话，那它就的确是一个真实的操作系统进程。
+		- `Endpoint` —— `Service` 的请求的路径。例如 HTTP URI 或者是 gRPC service class + method signature。
+		- `Process` —— 操作系统进程。在一些场景中， 一个`Service Instance` 不是一个进程，例如 K8s 的 pod 会包含多个进程。
+		- `Layer` —— (v9 版本引入) 代表这个一些抽象的概念，例如*操作系统*和*k8s*。所有被SkyWalking 检测到的实例，都是运行在一个`Layer`之中的。
+	- SkyWalking 让用户了解`Service` 和 `Endpoint`之间的拓扑关系，以查看每个 `Service`、`ServiceInstance`、`Endpoint`的 metrics 或者设计告警规则。
+	- SkyWalking 的集成支持
+		- distributed tracing 系统：Zipkin、Jaeger、OpenCencus
+		- metrics 系统：Prometheus、Sleuth、OpenTelemetry
+	- 架构
+		- SkyWalking 在逻辑上拆分为四个部分：Probes、Platform backend、Storage、UI
+		- ![](https://skywalking.apache.org/images/home/architecture_2160x720.png?t=20220617)
+			- `Probes` —— 收集检测数据，包括：metrics、traces、logs以及多种格式的 event(SkyWalking、Zipkin、OpenTelemetry、Prometheus、Zabbix 等)。
+			- `Platform backend` —— 用于数据聚合、分析和流处理。
+			- `Storage` —— 通过一个接口持有 SkyWalking 的数据。可以选择已有的实现：ES、H2、MySQL、TiDB、BanyanDB 或者自己实现。
+			- `UI` —— 高度可定制的 web 界面，用于可视化和管理数据。
+			-
