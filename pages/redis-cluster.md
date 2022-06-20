@@ -22,29 +22,23 @@
 - Sentinel 集群负责**监控**、**通知**、**故障转移**
   
   
-  
   Sentinel集群部署注意事项：
-- Sentinel集群个数不能少于 3 个*（投票机制的约束条件）*
-- Sentinel 节点最好是分布在相互隔离的环境中
+	- Sentinel集群个数不能少于 3 个*（投票机制的约束条件）*
+	- Sentinel 节点最好是分布在相互隔离的环境中
+- 集群部署流程：
+	- 1. 启动 Master 节点
+	- 2. 启动多个 Slave 节点，向 Master 注册异步复制
+	- 3. 启动多个 Sentinel 节点
+	- 4. Sentinel 向 Master 建立网络连接
+	- 5. Sentinel 向 Master 获取INFO 数据，建立网络拓扑结构
+	- 6. Sentinel 与 Slave 建立连接
+	- 7. Sentinel 之间建立网络连接
+- #### 集群的故障转移细节
+- Sentinel 的监控机制：Sentinel 会周期性与其他的 Master、Slave、Sentinel 实例发送 PING，以检测实例是否在线。
   
   
   
-  集群部署流程：
-  
-  1. 启动 Master 节点
-  2. 启动多个 Slave 节点，向 Master 注册异步复制
-  3. 启动多个 Sentinel 节点
-  4. Sentinel 向 Master 建立网络连接
-  5. Sentinel 向 Master 获取INFO 数据，建立网络拓扑结构
-  6. Sentinel 与 Slave 建立连接
-  7. Sentinel 之间建立网络连接
-#### 集群的故障转移
-
-Sentinel 的监控机制：Sentinel 会周期性与其他的 Master、Slave、Sentinel 实例发送 PING，以检测实例是否在线。
-
-
-
-Master 的下线检测
+  Master 的下线检测
 - Sentinel PING指令未收到回复，且时长超过配置的阈值的话，Sentinel 实例会认为 Master `主观下线`；
 - Sentinel 实例与集群内其他节点同步信息，以确定 Master 真实下线；
 - 如果集群中认为 Master 下线的 Sentinel 节点数，达到了配置的阈值（quorum），则 Master 变为`客观下线`；
