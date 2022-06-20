@@ -67,6 +67,7 @@
 		  go test -run 2A
 		  ```
 	- ## Lab 2A 实现
+		- 关于 election timeout 和 heartbeat interval 的
 		- server init：
 			- term = 0
 			- wait for election timeout
