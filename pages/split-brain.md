@@ -1,3 +1,3 @@
 - category: #[[Distributed System]]
-- TODO split-brain 问题的描述已经如何使用 [[Quorum System]]解决
+- TODO split-brain 问题的描述以及如何使用 [[Quorum System]]解决
 -
