@@ -1,6 +1,6 @@
 - # Primary/Backup Replication
   
-  核心是关于容错 fault tolerance。通过**replication**，无论是server 或者是网络的错误发生，都能够保障系统的**可用性**。
+  核心是关于容错 #fault-tolerance 。通过 #replication ，无论是server 或者是网络的错误发生，都能够保障系统的**可用性**。
 - replication 可能应对的错误有
 	- 单个镜像服务器的各种故障宕机：
 		- 机器风扇故障
