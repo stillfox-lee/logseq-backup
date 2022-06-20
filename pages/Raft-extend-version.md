@@ -1,1 +1,3 @@
-- []
+- [中文翻译版论文](https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md)
+- # Raft 论文摘要 #paper
+-
