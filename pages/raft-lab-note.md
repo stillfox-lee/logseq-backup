@@ -69,8 +69,9 @@
 	- ## Lab 2A 实现
 		- 关于 election timeout 和 heartbeat interval 如何确定
 			- 需求
-				- election 完成需要少于 5 秒 (测试用例限定)
-				- heartbeat
+				- election 完成需要少于 5 秒。(测试用例限定)
+					- 需要考虑多轮选举的情况，多轮选举也需要在
+				- heartbeat 每秒不能超过 10 次。(测试用例限定)
 		- server init：
 			- term = 0
 			- wait for election timeout
