@@ -41,32 +41,31 @@
 		- 规则 4：在任何需要等待的情况下加锁是一个不好的实现。例如：从 Channel 中读取数据、向 Channel 发送数据、等待定时器、调用`time.Sleep()`或者收发 RPC。因为你可能会希望在等待的同时使用其他 goroutine来提高执行速度，而且这种使用方式很可能会造成死锁发生。设想两个节点同时发送 RPC 请求并且都加锁，二者都需要等待对方的响应来释放锁，这样就触发了死锁。
 		  会引起阻塞的代码，需要先释放锁。如果这个约束条件会增加代码实现的难度的话，可以考虑使用其他的 goroutine 来执行阻塞的代码。
 		- 规则 5：
-# Lab 2A
-
-TODO:
+- # Lab 2A leader election
+  
+  TODO:
 - 实现 Raft 的 leader 选举
 - 实现 Raft 的 heartbeat 机制
-### Leader election
-## 提示
-- 按照 paper 的 Figure 2，处理发送和接收`RequestVote` RPC，与选举有关的规则，以及与领导选举有关的状态。
-- 在 `raft.go`的 `Raft`中，添加用于维护选举状态的数据。同样的，你需要定义用于维护 log的结构体。
-- 实现`RequestVoteArgs`和`RequestVoteReply`结构。修改`Make()`以创建一个后台goroutine，当它有一段时间没有收到另一个peer的消息时，它将通过发送`RequestVote` RPC来定期启动领导者选举。这样，如果已经有了一个领导者，peer将了解谁是领导者，或者自己成为领导者。实现`RequestVote()` RPC处理程序，这样服务器就可以互相投票了。
-- 为了实现心跳，定义一个`AppendEntries` RPC结构，并让领导者定期发送它们。编写一个`AppendEntries` RPC处理方法，重设选举超时，这样当一个人已经当选时，其他服务器就不会站出来当领导者。
-- 确保在不同的 peer 中，选举超时不会同时发生，不然每个 peer 都只会选择自己做领导。
-- 测试用例要求领导发送 heartbeat 不能超过每秒 10 次。
-- 测试用例要求选主在 5 秒钟内完成（如果大多数 peer 还能通信的情况下）。选举可能会产生很多轮，你必须选择足够短的选举超时时间（以及心跳间隔时间），以在 5s 内完成选举。
-- 论文的第5.2节提到选举超时的范围是150到300毫秒。只有当领导者发送心跳的频率大大超过每150毫秒一次时，这样的范围才有意义。因为测试用例把你限制在每秒10次心跳，所以你必须使用比150到300毫秒更大的选举超时，但不能太大，因为那样你可能无法在5秒内选出一个领导者。
-- 可以使用Go 的 rand 模块。
-- 你需要实现周期性轮询，最简单的方式就是在goroutine 中循环调用 `time.Sleep()`。不要使用`time.Timer`和`time.Ticker`，它们太难使用了。
-- Read this advice about [locking](http://nil.csail.mit.edu/6.824/2020/labs/raft-locking.txt)  and [structure](http://nil.csail.mit.edu/6.824/2020/labs/raft-structure.txt).
-- 不要忘记实现`GetState()`
-- 测试用例会调用`rf.Kill()`来永久关闭一个实例。你可以通过`rf.killed()`来查看是否调用过`Kill()`。你可能会需要在循环中处理它，以避免关闭的实例打印出干扰的信息。
-  
-  
-  测试：
-  ```shell
-  go test -run 2A
-  ```
+	- ## 提示
+		- 按照 paper 的 Figure 2，处理发送和接收`RequestVote` RPC，与选举有关的规则，以及与领导选举有关的状态。
+		- 在 `raft.go`的 `Raft`中，添加用于维护选举状态的数据。同样的，你需要定义用于维护 log的结构体。
+		- 实现`RequestVoteArgs`和`RequestVoteReply`结构。修改`Make()`以创建一个后台goroutine，当它有一段时间没有收到另一个peer的消息时，它将通过发送`RequestVote` RPC来定期启动领导者选举。这样，如果已经有了一个领导者，peer将了解谁是领导者，或者自己成为领导者。实现`RequestVote()` RPC处理程序，这样服务器就可以互相投票了。
+		- 为了实现心跳，定义一个`AppendEntries` RPC结构，并让领导者定期发送它们。编写一个`AppendEntries` RPC处理方法，重设选举超时，这样当一个人已经当选时，其他服务器就不会站出来当领导者。
+		- 确保在不同的 peer 中，选举超时不会同时发生，不然每个 peer 都只会选择自己做领导。
+		- 测试用例要求领导发送 heartbeat 不能超过每秒 10 次。
+		- 测试用例要求选主在 5 秒钟内完成（如果大多数 peer 还能通信的情况下）。选举可能会产生很多轮，你必须选择足够短的选举超时时间（以及心跳间隔时间），以在 5s 内完成选举。
+		- 论文的第5.2节提到选举超时的范围是150到300毫秒。只有当领导者发送心跳的频率大大超过每150毫秒一次时，这样的范围才有意义。因为测试用例把你限制在每秒10次心跳，所以你必须使用比150到300毫秒更大的选举超时，但不能太大，因为那样你可能无法在5秒内选出一个领导者。
+		- 可以使用Go 的 rand 模块。
+		- 你需要实现周期性轮询，最简单的方式就是在goroutine 中循环调用 `time.Sleep()`。不要使用`time.Timer`和`time.Ticker`，它们太难使用了。
+		- Read this advice about [locking](http://nil.csail.mit.edu/6.824/2020/labs/raft-locking.txt)  and [structure](http://nil.csail.mit.edu/6.824/2020/labs/raft-structure.txt).
+		- 不要忘记实现`GetState()`
+		- 测试用例会调用`rf.Kill()`来永久关闭一个实例。你可以通过`rf.killed()`来查看是否调用过`Kill()`。你可能会需要在循环中处理它，以避免关闭的实例打印出干扰的信息。
+		  
+		  
+		  测试：
+		  ```shell
+		  go test -run 2A
+		  ```
 -
 ### Lab 2A 实现
 
