@@ -5,6 +5,6 @@
 		- ![image.png](../assets/image_1655709613987_0.png)
 		- 通过一个**共识模块**，将 client 的请求存储为一些列的日志。将这些日志按照同样的顺序，在集群的其他节点重新执行，这样就能实现集群中的节点都有一致的状态了。
 	- ## Raft 的共识算法介绍
-		- > Raft 通过选举一个强力的 leader，然后赋予它权利来管理 Replicated log 来实现一致性。leader 从客户端接受请求，转化为 `log entries`，再复制到其他的服务器上
+		- > Raft 通过选举一个强力的 leader，然后赋予它权利来管理 Replicated log 来实现一致性。leader 从客户端接受请求，转化为 `log entries`，再复制到其他的服务器上。同时，它可以控制`log entries`的顺序，什么时候其他服务器可以执行重放。
 		-
 	-
