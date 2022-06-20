@@ -146,15 +146,15 @@ Primary 的执行流程：
 ### 脑裂问题
 
 Test-And-Set disk server。
-### 关于 VMware-FT 的疑问
-
-**Primary 与 Backup 之间的operation 发送是否需要同步？**
-
-从不确定operation的场景出发：需要等待 Primary 执行完之后，再将产生的数据写入 Log entry 发送给 Backup。那么这个情况下是需要阻塞等待 Primary 执行结果在发送 Log entry 的。
-
-确定性operation的场景：即使Backup 和 Primary 执行 operation 的效果是一样的。但是，为了要保证 Primary 和 Backup 都一致；Log entry 需要确定了 Primary 已经执行完 operation 之后，再发送给 Backup 执行。如果 Primary 执行失败的话，这个 operation 就不应该发送给 Backup 了。
-
-所以，Primary 的 operation 执行与 log entry 的发送应该是同步阻塞的。
+- ### 关于 VMware-FT 的疑问 #TODO 
+  
+  **Primary 与 Backup 之间的operation 发送是否需要同步？**
+  
+  从不确定operation的场景出发：需要等待 Primary 执行完之后，再将产生的数据写入 Log entry 发送给 Backup。那么这个情况下是需要阻塞等待 Primary 执行结果在发送 Log entry 的。
+  
+  确定性operation的场景：即使Backup 和 Primary 执行 operation 的效果是一样的。但是，为了要保证 Primary 和 Backup 都一致；Log entry 需要确定了 Primary 已经执行完 operation 之后，再发送给 Backup 执行。如果 Primary 执行失败的话，这个 operation 就不应该发送给 Backup 了。
+  
+  所以，Primary 的 operation 执行与 log entry 的发送应该是同步阻塞的。
 - 怎么做同步？
 	- 什么操作需要同步？
 - 怎么做 failure over？
