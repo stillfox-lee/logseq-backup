@@ -6,7 +6,7 @@
 - 关于 Sentinel 集群的知识：
 	- 最少部署 3 个节点
 	- quorum——用于对 Master 做故障检测
-		- 一旦Sentinel 检测到 Master 故障，则会发起 Sentinel 对 Master 的故障进行
+		- 一旦Sentinel 检测到 Master 故障，则会向整个 Sentinel 集群对 Master 的故障进行检测。一旦满足 quorum 数量的 Sentinel 都认为 Master 故障。那么
 	- Sentinel Majority vote
 	  
 	  quorum
