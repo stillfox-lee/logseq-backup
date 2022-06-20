@@ -1,0 +1,1 @@
+- 复制状态机通常是在 [[Distributed System]]中为了实现 [[fault-tolerance]]而
