@@ -1,25 +1,23 @@
 - # Primary/Backup Replication
   
   核心是关于容错 **fault tolerance**。通过**replication**，无论是server 或者是网络的错误发生，都能够保障系统的**可用性**。
-  
-  
-  replication 可能应对的错误有
-- 单个镜像服务器的各种故障宕机：
-	- 机器风扇故障
-	- CPU 超载
-	- 掉电
-	- 硬盘写满
-- 非软、硬件的错误
-	- 级联故障（所有 replicas 都失效）
-	- 地震
-	  
-	  > 需要考虑的一个问题是：是否值得花这么高的成本来维持大量的 replicas？
-	  
-	  
-	  
-	  两种主要的replication 方式：
-	  
-	  **state transfer**
+- replication 可能应对的错误有
+	- 单个镜像服务器的各种故障宕机：
+		- 机器风扇故障
+		- CPU 超载
+		- 掉电
+		- 硬盘写满
+	- 非软、硬件的错误
+		- 级联故障（所有 replicas 都失效）
+		- 地震
+		  
+		  > 需要考虑的一个问题是：是否值得花这么高的成本来维持大量的 replicas？
+		  
+		  
+		  
+		  两种主要的replication 方式：
+		  
+		  **state transfer**
 - primary 对外提供服务
 - primary 负责将状态发送给 backup
   
