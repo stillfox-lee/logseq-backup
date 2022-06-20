@@ -66,16 +66,11 @@
 		  ```shell
 		  go test -run 2A
 		  ```
--
-### Lab 2A 实现
-
-server init：
-- term = 0
-- wait for election timeout
-  
-  
-  
-  election timeout —— Follower wait until become Candidate
+- ### Lab 2A 实现
+	- server init：
+		- term = 0
+		- wait for election timeout
+		- election timeout —— Follower wait until become Candidate
 ### 选举阶段的 RPCs：
 #### RequestVote
 
