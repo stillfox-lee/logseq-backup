@@ -35,18 +35,15 @@
 	- 7. Sentinel 之间建立网络连接
 - #### 集群的故障转移细节
 - Sentinel 的监控机制：Sentinel 会周期性与其他的 Master、Slave、Sentinel 实例发送 PING，以检测实例是否在线。
-  
-  
-  
-  Master 的下线检测
-- Sentinel PING指令未收到回复，且时长超过配置的阈值的话，Sentinel 实例会认为 Master `主观下线`；
-- Sentinel 实例与集群内其他节点同步信息，以确定 Master 真实下线；
-- 如果集群中认为 Master 下线的 Sentinel 节点数，达到了配置的阈值（quorum），则 Master 变为`客观下线`；
-- 开启故障转移流程；
-- 集群内Sentinel实例开始选 Leader；*如果 Sentinel 获得半数以上投票，则成为 leader* （Majority vote）
-- Leader Sentinel 开始在集群中所有 Slave 中选主；
-- Leader Sentinel 通知其他 Slave 新 Master
-- Slave 与新 Master 开启主从
+- Master 的下线检测
+	- Sentinel PING指令未收到回复，且时长超过配置的阈值的话，Sentinel 实例会认为 Master `主观下线`；
+	- Sentinel 实例与集群内其他节点同步信息，以确定 Master 真实下线；
+	- 如果集群中认为 Master 下线的 Sentinel 节点数，达到了配置的阈值（quorum），则 Master 变为`客观下线`；
+	- 开启故障转移流程；
+	- 集群内Sentinel实例开始选 Leader；*如果 Sentinel 获得半数以上投票，则成为 leader* （Majority vote）
+	- Leader Sentinel 开始在集群中所有 Slave 中选主；
+	- Leader Sentinel 通知其他 Slave 新 Master
+	- Slave 与新 Master 开启主从
 ## 脑裂问题
 
 什么是脑裂：
