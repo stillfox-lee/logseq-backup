@@ -9,8 +9,9 @@
 		- 一旦Sentinel 检测到 Master 故障，则会向整个 Sentinel 集群对 Master 的故障进行检测。一旦满足 quorum 数量的 Sentinel 都认为 Master 故障。那么Sentinel 集群则认为 Master 故障了，开始执行 故障转移。 #Failover
 	- Sentinel Majority vote——用于Sentinel 集群选主
 		- 在 Master 标记为下线之后，Sentinel 需要通过 Majority vote，选出一个 leader。由 leader 进行 failover 的处理。
-- [ ] Sentinel 集群的故障节点容忍数是多少？
-- [ ] 为什么需要至少 3 个节点？
+- 思考题：
+	- Sentinel 集群的故障节点容忍数是多少？
+	- 为什么需要至少 3 个节点？
 ## cluster 的实现
 - slot 的分配算法
 - slot 路由表的维护
