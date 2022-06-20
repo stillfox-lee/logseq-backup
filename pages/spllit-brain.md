@@ -1,2 +1,2 @@
-- #[[Distributed System]]
+- category: #[[Distributed System]]
 -
