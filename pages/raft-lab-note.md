@@ -69,7 +69,7 @@
 	- ## Lab 2A 实现
 		- 关于 election timeout 和 heartbeat interval 如何确定？
 			- sleep ticket 设置为 10 millisecond
-				- 可能导致超时之后，
+				- 可能导致超时之后，过了一个 ticket 周期才触发超时检测。
 			- 需求
 				- election 完成需要少于 5 秒。(测试用例限定)
 					- ==需要考虑多轮选举的情况，多轮选举也需要在 5 秒内完成。==
