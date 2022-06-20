@@ -72,23 +72,18 @@
 		- wait for election timeout
 		- election timeout —— Follower wait until become Candidate
 ### 选举阶段的 RPCs：
-#### RequestVote
-
-Sender:
-- currentTerm+=1
-- Votedfor = me
-- Role = candidate
-- reset Timer
-- 不关心通信是否成功。通信失败由 election timeout 来触发再次选举。
-  
-  Handler（Follower）:
-  
-  
-  
-  Handler（Candidate）：
+	- #### RequestVote
+		- Sender:
+			- currentTerm+=1
+			- Votedfor = me
+			- Role = candidate
+			- reset Timer
+			- 不关心通信是否成功。通信失败由 election timeout 来触发再次选举。
+		- Handler（Follower）:
+		- Handler（Candidate）：
 #### Election timeout
-- Follower 的Heartbeat timeout。所有 Follower 等待随机的 Heartbeat超时。
-- Candidate 发起 RequestVote 之后，成为 Leader 之前超时，这个成为 Leader 的超时时间也是一个随机的超时时间。
+	- Follower 的Heartbeat timeout。所有 Follower 等待随机的 Heartbeat超时。
+	- Candidate 发起 RequestVote 之后，成为 Leader 之前超时，这个成为 Leader 的超时时间也是一个随机的超时时间。
 #### 关于RPC 的调用
 
 RPC 的返回值是布尔值，如果返回 false，可能是网络超时。这个时候是否需要考虑**重试**策略？
