@@ -12,26 +12,20 @@
 		- 地震
 		  
 		  > 需要考虑的一个问题是：是否值得花这么高的成本来维持大量的 replicas？
-		  
-		  
-		  
-		  两种主要的replication 方式：
-		  
-		  **state transfer**
-- primary 对外提供服务
-- primary 负责将状态发送给 backup
-  
-  **Replicated state machine**
-- client 的请求发送给 primary
-- primary 将请求操作按序发送给 backup
-  
-  > 确定性状态机：如果所有的 replicas 初始 state 相同，它们都按照同样的顺序执行client请求，都执行了所有的client请求。那么，所有的 replicas 可以保持一样的状态。
-  
-  *由于 Replicated state machine 需要指令按序执行，如果在多核系统中，这点可能无法得到保证。*
-  
-  可见，Replicated state machine 要能够工作，是有一系列的前提条件的。
-  
-  **两者对比**
+- 两种主要的replication 方式：
+	- **state transfer**
+	- primary 对外提供服务
+	- primary 负责将状态发送给 backup
+- **Replicated state machine**
+	- client 的请求发送给 primary
+	- primary 将请求操作按序发送给 backup
+	  
+	  > 确定性状态机：如果所有的 replicas 初始 state 相同，它们都按照同样的顺序执行client请求，都执行了所有的client请求。那么，所有的 replicas 可以保持一样的状态。
+	  
+	  *由于 Replicated state machine 需要指令按序执行，如果在多核系统中，这点可能无法得到保证。*
+	  
+	  可见，Replicated state machine 要能够工作，是有一系列的前提条件的。
+	- **两者对比**
 - State transfer 比较简单。但是，需要通过网络发送的 state 数据量可能是很大的。
 - Replicated state machine 的网络传输较小，每次都是发送执行的指令数据。
 - Replicated state machine 比较难实现
