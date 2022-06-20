@@ -1,7 +1,7 @@
 # 项目实现建议
 	- ## 关于结构的设计
-	  
-	  每个 Raft 节点都需要处理一些外部触发的事件：`Start()`的函数调用，`AppendEntries` 和`RequestVote`的 RPC 请求；以及两个周期性任务：Election 和 Heartbeat。以下是一些关于如何实现它们的建议。
+	- ref: http://nil.csail.mit.edu/6.824/2021/labs/raft-structure.txt
+	- 每个 Raft 节点都需要处理一些外部触发的事件：`Start()`的函数调用，`AppendEntries` 和`RequestVote`的 RPC 请求；以及两个周期性任务：Election 和 Heartbeat。以下是一些关于如何实现它们的建议。
 	  
 	  Raft 节点都会有很多的状态：log、current index，&c，它们都必须在并发的事件中更新。对于这些非并发安全的更新操作，最好是使用 Lock 来保证数据安全。
 	  
@@ -15,6 +15,7 @@
 	  
 	  记住：网络会对 RPC 的通信造成延迟，如果你并行发送 RPC 请求的话，网络可能会让请求发生乱序。论文中的**Figure2**很好地指出了关于 RPC 处理方面需要注意的情况，例如 RPC 的 handler 需要忽略旧的 Term 请求。**Figure2**并没有把所有的 RPC 响应该如何处理指出。leader 在处理 RPC 响应的时候需要特别小心，它必须检查在发送了 RPC 之后Term 是否发生了变化，并且必须考虑到从同一个 Follower 并行发送的 RPC 响应是否会改变 leader 的状态（并发安全），例如 `nextIndex`的值。
 	- ## 关于 Raft 的锁的建议
+		-
 		- 规则 1：只要有数据会涉及多个 goroutine 修改的情况，需要加锁以避免数据竞争。
 		- 规则 2：如果有一系列的状态变更操作，而其他的 goroutine 可能会在*中途*来查询其中的某个状态值。那就需要加锁。例如：
 		  
