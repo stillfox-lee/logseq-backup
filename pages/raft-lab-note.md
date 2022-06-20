@@ -67,7 +67,10 @@
 		  go test -run 2A
 		  ```
 	- ## Lab 2A 实现
-		- 关于 election timeout 和 heartbeat interval 的
+		- 关于 election timeout 和 heartbeat interval 如何确定
+			- 需求
+				- election 完成需要少于 5 秒 (测试用例限定)
+				- heartbeat
 		- server init：
 			- term = 0
 			- wait for election timeout
