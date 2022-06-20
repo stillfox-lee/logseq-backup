@@ -1,1 +1,2 @@
-- 复制状态机通常是在 [[Distributed System]]中为了实现 [[fault-tolerance]]而
+- 复制状态机通常是在 [[Distributed System]]中为了实现 [[fault-tolerance]]而实现的一种集群复制的方式。 #replication
+- 通常情况下，都是通过
