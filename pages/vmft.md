@@ -25,15 +25,11 @@
 	  *由于 Replicated state machine 需要指令按序执行，如果在多核系统中，这点可能无法得到保证。*
 	  
 	  可见，Replicated state machine 要能够工作，是有一系列的前提条件的。
-	- **两者对比**
-- State transfer 比较简单。但是，需要通过网络发送的 state 数据量可能是很大的。
-- Replicated state machine 的网络传输较小，每次都是发送执行的指令数据。
-- Replicated state machine 比较难实现
-  
-  VM-FT 使用 Replicated state machine 实现。
-  
-  
-  
+- **两者对比**
+	- State transfer 比较简单。但是，需要通过网络发送的 state 数据量可能是很大的。
+	- Replicated state machine 的网络传输较小，每次都是发送执行的指令数据。
+	- Replicated state machine 比较难实现
+- VM-FT 使用 Replicated state machine 实现。
   Replicated state machine 实现 Fault-Tolerant的相关问题：
 - 什么 state 应该被复制，同步的状态应该在控制什么粒度？
 	- 应用基本：如MySQL 只同步 binlog。
