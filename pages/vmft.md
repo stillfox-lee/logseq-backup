@@ -17,6 +17,7 @@
 	- primary 对外提供服务
 	- primary 负责将状态发送给 backup
 - **Replicated state machine**
+  id:: 62b015ff-ee2c-4905-8181-6625810c9268
 	- client 的请求发送给 primary
 	- primary 将请求操作按序发送给 backup
 	  
