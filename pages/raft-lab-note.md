@@ -98,13 +98,7 @@
 					- ticket：10milliseconds
 					- election timeout：700milliseconds to 1000 milliseconds
 					- heartbeat：10/s
-		- 如果 Candidate 的 RequestVote 收到了大于自己 Term 的reply 怎么处理？
-		  是不需要处理，等待 AppendEntries 来更新自己的状态？
-		  #+END_IMPORTANT
-		- server init：
-			- term = 0
-			- wait for election timeout
-			- election timeout —— Follower wait until become Candidate
+		- ==如果 Candidate 的 RequestVote 收到了大于自己 Term 的reply 怎么处理？是不需要处理，等待 AppendEntries 来更新自己的状态？==
 		- ### 选举阶段的 RPCs：
 			- #### RequestVote
 				- Sender:
