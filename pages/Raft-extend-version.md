@@ -9,10 +9,11 @@
 		- ### leader 选举
 		- ### 日志复制
 		- ### 安全性
-- # 个人理解
+- # 个人整理
 	- Raft 中和时间有关的部分
 		- election timeout
 			- follower 超过这个时间没有收到 heartbeat 就会变为 candidate，发起 election。
 			- 论文限定范围是 `150ms~300ms`
+			- > 主要是为了
 		- heartbeat 间隔时间
 			- leader 周期性向其他节点发送心跳
