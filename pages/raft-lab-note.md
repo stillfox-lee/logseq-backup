@@ -100,6 +100,10 @@
 		  - election timeout：700milliseconds to 1000 milliseconds
 		  - heartbeat：10/s
 		  #+END_NOTE
+		- #+BEGIN_IMPORTANT
+		  如果 Candidate 的 RequestVote 收到了大于自己 Term 的reply 怎么处理？
+		  是等待
+		  #+END_IMPORTANT
 		-
 		- server init：
 			- term = 0
