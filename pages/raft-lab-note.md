@@ -75,10 +75,10 @@
 					- ==需要考虑多轮选举的情况，多轮选举也需要在 5 秒内完成。==
 				- heartbeat 每秒不能超过 10 次。(测试用例限定)
 		- #+BEGIN_NOTE
-		  时间相关参数设置：
-		  ticket：
-		  election timeout：
-		  
+		  时间相关参数设置
+		  - ticket：
+		  - election timeout：
+		  - heartbeat：
 		  #+END_NOTE
 		- server init：
 			- term = 0
