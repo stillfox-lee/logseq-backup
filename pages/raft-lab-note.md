@@ -55,6 +55,7 @@
 		    rf.mu.Unlock()
 		  }
 		  ```
+		  这里为了减少发送 RPC 的阻塞，
 - # Lab 2A leader election
   
   TODO:
