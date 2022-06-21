@@ -57,7 +57,7 @@
 		  ```
 		  这里为了减少发送 RPC 的阻塞，使用了独立的 goroutine 处理发送请求，而且每个 goroutine 都使用了锁。但是，`rf.currentTerm`还是有可能与初始时不一样了。
 		  可以采取的一个方案是：使用闭包特性，将 Term 参数传递到 goroutine 中，这样就保证了发送的 Term 是一致的。同时，在收到 reply 的时候，校验这个 Term 是否一致。
-		-
+		- 要做到上面的要求是困难的，一个
 - # Lab 2A leader election
   
   TODO:
