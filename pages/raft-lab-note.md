@@ -42,7 +42,18 @@
 		  会引起阻塞的代码，需要先释放锁。如果这个约束条件会增加代码实现的难度的话，可以考虑使用其他的 goroutine 来执行会引发阻塞的代码。
 		- 规则 5：谨慎使用多段锁。这种锁可能会在避免阻塞等待的时候使用。例如：
 		  ```go
-		  
+		  rf.mu.Lock()
+		  rf.currentTerm += 1
+		  for <each peer> {
+		    go func() {
+		      rf.mu.Lock()
+		      args.Term = rf.currentTerm		// rf.currentTerm may changed
+		      rf.mu.Unlock()
+		      Call("Raft.RequestVote", &args, ...)
+		      // handle the reply...
+		    } ()
+		    rf.mu.Unlock()
+		  }
 		  ```
 - # Lab 2A leader election
   
