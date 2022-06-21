@@ -11,5 +11,5 @@
 		- ### 安全性
 - # 个人理解
 	- Raft 中和时间有关的部分
-		- election timeout
+		- election timeout ——
 		- heartbeat 间隔时间
