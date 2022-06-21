@@ -13,5 +13,5 @@
 	- Raft 中和时间有关的部分
 		- election timeout
 			- follower 超过这个时间没有收到 heartbeat 就会变为 candidate，发起 election。
-			- 论文限定范围是
+			- 论文限定范围是 `1`
 		- heartbeat 间隔时间 ——
