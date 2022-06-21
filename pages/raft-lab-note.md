@@ -67,9 +67,7 @@
 		  go test -run 2A
 		  ```
 	- ## Lab 2A 实现
-		- #+BEGIN_NOTE
-		  
-		  #+END_NOTE 关于 election timeout 和 heartbeat interval 如何确定？
+		- 关于 election timeout 和 heartbeat interval 如何确定？
 			- sleep ticket 设置为 10 millisecond
 				- 可能导致超时之后，过了一个 ticket 周期才触发超时检测。
 			- 需求
