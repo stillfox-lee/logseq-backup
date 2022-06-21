@@ -59,7 +59,7 @@
 		  可以采取的一个方案是：使用闭包特性，将 Term 参数传递到 goroutine 中，这样就保证了发送的 Term 是一致的。同时，在收到 reply 的时候，校验这个 Term 是否一致。
 		- 要做到上面的要求是困难的，一个实际的方案是：
 			- 首先考虑对应的场景中是否有并发的情况，如果没有并发，则不需要锁。
-			- 对于存在并发的地方：在 RPC 的并发请求，`Make()`函数中创建的后台 goroutine 等。可以通过在 goroutine 的初始就 Lock，在确定 goroutine
+			- 对于存在并发的地方：在 RPC 的并发请求，`Make()`函数中创建的后台 goroutine 等。可以通过在 goroutine 的初始就 Lock，在确定 goroutine 结束返回的时候 Unlock。这样可以保障代码逻辑的执行不会出现并发的情况，并发存在阻塞的 IO 中。
 - # Lab 2A leader election
   
   TODO:
