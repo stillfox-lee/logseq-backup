@@ -76,7 +76,7 @@
 				- heartbeat 每秒不能超过 10 次。(测试用例限定)
 		- #+BEGIN_NOTE
 		  时间相关参数设置
-		  - ticket：10
+		  - ticket：10milliseconds
 		  - election timeout：
 		  - heartbeat：10/s
 		  #+END_NOTE
