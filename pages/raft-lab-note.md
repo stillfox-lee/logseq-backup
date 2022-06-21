@@ -100,6 +100,7 @@
 		  - election timeout：700milliseconds to 1000 milliseconds
 		  - heartbeat：10/s
 		  #+END_NOTE
+		-
 		- server init：
 			- term = 0
 			- wait for election timeout
