@@ -1,5 +1,5 @@
 - [中文翻译版论文](https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md)
-- # Raft 论文摘要 #paper
+- # Raft 论文摘要 #paper #[[Distributed System]]
 	- > Raft 是一种为了管理 Replicated log 的一种 #共识算法 Raft 主要包含了一下几个模块：**领导人选举**、**日志复制**和**安全性**。它通过一个更强的一致性来减少需要考虑的状态数量。
 	- ## 复制状态机 #[[State Machine Replication]]
 		- ![image.png](../assets/image_1655709613987_0.png)
