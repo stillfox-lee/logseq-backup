@@ -15,3 +15,4 @@
 			- follower 超过这个时间没有收到 heartbeat 就会变为 candidate，发起 election。
 			- 论文限定范围是 `150ms~300ms`
 		- heartbeat 间隔时间
+			- leader 以一个间隔
