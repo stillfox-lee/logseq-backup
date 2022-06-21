@@ -77,7 +77,7 @@
 		- #+BEGIN_NOTE
 		  时间相关参数设置
 		  - ticket：10milliseconds
-		  - election timeout：700milliseconds 
+		  - election timeout：700milliseconds to 1000 milliseconds
 		  - heartbeat：10/s
 		  #+END_NOTE
 		- server init：
