@@ -14,6 +14,6 @@
 		- election timeout
 			- follower 超过这个时间没有收到 heartbeat 就会变为 candidate，发起 election。
 			- 论文限定范围是 `150ms~300ms`
-			- > 主要是为了
+			- > 主要是为了多个解决 Follower 都同一时间过期，防止它们瓜分选票。一直无法完成选举。
 		- heartbeat 间隔时间
 			- leader 周期性向其他节点发送心跳
