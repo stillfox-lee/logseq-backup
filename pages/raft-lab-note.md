@@ -102,9 +102,8 @@
 		  #+END_NOTE
 		- #+BEGIN_IMPORTANT
 		  如果 Candidate 的 RequestVote 收到了大于自己 Term 的reply 怎么处理？
-		  是等待
+		  是不需要处理，等待 AppendEntries 来更新自己的状态？
 		  #+END_IMPORTANT
-		-
 		- server init：
 			- term = 0
 			- wait for election timeout
