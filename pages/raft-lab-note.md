@@ -94,12 +94,10 @@
 				- election 完成需要少于 5 秒。(测试用例限定)
 					- ==需要考虑多轮选举的情况，多轮选举也需要在 5 秒内完成。==
 				- heartbeat 每秒不能超过 10 次。(测试用例限定)
-		- #+BEGIN_NOTE
-		  时间相关参数设置
-		  - ticket：10milliseconds
-		  - election timeout：700milliseconds to 1000 milliseconds
-		  - heartbeat：10/s
-		  #+END_NOTE
+				- ==时间相关参数设置==
+				  - ticket：10milliseconds
+				  - election timeout：700milliseconds to 1000 milliseconds
+				  - heartbeat：10/s
 		- #+BEGIN_IMPORTANT
 		  如果 Candidate 的 RequestVote 收到了大于自己 Term 的reply 怎么处理？
 		  是不需要处理，等待 AppendEntries 来更新自己的状态？
