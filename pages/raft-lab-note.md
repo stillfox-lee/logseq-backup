@@ -55,7 +55,7 @@
 		    rf.mu.Unlock()
 		  }
 		  ```
-		  这里为了减少发送 RPC 的阻塞，使用了独立的 goroutine 处理发送请求，而且每个 goroutine 都使用了锁。但是，`rf.currentTerm`还是有可能
+		  这里为了减少发送 RPC 的阻塞，使用了独立的 goroutine 处理发送请求，而且每个 goroutine 都使用了锁。但是，`rf.currentTerm`还是有可能与初始时不一样了。
 - # Lab 2A leader election
   
   TODO:
