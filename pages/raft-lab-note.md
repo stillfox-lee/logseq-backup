@@ -98,7 +98,7 @@
 					- ticket：10milliseconds
 					- election timeout：700milliseconds to 1000 milliseconds
 					- heartbeat：10/s
-		- ==在任意时刻，只要==
+		- ==在任意时刻，只要在通信中发现自己的 Term 是过期的，则需要切换到 Follower。==
 		- ### 选举阶段的 RPCs：
 			- #### RequestVote
 				- Sender:
