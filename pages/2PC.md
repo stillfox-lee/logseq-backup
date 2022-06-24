@@ -1,5 +1,5 @@
 - reference
 	- [martinfowler](https://martinfowler.com/articles/patterns-of-distributed-systems/two-phase-commit.html)
 	- [DDIA](http://ddia.vonng.com/#/ch9?id=%e4%b8%a4%e9%98%b6%e6%ae%b5%e6%8f%90%e4%ba%a4%e7%ae%80%e4%bb%8b)
-	-
+	- [wiki](https://zh.wikipedia.org/wiki/%E4%BA%8C%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4)
 -
