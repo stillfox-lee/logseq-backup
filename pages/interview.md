@@ -1,3 +1,67 @@
-- 项目中缓存的使用
-	- 列表信息、配置类信息
-	-
+- 实际项目使用
+	- 项目中缓存的使用
+		- 列表信息、配置类信息
+		-
+- 整理大纲 #interview
+	- 部分的技能点
+		- 缓存使用套路
+			- 凤凰架构
+			- go-zero
+			- https://dunwu.github.io/waterdrop/pages/fd0aaa/#%E7%BC%93%E5%AD%98%E7%AE%80%E4%BB%8B
+			- groupcache
+		- 基础框架
+			- ((62b27316-2619-40d6-9ca2-f3acfa9f555e))
+			- 缓存
+		- 基础设施
+			- APM
+			- 网关
+			- Redis 高可用
+			- MySQL 高可用
+			- MQ 集群搭建
+		- k8s
+			- 了解 Controller 的编写
+				- Apisix Ingress Controller 贡献
+	- MQ
+	- [[database-system]]
+	- MySQL应用技巧 #Mysql
+		- 主从同步
+		- 故障恢复
+		  collapsed:: true
+			- MySQL redo log #WAL
+				- redo log 是一种 WAL 技术，先写日志，再写磁盘。也相当于是把随机 IO 优化为顺序 IO 了。
+				- 特点
+					- 是一个对于磁盘更新的物理日志，记录的是：*在某个 page 做了什么修改*
+					- 有一个固定大小，循环写入，会覆盖旧内容。
+				- redo log 的实现
+					- https://static001.geekbang.org/resource/image/16/a7/16a7950217b3f0f4ed02db5db59562a7.png?wh=1142*856
+					- write pos —— 记录当前写的位置
+					- check point —— 当前擦除的位置
+					- 如果 write pos 追上了 check point 的话，需要等 check point 继续擦除才能写入。
+				- redo log 带来了一种`故障恢复`的能力：即使故障导致需要更新的数据没有写入到磁盘，还是可以从 redo log 把更新的数据恢复回来。
+			- binlog
+				- 特点
+					- 是逻辑日志，记录的是 SQL 的逻辑：*给 ID=2 的 row 的某字段 update*
+					- 有 rotate 功能，写到固定大小会切换日志文件。
+			- Mysql中的故障恢复
+			  id:: 62b58978-29d5-4992-9006-d309666c72f6
+				- 更新操作先写入 redo log
+				- 告知执行器处于 prepare 状态
+				- 执行器调度 binlog 写入
+				- binlog 写入成功
+				- 执行器告知 redo log 执行commit
+				- > 这是一个非标准的 [[2PC]] ，但是思想是一致的。执行器就是`协调者`，只是 binlog 并没有 prepare 和 commit 的阶段。
+			-
+		- 高可用
+	- 系统设计部分 #system-design
+		- 服务治理
+		  id:: 62b27316-2619-40d6-9ca2-f3acfa9f555e
+			- 熔断
+			- 降级
+			- 限流
+		- 服务发现
+		- 服务路由
+			- 负载均衡
+		- 分布式事务
+			- [[2PC]]
+			- [[XA事务]]
+			-

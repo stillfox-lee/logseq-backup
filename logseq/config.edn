@@ -200,7 +200,7 @@
 
  :ref/linked-references-collapsed-threshold 50
 
- :favorites ["TODO" "Daily Task" "How to take dummy notes?"]
+ :favorites ["quote" "Dashboard" "TODO" "Daily Task" "How to take dummy notes?"]
  :journal/page-title-format "yyyy-MM-dd"
 
  ;; any number between 0 and 1 (the greater it is the faster the changes of the next-interval of card reviews) (default 0.5)

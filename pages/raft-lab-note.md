@@ -1,4 +1,4 @@
-# 项目实现建议
+- # 2A 项目实现建议
 	- ## 关于结构的设计
 	- ref: http://nil.csail.mit.edu/6.824/2021/labs/raft-structure.txt
 	- 每个 Raft 节点都需要处理一些外部触发的事件：`Start()`的函数调用，`AppendEntries` 和`RequestVote`的 RPC 请求；以及两个周期性任务：Election 和 Heartbeat。以下是一些关于如何实现它们的建议。
@@ -114,3 +114,10 @@
 				- Candidate 发起 RequestVote 之后，成为 Leader 之前超时，这个成为 Leader 的超时时间也是一个随机的超时时间。
 			- #### 关于RPC 的调用
 			  RPC 的返回值是布尔值，如果返回 false，可能是网络超时。这个时候是否需要考虑**重试**策略？
+- #  Lab 2B
+	- 建议
+		- 第一个目标应该是通过**TestBasicAgree2B()**。按照 Figure2 的要求，从`Start()`开始实现，然后编写发送、接受`log entries`的 `AppendEntries`RPC。
+		- 你需要实现论文中 5.4.1 节的**选举安全性**部分。
+		- 如果在测试的初期集群总是无法达成共识的话。可能是 election timer 的问题导致的：选出了 Leader 之后，还在重复选举；成为 leader 之后，没有*立即*发送`AppendEntries`。
+		- 你可能需要循环检查某些特定的事件。这些循环应该要有一个间歇时间，不然它可能会拖慢程序的运行导致无法通过测试。尝试使用[condition variables](https://golang.org/pkg/sync/#Cond)或者是 sleep。
+		-
