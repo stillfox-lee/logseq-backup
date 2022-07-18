@@ -1,0 +1,16 @@
+- [凤凰架构](http://icyfenix.cn/immutable-infrastructure/storage/storage-evolution.html)
+	- docker 的存储演进过程
+		- 最初只有`Bind`的概念。docker 只是为宿主机的磁盘在内部做了一个映射而已。没有管理、隔离。
+		- 简单的映射不实用——如果需要跨主机的共享存储，需要在宿主机先挂载，再`Bind`。很不方便。
+		- 通过抽象出`Volume`和`Volume Driver`的概念。将通过抽象出卷和驱动，一来满足了自身的存储管理需求，二来丰富了生态。
+	- k8s 的存储设计 #k8s
+		- `Volume` 与 pod 生命周期相同。pod 内的 container 可以共享。
+		- `PersistentVolume` 持久化的存储。
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20220708171818.png)
+		- `Local PersistentVolume`。磁盘 IO 性能需求高的情况下，需要运用本地的磁盘。所以抽象了这个资源。但是，这个会影响到**调度**逻辑。在 k8s 调度的时候只能把 pod 调度到具有本地磁盘的 node 中。
+		- `PersistentVolumeClaim`。PV 是设计给运维的，PVC 是设计给开发者的。
+			- PV —— 对于存储的具体描述。容量、访问模式、存储位置等
+			- PVC —— 声明需要的存储能力。容量、访问方式等。
+		- 动态存储分配
+- [CSI 驱动开发指南](https://mp.weixin.qq.com/s/jUlTHAKhHZD1dkNudPlS9w)
+-
