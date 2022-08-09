@@ -42,15 +42,30 @@
 		  }
 		  ```
 	- k8s 与 client-go 之间的版本依赖关系
-- ## Client-go
+- apimachinery、k8s api、client-go 的关系：
+	- apimachinery 的资源
+		- 实现了 Go 中基础的对象。例如`runtime.Object`,`runtime.ObjectKind`等。
+		- 提供了 Watch 的功能
+	- k8s api 的资源
+		- 基于 apimachinery 实现了k8s 的内置资源对象。例如`pod`，`service`等。
+	- client-go 里的资源
+		- 基于 Watch 封装了 Informer 和 Lister。
+- ## [[client-go]]架构
 	- ![architecture](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20220713001120.png)
 	- Informer
-		- Informer 是基于 Watch 功能的封装，提供了缓存以及更加高级的编程接口。
-		- Informer 会处理 Watch 的网络连接问题，比如错误重连等。
-		- Informer 可以配置一个定时器，用于处理业务逻辑与内存缓存之间的差异：*通过调用已注册的事件处理函数，把完整的对象列表通知过去*。
-		- 使用共享 Informer Factory 来创建 Informer，它可以减少对 APIServer 的负担。*对于一个 GroupVersionResource 只会生成一个 Informer*。
-		- EventHandler
-			- EventHandler是 Informer 的消费者
+		- Informer 的模型：
+			- 从 APIServer 获得 Event
+			- 提供一个 Lister 接口给客户端查询
+			- 为 Add、Update、Delete 事件注册 handler 函数
+			- 通过内部存储实现缓存
+		- 特性
+			- Informer 会处理 Watch 的网络连接问题，比如错误重连等。
+		- 使用：
+			- Informer 可以配置一个定时器，用于处理业务逻辑与内存缓存之间的差异：*通过调用已注册的事件处理函数，把完整的对象列表通知过去*。
+			- 使用共享 Informer Factory 来创建 Informer，它可以减少对 APIServer 的负担。*对于一个 GroupVersionResource 只会生成一个 Informer，底层使用一个 Watch 连接*。
+			- EventHandler
+				- EventHandler是 Informer 的消费者
+				- 通常只将修改过的对象放到`workqueue`中
 	- Lister
 		- Lister 获取的对象是内存中的对象，如果要修改它的话，需要执行一次 DeepCopy。
 	- WorkerQueue
@@ -58,22 +73,46 @@
 		  type Interface interface {
 		  	Add(item interface{})
 		      Len() int
-		      Get() (item interface{}, shutdown bool)
-		      Done(item interface{})
+		      Get() (item interface{}, shutdown bool)  // 返回优先级最高的元素，会 block
+		      Done(item interface{})	// 所有 Get 返回的元素，都需要调用 Done重新放回队列。
 		      ShutDown()
 		      ShuttingDown() bool
 		  }
 		  ```
-- API Machinery
-	- 实现了 Kubernetes 的基础类型系统
-	- Kind
-		- API Machinery 中的 GroupVersionKind
-	- Resource
-		- API Machinery 中的 GroupVersionResource
-		- 每种 GVR 对应一个 HTTP 路径
-		- GVR 用于标识 KubernetesAPI 的 REST Endpoint
-	- ![transfer](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20220712193706.png){:height 415, :width 250}
-- CRD
+		-
+- ## API Machinery
+	- 实现了 Kubernetes 的基础类型系统。
+		- Kind
+			- API Machinery 中的 GroupVersionKind
+		- Resource
+			- API Machinery 中的 GroupVersionResource
+			- 每种 GVR 对应一个 HTTP 路径
+			- GVR 用于标识 KubernetesAPI 的 REST Endpoint
+		- ![transfer](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20220712193706.png){:height 415, :width 250}
+	- 提供 Watch 功能
+		- ```go
+		  // watch.Interface
+		  type Interface interface {
+		  	Stop()
+		      ResultChan() <- chan Event
+		  }
+		  
+		  // watch 返回的 Event
+		  type EventType string
+		  
+		  const (
+		      Added   EventType = "ADDED"
+		      Modified EventType = "MODIFIED"
+		      Deleted EventType = "DELETED"
+		      Error EventType = "ERROR"
+		  )
+		  
+		  type Event struct {
+		      Type EventType
+		      Object runtime.Object
+		  }
+		  ```
+- ## CRD
 	- CRD的 schema 定义编写规则(yaml)
 	- 验证 CRD 的合法性
 		- APIServer 会根据 OpenAPI v3 的Schema (JSON) 格式进行合法性验证
