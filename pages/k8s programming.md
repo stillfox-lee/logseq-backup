@@ -79,7 +79,11 @@
 		      ShuttingDown() bool
 		  }
 		  ```
-		-
+		- WorkerQueue的数据类型转换原理。
+			- WorkerQueue 的流转：
+				- EventHandler 获取到 interface{} 的 object
+				- EventHandler 将数据发送到 WorkerQueue 中
+				- Worker 通过 Lister 获取到实际的 Resource。
 - ## API Machinery
 	- 实现了 Kubernetes 的基础类型系统。
 		- Kind
