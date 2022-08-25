@@ -65,3 +65,11 @@
 			- [[2PC]]
 			- [[XA事务]]
 			-
+- 一些公司列表
+	- [tensorbase](https://tensorbase.io/joinus/)
+		- Rust技术栈、数据库方向、岗位需求不明、remote
+	- DaoCloud
+		- 似乎不支持 remote
+		- 开源岗位是为其他的上游项目贡献，
+		-
+	-
