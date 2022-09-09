@@ -1,0 +1,64 @@
+- 性能
+	- [bgregg性能问题速查手册](https://www.brendangregg.com/Articles/Netflix_Linux_Perf_Analysis_60s.pdf)
+	- 书籍
+		- 《性能之巅》
+- Mac 相关
+	- M 系列迁移
+		- [查看Homebrew的兼容进度](https://github.com/Homebrew/brew/issues/7857)
+		- [迁移指南](https://github.com/guevara/read-it-later/issues/7705)
+	- 虚拟化
+		- mulitpass
+		- lima-vm
+- Linux 书籍
+	- 《linux编程手册》
+	- 《Linux System Program Interface》
+		- [习题解答](https://github.com/sunhuiquan/tlpi-learn)
+	- 《APUE》
+- 计算机基础
+	- 内存
+		- [What Every Programmer Should Know About Memory](https://people.freebsd.org/~lstewart/articles/cpumemory.pdf)
+		- [Russ Cox 内存模型文章](https://research.swtch.com/hwmm) 、[中文翻译](https://colobu.com/2021/06/30/hwmm/)
+		- [缓存一致性系列文章](https://zhuanlan.zhihu.com/p/136300660)
+		-
+- 课程
+	- MIT6.828 *操作系统*
+		- 一些资料
+			- [他人笔记](https://github.com/SmallPond/MIT6.828_OS)
+			- [老师视频课程中文文字稿](https://github.com/huihongxiao/MIT6.S081)
+			- [可借鉴笔记](https://fanxiao.tech/posts/MIT-6S081-notes/#16-lab-1-unix-utilities)
+	- MIT6.824 *分布式*
+		- 论文资料
+			- [vm-ft 论文阅读](https://www.cnblogs.com/brianleelxt/p/13245754.html) #paper
+			- [GFS 论文阅读](https://spongecaptain.cool/post/paper/googlefilesystem/) #paper
+			- [RAFT中文](https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md) #paper
+		- [Raft 他人总结](https://tanxinyu.work/raft/)
+	- CMU 15-445 *数据库导论*
+		- [slide 中文重讲](https://www.bilibili.com/video/BV1bQ4y1Y7iT?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click)
+		-
+		-
+- SRE
+	- [linkedin SRE 101]([https://linkedin.github.io/school-of-sre/](https://linkedin.github.io/school-of-sre/))
+- 云原生
+	- [容器安全]([https://sysdig.com/blog/container-security-best-practices/](https://sysdig.com/blog/container-security-best-practices/))
+	- 书籍
+		- Stefan Schimanski: 《Kubernetes Deep Dive: Code Generation for CustomResource》
+- 架构设计
+	- [微软最佳实践](https://docs.microsoft.com/zh-cn/azure/architecture/best-practices/index-best-practices)
+	- [分布式设计模式](https://github.com/dreamhead/patterns-of-distributed-systems)
+	- 限流
+		- [netflix限流 blog](https://netflixtechblog.medium.com/performance-under-load-3e6fa9a60581)
+		- [使用 Nginx 限流功能](https://www.nginx.com/blog/rate-limiting-nginx/)
+		- [Redis 限流最佳实践](https://redis.com/redis-best-practices/basic-rate-limiting/)
+		- [aws 限流算法](https://aws.amazon.com/cn/blogs/architecture/exponential-backoff-and-jitter/)
+		- [微软限流设计模式](https://docs.microsoft.com/zh-cn/azure/architecture/patterns/rate-limiting-pattern)
+- 分布式
+	- 书籍
+		- 《DDIA》
+	- [DDIA 作者分布式课程](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)
+- [[k8s]]
+	- [what-happen-when](https://github.com/jamiehannaford/what-happens-when-k8s)
+	-
+- 论文 #paper
+	- > paper query
+-
+	-
