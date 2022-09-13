@@ -30,8 +30,14 @@
 		- 论文资料
 			- [vm-ft 论文阅读](https://www.cnblogs.com/brianleelxt/p/13245754.html) #paper
 			- [GFS 论文阅读](https://spongecaptain.cool/post/paper/googlefilesystem/) #paper
-			- [RAFT中文](https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md) #paper
-		- [Raft 他人总结](https://tanxinyu.work/raft/)
+			- [RAFT中文](https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md) #paper #raft
+		- [B站中文视频课程](https://www.bilibili.com/video/BV1R7411t71W?p=1&vd_source=2abff075bda6eb4c91c27fd1da6f2b36)
+		- [Raft 他人总结](https://tanxinyu.work/raft/) #raft
+		- [[raft]] 图解
+		- [给学生的raft指引](https://thesquareplanet.com/blog/students-guide-to-raft/) #raft
+		-
+		-
+		-
 	- CMU 15-445 *数据库导论*
 		- [slide 中文重讲](https://www.bilibili.com/video/BV1bQ4y1Y7iT?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click)
 		-

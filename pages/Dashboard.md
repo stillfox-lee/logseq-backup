@@ -1,8 +1,12 @@
-- # todo
-	- {{query (task todo later)}}
+- # In process
+	- {{query (task doing now )}}
+	  query-table:: false
+- # Todo
+	- {{query (task todo )}}
 	  query-table:: false
 	-
 	-
-- # In process
-	- {{query (task doing now )}}
+- # Backlog
+- {{query (task later waiting) #Backlog }}
+  query-table:: false
 -
