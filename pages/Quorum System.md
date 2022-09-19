@@ -1,7 +1,7 @@
 - From [wikipedia](https://en.wikipedia.org/wiki/Quorum_(distributed_computing)):
 	- > A **quorum** is the minimum number of votes that a distributed transaction has to obtain in order to be allowed to perform an operation in a [distributed system](https://en.wikipedia.org/wiki/Distributed_system). A **quorum-based** technique is implemented to enforce consistent operation in a distributed system.
-	- TODO Quorum-based voting in commit protocols
-	- TODO Quorum-based voting for replica control
+	- WAITING Quorum-based voting in commit protocols
+	- WAITING Quorum-based voting for replica control
 	-
 - From [martinfowler](https://martinfowler.com/articles/patterns-of-distributed-systems/quorum.html):
 	- > Avoid two groups of servers making independent decisions, by requiring majority for taking every decision.

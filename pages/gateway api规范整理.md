@@ -1,5 +1,5 @@
 - #[[gateway api]] #[[k8s network]]
-- API overview
+- # API overview
 	- roles
 		- Infrastructure Provider
 		- Cluster Operator
@@ -45,7 +45,7 @@
 				- **Namespace**：Gateway 可以通过设置`allowedRoutes.namepsages`字段来根据 Namespace限制添加到 Gateway 的 Route。
 				- **Kinds**：Gateway 可以通过对 Route 的 Kind 来限制。
 	-
-	- Reference
+	- # Reference
 		- ((631feec0-a575-446c-8083-7fe3585b5ed0))
 		- [ReferenceGrant](https://gateway-api.sigs.k8s.io/api-types/referencegrant/)
 			- > 如果一个资源会被外部的 Namespace 引用，那么它必须设置一个`ReferenceGrant`，否则这个跨Namespace 就是非法的。
@@ -78,7 +78,13 @@
 			      kind: Service
 			  ```
 			- 主要有两个 list 构成。一个`from`的资源list；一个是可能被引用的 list。
-				- `from` list用于定义在`to`list 中会被使用的`group` `kind` `namespace`资源。
+				- `from` list用于定义可以被引用的`group` `kind` `namespace`资源。
+				- `to` list 定义了可以被`from` list 引用的资源。
+			- 例外
+				- 跨命名空间的Route->Gateway绑定遵循一种稍微不同的模式，其中握手机制被构建在Gateway资源中。关于这种方法的更多信息，请参考相关的安全模型文档。虽然在概念上与ReferenceGrant相似，但这种配置是直接构建在Gateway监听器中的，并且允许每个监听器的细粒度配置，这在ReferenceGrant中是不可能的。
+				- 在某些情况下，忽略ReferenceGrant而采用其他安全机制可能是可以接受的。只有当其他机制（如 NetworkPolicy）能够有效地限制实现的跨命名空间引用时，才可以这样做。
+				- 选择这种例外情况的实现必须清楚地记录ReferenceGrant不被他们的实现所尊重，并详细说明有哪些替代的保障措施。请注意，这不太可能适用于API的入口实现，也不会适用于所有的网状实现。
+				- 关于跨命名空间引用的风险的例子，请参考CVE-2021-25740。这个API的实现需要非常小心，以避免混淆的副手攻击。ReferenceGrant为此提供了一个保障。只有在绝对确定其他同样有效的保障措施已经到位的情况下，实现者才必须做出例外。
 				-
 		-
 	-

@@ -88,17 +88,17 @@ Primary 是主要对client 提供服务的，它会接受 client 的各种请求
   这些指令，需要在 Primary 产生了结果之后，将结果写入 log entry 再发送给 Backup。而 Backup 不需要执行 operation，直接用 log entry 的结果即可。
   
   > 还有一种不确定性 operation，就是多核并发程序，VMware-FT 不兼容多核并发。VMM 只单核运行。
-#### VMM 
-
-VMM（Virtual Machine Monitor），VMM 介于硬件和虚拟机之间。实现了很多特性以达到虚拟机高可用。
-
-**VMM 处理 operation**
-
-在 VMware 的场景下，因为是在机器硬件级别提供的软件服务。所以primary 会接受到很多具有不确定性的 operation。例如：定时器中断、生成随机数等。所以，VMware 设计了一个VMM，VMM 处于硬件和虚拟机操作系统之间，通过 VMM 可以拦截所有的指令，在硬件级别可控制。将具有**不确定性**的 operation 转化为**确定性**operation。
-
-**VMM处理虚拟机存储**
-
-FT 通过一个局域网内的 Shared disk server 为虚拟机提供存储服务。VMM 提供了一个抽象的本地存储接口，虚拟机的本地存储实际上是通过 VMM 由网络发送到 Shared disk server 实现的。
+  #### VMM 
+  
+  VMM（Virtual Machine Monitor），VMM 介于硬件和虚拟机之间。实现了很多特性以达到虚拟机高可用。
+  
+  **VMM 处理 operation**
+  
+  在 VMware 的场景下，因为是在机器硬件级别提供的软件服务。所以primary 会接受到很多具有不确定性的 operation。例如：定时器中断、生成随机数等。所以，VMware 设计了一个VMM，VMM 处于硬件和虚拟机操作系统之间，通过 VMM 可以拦截所有的指令，在硬件级别可控制。将具有**不确定性**的 operation 转化为**确定性**operation。
+  
+  **VMM处理虚拟机存储**
+  
+  FT 通过一个局域网内的 Shared disk server 为虚拟机提供存储服务。VMM 提供了一个抽象的本地存储接口，虚拟机的本地存储实际上是通过 VMM 由网络发送到 Shared disk server 实现的。
 #### 处理 operation
 ##### 对于CPU 的定时器中断
 
@@ -133,7 +133,7 @@ Primary 的执行流程：
   由于网络工作在 TCP 层，如果在 failure over 期间发生了 Backup 发送了重复的网络请求，TCP 会当做重复包丢弃。
 - ### VMware-FT 如何解决脑裂问题 #split-brain
 	- 通过使用一个Test-And-Set disk server，来提供一个原子性的保证。用于确定一个唯一的 Primary。
-	- TODO Test-And-Set disk server是如何工作的？
+	- WAITING Test-And-Set disk server是如何工作的？
 -
 - ### 关于 VMware-FT 的疑问 #TODO 
   
