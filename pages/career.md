@@ -1,2 +1,18 @@
 - 云原生开发者
-	-
+	- 需要的核心能力
+		- 了解 k8s 的基本原理
+			- 网络
+				- TODO 学习一个 CNI 的工作原理，写一个 CNI 插件
+			- 存储
+			- 调度
+		- 有基于 k8s 做拓展开发的能力
+			- TODO 看完 k8s 编程这本书
+		- service mesh
+			- 知道 istio 等是如何实现的
+				- TODO 可以参考 jimmy song 的 istio 文章
+		- 可观测性
+			- Grafana
+			- Prometheus
+			- Jaeger
+		- Go 语言
+			- GPM 模型
