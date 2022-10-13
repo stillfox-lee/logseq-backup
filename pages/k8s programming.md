@@ -56,12 +56,17 @@
 		- RESTClient
 		- Clientset
 		- DynamicClient
-			- 对 GVK 无感知。不使用`Scheme`和`RESTMapper`。开发者需要手动提供一个 GVR来获取资源。多用于处理不确定对象类型的通用 Controller，例如垃圾回收。
+			- 对 GVK 无感知。不使用`Scheme`和`RESTMapper`。开发者需要手动提供一个 GVR来获取资源。多用于处理不确定对象类型的通用 Controller，例如垃圾回收时，删除那些父对象已经不存在的对象。
 		- DiscoveryClient
 		- 强类型 Client
 			- Client 代码中就带上了类型。
 			- 由于很多重复代码，所以又有了生成代码的方案：client-gen。
+			- 代码生成的工作：
+				- 生成k8s 对象对应的 Go struct。
+				- 将这些生成的资源再注册到 Scheme 中。
+				- 再生成的 Clientset 就是带有强类型绑定的了。
 		- controller-runtime
+			- 可以对任意的资源进行查询，但是需要提供一个该资源已经注册过的 Scheme
 	- Reflector
 		- 实现了 `List` 和 `Watch` 的功能
 	- Informer
@@ -97,19 +102,24 @@
 				- EventHandler 将数据发送到 WorkerQueue 中
 				- Worker 通过 Lister 获取到实际的 Resource。
 - ## API Machinery
-	- 实现了 Kubernetes 的基础类型系统。
+	- ### Kubernetes 的基础类型系统
 		- Kind
 			- API Machinery 中的 GroupVersionKind，是一个 object，对应着 Go 语言的一个类型。
-			- 从 GVR 中获取到的就是 GVK
+			- 从 GVR 对应的 HTTP endpoint中获取到的数据，经过`REST MAPPING`之后，就是 GVK。
+			- 对应的是 etcd 中存储的数据
 		- Resource
-			- API Machinery 中的 GroupVersionResource
-			- 每种 GVR 对应一个 HTTP 路径
+			- 因为 Resource 是属于特定的Group、Version的，所以在API Machinery 中用 `GroupVersionResource` 表示。
+			- 每种 GVR 对应一个 HTTP 路径。例如
+			  ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20221009172548.png)
 			- GVR 用于标识 KubernetesAPI 的 REST Endpoint
 		- RestMapper
 			- 设想一下我们开发的一个场景：需要从 APIServer 中获取某个 GVK。那就需要知道这个 GVK 对应的 HTTP endpoint，发起一个 HTTP request，再将获取到的数据反序列化为 GVK。完成这个工作的就是 RestMapper。
-			- RestMapper 是一个 interface，它有多种实现。最有用的就是`DeferredDiscoveryRESTMapper`，它可以自动发现信息。例如我们执行`kubectl get pods`，并没有指定 Group 和 Version，它却可以自动发现，并且转换为 GVR。
+			- RestMapper 是一个 interface，它有多种实现。最有用的就是`DeferredDiscoveryRESTMapper`，它可以带有`discovery information`，能够 **通过 APIServer 提供的查询接口**。例如我们执行`kubectl get pods`，并没有指定 Group 和 Version，它却可以自动发现，并且转换为 GVR。
 		- Scheme
 			- Scheme用于把 GVK 与 Golang 类型关联起来，通过反射机制来获得一个 Golang 对象。
+				- Golang 类型需要通过如下方法来注册 Scheme
+				  `scheme.AddKonwTypes(schema.GroupVersionKind{"", "v1", "Pod"}, &Pod{})`
+				-
 		- ![transfer](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20220712193706.png){:height 415, :width 250}
 	- 提供 Watch 功能
 		- ```go
@@ -140,10 +150,18 @@
 		- APIServer 会根据 OpenAPI v3 的Schema (JSON) 格式进行合法性验证
 			- OpenAPI 的 Schema可以通过`Kubebuilder`来生成
 		- 可以通过 Webhook 进行复杂验证
+		- 整体流程
+		  ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20221009232738.png)
+		-
 	- 子资源
 		- Status
 		- Scale
-- 自定义 API 服务器
+- ## 自定义 API 服务器
+	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20221009232012.png)
+	- 为什么需要自定义 API server？CRD 有什么问题解决不了？
+	- 怎么实现自定义 API server？
+	- kube-aggregator
+	- apiextensions-apiserver —— 为 CRD 提供服务
 	-
 - ## CI
 	- 单元测试

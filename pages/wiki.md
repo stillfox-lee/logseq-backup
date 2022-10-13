@@ -15,10 +15,16 @@
 		- [习题解答](https://github.com/sunhuiquan/tlpi-learn)
 	- 《APUE》
 - 计算机基础
-	- 内存
+	- [[memory]]
 		- [What Every Programmer Should Know About Memory](https://people.freebsd.org/~lstewart/articles/cpumemory.pdf)
 		- [Russ Cox 内存模型文章](https://research.swtch.com/hwmm) 、[中文翻译](https://colobu.com/2021/06/30/hwmm/)
 		- [缓存一致性系列文章](https://zhuanlan.zhihu.com/p/136300660)
+	- 编译
+		- **Python Conference** 如何在 30 分钟写一个[[jit]]编译器 [video](https://www.youtube.com/watch?v=DKns_rH8rrg)
+		-
+- [[golang]]
+	- [[profiling]] 相关资料
+		- [data-dog-profile-note](https://github.com/DataDog/go-profiler-notes/blob/main/guide/README.md)
 		-
 - 课程
 	- MIT6.828 *操作系统*
@@ -35,8 +41,6 @@
 		- [Raft 他人总结](https://tanxinyu.work/raft/) #raft
 		- [[raft]] 图解
 		- [给学生的raft指引](https://thesquareplanet.com/blog/students-guide-to-raft/) #raft
-		-
-		-
 		-
 	- CMU 15-445 *数据库导论*
 		- [slide 中文重讲](https://www.bilibili.com/video/BV1bQ4y1Y7iT?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click)

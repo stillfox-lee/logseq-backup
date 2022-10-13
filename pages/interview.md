@@ -5,6 +5,7 @@
 		- 服务治理
 		- 服务发现
 		- 可观测性
+		- 基于 gitlab 的 CICD
 	- 技能点
 		- istio
 		- k8s
@@ -19,10 +20,73 @@
 		- TODO Operator 开发相关书籍阅读，输出一篇[[blog]]
 		- TODO 了解 CNI 的工作原理，输出一个自己的插件，输出一篇[[blog]]
 			- [Kind 指定自定义 CNI 插件](https://medium.com/swlh/customise-your-kind-clusters-networking-layer-1249e7916100)
+- ### 解决的难题
+	- 通过py-spy 定位分析 bug
+		- 现象：进程 CPU 会跑满，重启之后一段时间又会再次升高。
+		- 通过 py-spy profiling 火焰图，最后定位到一个 lib 里面的一个死循环 bug
+	- Nginx 的 error 显示 499
+-
+- ### 一个 demo 项目
+	- TODO 项目设计
+	  :LOGBOOK:
+	  CLOCK: [2022-10-13 Thu 09:45:51]--[2022-10-13 Thu 11:55:07] =>  02:09:16
+	  :END:
+		- user-service
+			- endpoint remote call token-service
+		- token-service
 			-
-		- 一个 demo 项目，如何做服务治理，如何做可观测性，服务发现。
+	- 架构
+		- 1 台测试
+		- 3 台线上(一台小流量用来做预发布)
+	- 使用 go-kit的 example
+		- gateway-api
+	- 框架层面的服务治理
+		- 服务发现 --> 通过 docker-compose.yaml
+		- 配置管理 --> 基于 Redis 制作的配置管理，利用 PubSub 来更新推送。
+		- 服务治理
+			- 限流测试
+				- TODO 怎么配置限流的大小？
+					- 通过 Redis 统一配置一个数值，
+					- 需要配置默认值，
+					- push 即时更新内存值
+					- push 调小的时候怎么处理？
+				- 自适应限流
+				- 测试怎么进行？
+				- 测试监控数据？
+	- 监控 使用elastic APM
+		- 遇到了什么坑？能解决什么问题？
+			- TODO 自定义 metrics
+				- 限流的相关指标
+					- bucket 大小
+					- bucket丢弃请求数量
+					- 现在处理的速度
+		- 告警怎么做
+			- 触发限流阈值
+			- 服务进程挂了 考虑`CD的场景`
+		- 监控的数据
+			- latency
+		- 监控的东西
+	- ELK
+	- devops
+		- 数据库变更怎么做？
+			- 通过 migration 进行版本管理控制
+			- [参考](https://semaphoreci.medium.com/database-management-with-ci-cd-d8b74e9febf2)
+		- CI
+			- unit test
+			- docker build
+			- push image
+		- CD
+			- TODO 怎么用 docker-compose 来平滑更新、拓容
+			- 线上预发布
+				- 在 gateway 做流量标记，路由到特定的环境中
+			- 升级策略：启动新容器-->导一部分流量-->通过监控采样确认没问题-->再逐步升级容器
+			- 回滚策略：
 - 实际项目
 	- 编写框架，引入了服务治理，服务发现。
+	- 中台
+		- 配置管理
+		- 用户登录、注册
+		- 充值、支付
 	- 改善基础设置，可观测性。
 	- ingress controller 开发
 - 需要准备的：
@@ -99,5 +163,7 @@
 	- DaoCloud
 		- 似乎不支持 remote
 		- 开源岗位是为其他的上游项目贡献，
-		-
+	-
+- 可以尝试的一些岗位
+	- [金山云容器开发](https://app.mokahr.com/apply/kingsoft/2250#/job/e6d4ca96-49d0-47e7-935b-ee15f38698e5)
 	-
