@@ -67,8 +67,10 @@
 	- [DDIA 作者分布式课程](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)
 - [[k8s]]
 	- [what-happen-when](https://github.com/jamiehannaford/what-happens-when-k8s)
+	- [deployment-strategies](https://github.com/ContainerSolutions/k8s-deployment-strategies)
 	-
 - 论文 #paper
 	- > paper query
--
+- [[vscode]]
+	- vscode-vim 的入门[教程](https://www.barbarianmeetscoding.com/blog/boost-your-coding-fu-with-vscode-and-vim)
 	-

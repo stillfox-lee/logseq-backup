@@ -1,0 +1,35 @@
+- #vim
+- nvim 的一些概念
+	- buffer
+	- keymap
+	- autocmd
+	- lsp
+- ## Package Management
+	- profiling
+	- lazy loading
+- ## Plugin
+	- nvim-tree
+		- 文件操作
+			- new、remove、rename、move、search
+	- git
+		- highlight changed `gitsigns`
+	- todo-comments
+	- telescope
+	- autopair
+- LATER nvim 需要优化的部分
+	- testing、debug
+	- session manager
+		- nvim-tree buffer layout 不当
+	- find reference 不好用
+		- 类似于 vscode，给一个预览窗，可以在预览窗导航。
+	- formatter
+		- 可选择部分格式化
+		- save without format
+	- comment
+		- 自动根据 file-type 注释
+		- 多行注释
+- lsp
+	- refactor
+- airline
+- nerd font Jetbrains  Mono [link](https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/font-info.md)
+-

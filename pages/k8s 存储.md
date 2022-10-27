@@ -1,3 +1,53 @@
+- ### Volume
+	- 分类
+		- EmptyDir
+		- HostPath
+		- Projected
+- ### Projected Volume
+	- 分类
+		- Secret
+		- ConfigMap
+		- Downward API      —— 让 Pod 容器能够直接获取到 Pod API 本身的信息
+		- ServiceAccountToken
+	- Secret
+		- Secret的使用方式
+		  ```yaml
+		  apiVersion: v1
+		  kind: Pod
+		  ...
+		  spec:
+		    containers:
+		    ...
+		    valumeMounts:
+		    - name: mysql-credi
+		    	mountPath: "/projected-volume"
+		      readOnly: true
+		    volumes:
+		    - name: mysql-credi
+		    	projected:
+		        source:
+		        - secret:			# k8s 的 secret API 资源
+		        	  name: user
+		        - secret:
+		        	  name: pwd
+		  ```
+			- Secret 也是一种 k8s 的资源，可以通过 kubectl 创建：
+			  ```bash
+			  $ kubectl create secret generic user --from-file=./username.txt
+			  $ kubectl create secret generic pwd --from-file=./password.txt
+			  ```
+			- 也可以通过 YAML 来创建：
+			  ```yaml
+			  apiVersion: v1
+			  kind: Secret
+			  metadata:
+			    name: mysecret
+			  type: Opaque
+			  data:
+			    user: YWRtaW4=             # 需要 base64 编码
+			    pass: MWYyZDFlMmU2N2Rm
+			  ```
+			-
 - [凤凰架构](http://icyfenix.cn/immutable-infrastructure/storage/storage-evolution.html)
 	- docker 的存储演进过程
 		- 最初只有`Bind`的概念。docker 只是为宿主机的磁盘在内部做了一个映射而已。没有管理、隔离。
