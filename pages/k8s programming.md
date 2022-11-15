@@ -83,8 +83,9 @@
 			- EventHandler
 				- EventHandler是 Informer 的消费者
 				- 通常只将修改过的对象放到`workqueue`中
-	- Lister
-		- Lister 获取的对象是内存中的对象，如果要修改它的话，需要执行一次 DeepCopy。
+		- Index
+		- Lister
+			- Lister 获取的对象是内存中的对象，如果要修改它的话，需要执行一次 DeepCopy。
 	- WorkerQueue
 		- ```go
 		  type Interface interface {
@@ -105,7 +106,7 @@
 	- ### Kubernetes 的基础类型系统
 		- Kind
 			- API Machinery 中的 GroupVersionKind，是一个 object，对应着 Go 语言的一个类型。
-			- 从 GVR 对应的 HTTP endpoint中获取到的数据，经过`REST MAPPING`之后，就是 GVK。
+			- 从 `GVR` 对应的 HTTP endpoint中获取到的数据，经过`REST MAPPING`之后，就是 `GVK`。
 			- 对应的是 etcd 中存储的数据
 		- Resource
 			- 因为 Resource 是属于特定的Group、Version的，所以在API Machinery 中用 `GroupVersionResource` 表示。

@@ -28,6 +28,9 @@
 	- comment
 		- 自动根据 file-type 注释
 		- 多行注释
+	- auto-complete
+		- k8s的 yaml 编写
+		- docker file 编写
 - lsp
 	- refactor
 - airline

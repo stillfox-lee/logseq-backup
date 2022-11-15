@@ -1,3 +1,8 @@
+- ## 基础概念
+	- PV
+	- PVC
+	- StorageClass
+	-
 - ### Volume
 	- 分类
 		- EmptyDir
