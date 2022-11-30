@@ -1,4 +1,4 @@
-- #[[gateway api]] #[[k8s network]]
+- #[[gateway api]]
 - # API overview
 	- roles
 		- Infrastructure Provider

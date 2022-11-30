@@ -160,8 +160,42 @@
 - ## 自定义 API 服务器
 	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20221009232012.png)
 	- 为什么需要自定义 API server？CRD 有什么问题解决不了？
-	- 怎么实现自定义 API server？
+		- CRD 只有两种 subresource：`/status` `/scale`
+		- 不支持平滑删除。`Finalizers`可以做到一部分，但是无法自定义平滑删除时间。
+		- 对应 API Endpoint，只支持标准的 CRUD 语义
+	- 自定义 API 服务的好处
+		- 可以使用任何的存储介质，而不是 etcd。*例如 metrics 服务器的数据写入到内存数据库中*
+		- 可以使用 Golang 高效处理**验证**、**准入**、**转换**。减少了与 Webhook 多一次的交互带来的延迟。*在大量级的 pod 情况下优化*
+	- 自定义 API Server 如何工作？
+		- Custom API Server 可以部署在 k8s 内部或者外部
+		- Custom API Server 需要向 API Server注册
+		- API Server 收到了 CRD 的时候，会拦截下请求，转发给 Custom API Server
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20221124102400.png)
+		-
 	- kube-aggregator
+		- 在 kube-apiserver 中负责处理Custom API Server 的 `kube-aggregator`
+	- 如何编写 Custom API Server
+		- 通过`APIService`注册 API
+			- 这里是要告诉`kube-apiserver`哪些 APIGroup 是需要给 Custom API Server 的
+			- ```yaml
+			  apiVersion: apiregistration.k8s.io/v1beta1
+			     kind: APIService
+			     metadata:
+			  name: name 
+			  spec:
+			  	group: API-group-name 
+			      version: API-group-version 
+			      service:
+			  		namespace: custom-API-server-service-namespace
+			  		name: -API-server-service 
+			  caBundle: base64-caBundle 
+			  insecureSkipTLSVerify: bool 
+			  groupPriorityMinimum: 2000 
+			  versionPriority: 20
+			  ```
+	- Custom API Server 的结构
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20221124104210.png)
+		-
 	- apiextensions-apiserver —— 为 CRD 提供服务
 	-
 - ## CI

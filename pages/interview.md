@@ -1,3 +1,28 @@
+- 一些云厂商
+	- 阿里云
+	- 腾讯云
+	- 华为云
+	- 天翼云
+	- 七牛云
+	- 金山云
+	- ucloud
+		- [go 后台开发](http://ucloud.zhiye.com/zpdetail/190261800)
+	- 青云
+	- Daocloud
+	- 灵雀云
+	- 明源云
+		- [容器化方向](https://zhaopin.mingyuanyun.com/apply/mingyuan/36251#/job/0a0bb5a4-4063-492d-8fe7-c775285feb77)
+	- 速石科技
+	- 时速云[招聘](https://www.tenxcloud.com/aboutus?tab=joinus)
+	- 好雨云
+		- [golang 开发](https://www.goodrain.com/position/golang/)
+	- 得帆信息 *低代码*
+	- [博云](https://www.bocloud.com.cn/joinus)
+	- 青云科技
+		- [容器开发](https://www.qingcloud.com/jobs/senior-container-engineer/)
+	- ghostcloud
+		- [golang 开发](https://www.zhipin.com/job_detail/3b15739b1d51dd4f1XZ939u-FFFQ.html?ka=comp_joblist_15_blank&lid=7o8MAY79ChW.search.45&securityId=undefined)
+	-
 - TODO 云原生简历
 	- 架构方面
 		- 基于 gRPC 自制框架处理服务治理

@@ -65,6 +65,8 @@
 	- 书籍
 		- 《DDIA》
 	- [DDIA 作者分布式课程](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)
+	- [维基百科一致性模型介绍](https://en.wikipedia.org/wiki/Consistency_model#Session_guarantees) #[[Distributed System]]
+	- 一致性在现代分布式系统中的 tradeoff [论文](http://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf) #paper #[[Distributed System]]
 - [[k8s]]
 	- [what-happen-when](https://github.com/jamiehannaford/what-happens-when-k8s)
 	- [deployment-strategies](https://github.com/ContainerSolutions/k8s-deployment-strategies)
@@ -74,3 +76,4 @@
 - [[vscode]]
 	- vscode-vim 的入门[教程](https://www.barbarianmeetscoding.com/blog/boost-your-coding-fu-with-vscode-and-vim)
 	-
+-
