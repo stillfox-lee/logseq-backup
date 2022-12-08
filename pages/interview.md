@@ -22,7 +22,8 @@
 		- [容器开发](https://www.qingcloud.com/jobs/senior-container-engineer/)
 	- ghostcloud
 		- [golang 开发](https://www.zhipin.com/job_detail/3b15739b1d51dd4f1XZ939u-FFFQ.html?ka=comp_joblist_15_blank&lid=7o8MAY79ChW.search.45&securityId=undefined)
-	-
+	- streamnative
+		- [cloud platform](https://streamnative.cn/career/zh-cn/cloud-product-engineer-zh/)
 - TODO 云原生简历
 	- 架构方面
 		- 基于 gRPC 自制框架处理服务治理
