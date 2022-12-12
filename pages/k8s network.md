@@ -1,0 +1,11 @@
+- ## k8s 的网络模型
+	- 组件
+		- kube-proxy
+		- CNI
+	- 抽象建模
+		- pod
+		- endpoint
+		- service
+		- ingress
+	- > Service Cluster IP 是由 CNI 提供的，Endpoint则是由kubelet 和 kube-proxy提供的。
+	-
