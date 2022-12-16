@@ -1,0 +1,2 @@
+- On [[2022-12-16]] at 10:31 AM Readwise synced 2 highlights from 2 books.
+-
