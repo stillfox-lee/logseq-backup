@@ -1,0 +1,15 @@
+-
+- CKA
+- 换工作
+- 课程
+	- CSAPP
+	- mit 分布式
+	- 操作系统课程
+- 读书
+	- DDIA
+	- go 100 mistake
+	- 程序员修炼之道
+- LeetCode
+- 系统设计
+- 论文
+- blog

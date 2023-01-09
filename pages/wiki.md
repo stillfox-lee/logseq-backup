@@ -45,8 +45,13 @@
 	- CMU 15-445 *数据库导论*
 		- [slide 中文重讲](https://www.bilibili.com/video/BV1bQ4y1Y7iT?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click)
 		-
-		-
-- SRE
+- [[Rust]]
+	- [Google 安卓团队 4 天课程](https://github.com/google/comprehensive-rust)
+	- [Rust Atomics and Locks](https://marabos.nl/atomics/) #concurrency
+	-
+	-
+	-
+- [[SRE]]
 	- [linkedin SRE 101](https://linkedin.github.io/school-of-sre/)
 - 云原生
 	- [容器安全]([https://sysdig.com/blog/container-security-best-practices/](https://sysdig.com/blog/container-security-best-practices/))

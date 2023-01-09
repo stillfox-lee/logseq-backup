@@ -26,7 +26,10 @@
 		- [cloud platform](https://streamnative.cn/career/zh-cn/cloud-product-engineer-zh/)
 	- [taptap](https://blog.taptap.dev/career)
 	- https://www.yuque.com/greatghoul/remote/teams
-	-
+	- [squids](https://squids.cn/)
+		- 跨云 RDS 解决方案
+	- [沃趣科技](http://www.woqutech.com/)
+		- 阿里去 IOE 数据库团队创业
 - TODO 云原生简历
 	- 架构方面
 		- 基于 gRPC 自制框架处理服务治理
@@ -54,7 +57,11 @@
 		- 现象：进程 CPU 会跑满，重启之后一段时间又会再次升高。
 		- 通过 py-spy profiling 火焰图，最后定位到一个 lib 里面的一个死循环 bug
 	- Nginx 的 error 显示 499
--
+- ## 我的技能栈
+	- GraphQL
+	- docker
+	- k8s
+	-
 - ### 一个 demo 项目
 	- TODO 项目设计
 	  :LOGBOOK:
@@ -95,7 +102,6 @@
 		- 监控的数据
 			- latency
 		- 监控的东西
-	- ELK
 	- devops
 		- 数据库变更怎么做？
 			- 通过 migration 进行版本管理控制
@@ -110,19 +116,30 @@
 				- 在 gateway 做流量标记，路由到特定的环境中
 			- 升级策略：启动新容器-->导一部分流量-->通过监控采样确认没问题-->再逐步升级容器
 			- 回滚策略：
-- 实际项目
+- ## 实际项目经验
 	- 编写框架，引入了服务治理，服务发现。
-	- 中台
-		- 配置管理
-		- 用户登录、注册
-		- 充值、支付
-	- 改善基础设置，可观测性。
-	- ingress controller 开发
-- 需要准备的：
-	- golang
-		- 并发模型
-		- 协程调度
-		- pprof
+		- 服务发现怎么做的？
+		- 服务治理的阈值配置怎么做
+	- 基于 Redis 的脏字系统
+		- 过滤器原理
+		- 系统设计
+			- 脏字容量、系统容量、拓容、
+			- 灾备
+			- QPS、observability
+	- 基于 elastic stack 的 observablity
+		- ELK
+		- 集成 SDK
+		- 设计 metrics
+		- 制作 dashboard
+	- 基于 ES 的搜索平台
+		- ES 的倒排索引
+		- ES 如何做自动补齐
+		- ES 的分布式原理
+	- DevOps
+- golang
+	- 并发模型
+	- 协程调度
+	- pprof
 - 整理大纲 #interview
 	- 部分的技能点
 		- 缓存使用套路

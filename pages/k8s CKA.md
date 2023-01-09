@@ -1,3 +1,20 @@
+- ## Job
+	- 关键参数
+		- .spec.backoffLimit: 6 —— 失败重试次数
+		- .spec.completions: 1  —— 完成次数
+		- .spec.parallelism: 1 —— 并发数量
+		- .spec.template.spec.restartPolicy = "Never" "OnFailure"
+- ## Cronjob
+-
+- ## ReplicaSet
+	- `kubectl delete rs XXX --cascade=orphan` —— 删除 ReplicaSet，但是保留 pod。
+- ## Rolling update
+	- `kubectl rollout history`
+	- `kubectl rollout history KIND NAME --revision=2`
+	- `kubectl rollout status`
+	- `kubectl rollout undo KIND NAME --to--revision=1`
+	-
+	-
 - ## Deployment
 	- 指定镜像部署一个 deployment
 	- `kubectl create deployment nginx --image=nginx`
