@@ -30,6 +30,16 @@
 		- 跨云 RDS 解决方案
 	- [沃趣科技](http://www.woqutech.com/)
 		- 阿里去 IOE 数据库团队创业
+	- [飞致云](https://www.fit2cloud.com/index.html)
+		- 堡垒机
+		- KubeOperator
+	- [文远知行](https://app.mokahr.com/apply/jingchi/2138#/jobs?location%5B0%5D=%E5%B9%BF%E5%B7%9E%E5%B8%82&page=1&pageSize=30&zhineng%5B0%5D=6320&anchorName=jobsList)
+		- 自动驾驶
+	- [数说故事](https://www.zhipin.com/job_detail/5a6105a7ad13bce61XV83tm1EVpU.html?ka=comp_joblist_6_blank&lid=3NMYgjR9yKr.search.36&securityId=)
+		- SRE、监控系统
+	- twitter 友所在的日本公司 https://twitter.com/michaelwong666/status/1613716177897000960
+	-
+	-
 - TODO 云原生简历
 	- 架构方面
 		- 基于 gRPC 自制框架处理服务治理
@@ -61,65 +71,23 @@
 	- GraphQL
 	- docker
 	- k8s
+- ## 一个 demo 项目
+	- [[microservice-demo]]
 	-
-- ### 一个 demo 项目
-	- TODO 项目设计
-	  :LOGBOOK:
-	  CLOCK: [2022-10-13 Thu 09:45:51]--[2022-10-13 Thu 11:55:07] =>  02:09:16
-	  :END:
-		- user-service
-			- endpoint remote call token-service
-		- token-service
-			-
-	- 架构
-		- 1 台测试
-		- 3 台线上(一台小流量用来做预发布)
-	- 使用 go-kit的 example
-		- gateway-api
-	- 框架层面的服务治理
-		- 服务发现 --> 通过 docker-compose.yaml
-		- 配置管理 --> 基于 Redis 制作的配置管理，利用 PubSub 来更新推送。
-		- 服务治理
-			- 限流测试
-				- TODO 怎么配置限流的大小？
-					- 通过 Redis 统一配置一个数值，
-					- 需要配置默认值，
-					- push 即时更新内存值
-					- push 调小的时候怎么处理？
-				- 自适应限流
-				- 测试怎么进行？
-				- 测试监控数据？
-	- 监控 使用elastic APM
-		- 遇到了什么坑？能解决什么问题？
-			- TODO 自定义 metrics
-				- 限流的相关指标
-					- bucket 大小
-					- bucket丢弃请求数量
-					- 现在处理的速度
-		- 告警怎么做
-			- 触发限流阈值
-			- 服务进程挂了 考虑`CD的场景`
-		- 监控的数据
-			- latency
-		- 监控的东西
-	- devops
-		- 数据库变更怎么做？
-			- 通过 migration 进行版本管理控制
-			- [参考](https://semaphoreci.medium.com/database-management-with-ci-cd-d8b74e9febf2)
-		- CI
-			- unit test
-			- docker build
-			- push image
-		- CD
-			- TODO 怎么用 docker-compose 来平滑更新、拓容
-			- 线上预发布
-				- 在 gateway 做流量标记，路由到特定的环境中
-			- 升级策略：启动新容器-->导一部分流量-->通过监控采样确认没问题-->再逐步升级容器
-			- 回滚策略：
 - ## 实际项目经验
 	- 编写框架，引入了服务治理，服务发现。
 		- 服务发现怎么做的？
 		- 服务治理的阈值配置怎么做
+	- 小说项目
+		- 安全方面
+			- 书籍内容采用epub
+			- 资源传输
+				- SSL
+			- epub 加密算法
+				- 非对称加密
+				- 加密使用不同的 phrase
+	- 用于分销的短链接系统
+		-
 	- 基于 Redis 的脏字系统
 		- 过滤器原理
 		- 系统设计
@@ -135,6 +103,8 @@
 		- ES 的倒排索引
 		- ES 如何做自动补齐
 		- ES 的分布式原理
+		- 如何为结果打分
+			- 通过用户的点击事件，调整结果的分值，调整排名
 	- DevOps
 - golang
 	- 并发模型

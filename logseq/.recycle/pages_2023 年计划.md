@@ -1,15 +1,88 @@
--
-- CKA
-- 换工作
-- 课程
-	- CSAPP
-	- mit 分布式
-	- 操作系统课程
-- 读书
-	- DDIA
-	- go 100 mistake
-	- 程序员修炼之道
+- #### WAHT
+	- CKA
+		- 每日一个小时练习时间
+		- 每日一个小时学习时间
+			- 学习的内容主要是练习时候产生的疑问点 **注意把握时长是关键**
+	- 换工作
+		- 想要什么样的工作？
+			- SRE 似乎是一个不错的选择？
+			- 什么样的公司
+				- 大公司里的靠谱团队
+				- 靠谱的小公司（技术型创业）
+			- SRE 方向需要做的准备
+				- 可观测性
+					- https://cloudplatform.googleblog.com/2018/07/sre-fundamentals-slis-slas-and-slos.html
+					- 能完成异常检测、根因分析、故障自愈、告警收敛策略的设计、研究与落地；通过监控系统，发现和解决系统性能瓶颈等技术难题
+					-
+				- chaos engineering
+				- CICD
+		- 项目
+			- 短链系统
+			- 基建
+			- 脏字系统
+		- 系统设计
+			- 分布式缓存使用
+			- 消息队列
+			- 数据库
+	- 课程
+		- CSAPP
+		- mit 分布式
+		- 操作系统课程
+		- > 应该只能选一门课程学习了，需要仔细思考一下收益再来选择
+	- 读书
+		- DDIA
+		- go 100 mistake
+		- 程序员修炼之道
+	- 开源
+		- apisix Ingress (GatewayAPI)
+		- containerd
+	- 技术方向
+		- eBPF
+		- Rust
+		- Zig
+- 想学习的新技术
+	- k8s 的 CNI 和网络模型
+	- ServiceMesh 技术
+		- linkerd
+		- ambient mesh
+	- GitOps
+	- 可观测性
+	- **通过自己做一个小的项目，将想要学习的技术都用上**
+		- k8s
+		- ServiceMesh
+		- GitOps
+		- 可观测性
 - LeetCode
 - 系统设计
 - 论文
 - blog
+- 编程语言
+	- Golang
+		- 学习的内容
+			- 并发模型
+			- GMP 模型
+		- 增加熟练度
+			- 品城记 map #SideProject
+				- 使用免费的 serverless数据库平台
+					- neo
+					- https://planetscale.com/
+			- marginnote export to logseq #SideProject
+				- https://ohmymn.marginnote.cn/
+				-
+- ### HOW
+	- CKA
+		- 每日一小时练习
+		- 每日一小时学习
+	- 每日英语单词
+		- [[2023-01-30]] 看起来这部分完成得还不错。
+	- 阅读
+		- 暂时没有设定
+		- **GOAL**：每日一个小时
+	- LeetCode
+		- 因为可能会涉及一些未知的算法知识，而且消化的时间也比较长，所以争取一周 4 题。
+		- 一个是做题，一个是知识的总结都需要有输出。
+		- **GOAL**： 一周 4 题
+	- blog
+		- 学习的内容输出即可
+		- **GOAL**：一周一篇
+	-
