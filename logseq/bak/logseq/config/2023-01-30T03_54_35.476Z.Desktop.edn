@@ -200,7 +200,7 @@
 
  :ref/linked-references-collapsed-threshold 50
 
- :favorites ["Contents" "How to take dummy notes?"]
+ :favorites ["quote" "Dashboard" "TODO" "Daily Task" "How to take dummy notes?"]
  :journal/page-title-format "yyyy-MM-dd"
  :publishing/all-pages-public? true
 

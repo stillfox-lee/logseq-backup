@@ -1,4 +1,5 @@
-- #Reading #k8s
+- #k8s
+-
 - Controller和 Operator 的不同
 	- Controller 可以控制 k8s 的核心资源，对其进行操作。
 	- Operator 也是一种 Controller，但是它包含着一些运维逻辑。比如应用程序的生命周期管理。
