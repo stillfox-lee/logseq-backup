@@ -3,13 +3,9 @@
 	- 输入 `ctrl+k` 来搜索关键字
 	- 通过 [图谱](https://note.lsy.plus/#/graph) 查看我的知识图谱
 - 你可能感兴趣的：
-	- [我的 RSS 阅读摘录](https://note.lsy.plus/#/page/Readwise)
-	- [我的阅读摘录](logseq://graph/logseq?page=Reading)
-	- [日志](https://note.lsy.plus/)
-	- [wiki](https://note.lsy.plus/#/page/wiki)
+	- 我的阅读摘录 [[My Input]]
+	- [[wiki]]
 - 你可以在这些地方找到我：
 	- [GitHub](https://github.com/stillfox-lee/)
 	- [Twitter](https://twitter.com/LeeStillfox)
-	-
-	-
 -
