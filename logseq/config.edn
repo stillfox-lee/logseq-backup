@@ -202,7 +202,7 @@
 
  :favorites ["quote" "Dashboard" "TODO" "Daily Task" "How to take dummy notes?"]
  :journal/page-title-format "yyyy-MM-dd"
- :publishing/all-pages-public? false
+ :publishing/all-pages-public? true
 
  ;; any number between 0 and 1 (the greater it is the faster the changes of the next-interval of card reviews) (default 0.5)
  ;; :srs/learning-fraction 0.5
