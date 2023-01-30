@@ -3,7 +3,8 @@
 	- 输入 `ctrl+k` 来搜索关键字
 	- 通过 [图谱](https://note.lsy.plus/#/graph) 查看我的知识图谱
 - 你可能感兴趣的：
-	- 我的阅读摘录 [[My Input]]
+	- [[Reading]]
+	- [[Readwise]]
 	- [[wiki]]
 - 你可以在这些地方找到我：
 	- [GitHub](https://github.com/stillfox-lee/)
