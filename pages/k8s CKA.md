@@ -1,3 +1,9 @@
+- # 相关资源
+	- k8s CKA 练习题
+	  id:: 63d87662-a2d0-4665-8efc-78e159df6961
+		- https://github.com/alijahnas/CKA-practice-exercises
+		- https://github.com/StenlyTU/K8s-training-official
+		-
 - ## Job
 	- 关键参数
 		- .spec.backoffLimit: 6 —— 失败重试次数

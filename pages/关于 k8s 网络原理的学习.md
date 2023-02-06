@@ -1,0 +1,36 @@
+tags:: [[blog]] 
+state:: [[TODO]]
+
+-
+- **想法**：可以做成一个系列
+- 待学习内容
+	- https://www.tkng.io/services/clusterip/dataplane/iptables/
+		- 像这样把网络部分的知识弄清楚
+- 内容构思
+	- 基础的 Linux 网络知识
+		- [[veth]]
+		- [[Linux Bridge]]
+		- [[iptables]]
+	- CNI 部分
+		- CNI 的工作原理，可以整理一下 CNI 的 specification。简要地介绍一下 CNI 是做什么的。
+		- 读一下Kind项目的 CNI 部分代码
+		- 如何开发一个 CNI 插件
+		- 利用自己开发的 CNI 插件运行在 kind 中 #SideProject
+			- https://medium.com/swlh/customise-your-kind-clusters-networking-layer-1249e7916100
+			-
+		-
+	- 结合 Pod 的生命周期，梳理一下其中涉及到的整个网络方面的流程。k8s 的相关各个组件是如何工作的。
+		- CRI-->CNI
+	- 介绍热门的 k8s 网络 provider 的解决方案
+		- [[Flannel]]
+		- cilium
+	-
+- 参考资料
+	- 非常易读 https://morningspace.github.io/tech/k8s-net-cni/
+	- [tkng.io](https://www.tkng.io/)
+	- https://www.caseyc.net/cni-talk-kubecon-18.pdf
+	- https://learnk8s.io/kubernetes-network-packets#kubernetes-networking-requirements
+	- 可以参考内容组织形式 https://mp.weixin.qq.com/s/w-poLOhUs7Lcofqm8aWN_A
+	- Linux 网络 https://developers.redhat.com/blog/2018/10/22/introduction-to-linux-interfaces-for-virtual-networking#macvtap_ipvtap
+	-
+	-

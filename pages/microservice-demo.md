@@ -1,31 +1,42 @@
-- 这是一个个人的微服务的项目软件工程展示项目，想要展示我现阶段的技能栈。
+tags:: [[SideProject]]
+state:: DOING
+
+-
+- 这是一个个人的微服务的项目软件工程展示项目，想要展示我现阶段的技能栈。以及 Learning by doing
+- 主要应该包括
+	- DevOps
+		- GitOps
+	- observability
+		- 参考 https://mp.weixin.qq.com/s/F_Uoq4ebrslrF7VWQsQRiQ
+		-
+	- servicemesh
+		- 除了业务服务之外，其他的中间件如何治理？
 - 可以通过几个阶段来演进
-	- ### 第一阶段最简单的多实例多服务
-		- 架构
-			- 多个服务互相调用 `服务发现`
-		- 测试
-			- 本地测试
-				- 利用makefile 和 bdd 来测试
-				- 使用 docker-compose 来构建测试环境
-		- devops
+	- ### 第一阶段
+		- 主要是 go-kit 的介绍
+			- 设计思想和哲学
+			- 如何加入服务治理
+		- 加入 BDD 测试，服务治理的测试
+		- 只使用 docker-compose 来部署，可实现`服务发现`
 	- ### 第二阶段
-		- 可以放入一些技术上的能力：
-			- 用canal实现分布式事务
-			- 框架层面实现服务治理
-			- 利用 elastic 实现可观测性
-		-
-	- ### 第三阶段 k8s
+		- k8s 部署
+		- GitOps
+		- 发布策略
+			- 灰度发布
+	- ### 第三阶段
 		- observability
-		- 灰度发布
-		-
+			- 分布式追踪
+			- APM
+			- 日志分析
+			- 告警
+		- auto scale
+			- 通过 k8s 实现自动拓容
+		- 性能测试
+			- 性能测试的 metrics
+			- 参考 https://mp.weixin.qq.com/s/uX9TlbjJTr0z_YeWnannYQ
+			-
+			-
 - ### 一些需求整理
-	- CANCELED 项目设计
-	  :LOGBOOK:
-	  CLOCK: [2022-10-13 Thu 09:45:51]--[2022-10-13 Thu 11:55:07] =>  02:09:16
-	  :END:
-		- user-service
-			- endpoint remote call token-service
-		- token-service
 	- 配置管理
 		- 配置分类
 			- 业务的配置。会动态调整。应该通过统一的 Redis 来获取数据
@@ -35,9 +46,6 @@
 			  这个比较复杂，如果是 SDK 的方式，如何动态修改？
 			  #+END_CAUTION
 			-
-			-
-			-
-		-
 	- 架构
 		- 1 台测试
 		- 3 台线上(一台小流量用来做预发布)

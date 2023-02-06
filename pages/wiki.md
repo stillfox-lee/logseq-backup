@@ -75,6 +75,7 @@
 - [[k8s]]
 	- [what-happen-when](https://github.com/jamiehannaford/what-happens-when-k8s)
 	- [deployment-strategies](https://github.com/ContainerSolutions/k8s-deployment-strategies)
+	- {{embed ((63d87662-a2d0-4665-8efc-78e159df6961))}}
 	-
 - 论文 #paper
 	- > paper query

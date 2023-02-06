@@ -6,6 +6,9 @@
 	- [[Reading]]
 	- [[Readwise]]
 	- [[wiki]]
+	- [[SideProject]]
+	- blog
+	- [[AwesomeProject]]
 - 你可以在这些地方找到我：
 	- [GitHub](https://github.com/stillfox-lee/)
 	- [Twitter](https://twitter.com/LeeStillfox)
