@@ -1,0 +1,4 @@
+- 调试快捷键： `cmd+shift+p`，toggle keyboard troubleshooting
+- 查看当前可以执行的命令：
+	- ![Quick Open Help](https://code.visualstudio.com/assets/docs/getstarted/userinterface/quickopenhelp.png)
+- id:: 63e49cb3-982c-4761-9d94-62b211305e02

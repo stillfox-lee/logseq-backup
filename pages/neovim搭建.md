@@ -7,6 +7,11 @@
 - ## Package Management
 	- profiling
 	- lazy loading
+	- lazy.nvim
+- ### 一些需要的操作
+	- 命令模式输入提示
+	- buffer 的切换快捷键
+	- golang gd find
 - ## Plugin
 	- nvim-tree
 		- 文件操作

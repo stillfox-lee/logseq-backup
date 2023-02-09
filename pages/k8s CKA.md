@@ -3,7 +3,9 @@
 	  id:: 63d87662-a2d0-4665-8efc-78e159df6961
 		- https://github.com/alijahnas/CKA-practice-exercises
 		- https://github.com/StenlyTU/K8s-training-official
-		-
+- ## label 相关
+	- 给 node 添加 label：`k label node kind-worker system=secondOne`
+	- 给 node 删除 label：`k label node kind-control-plane system-`
 - ## Job
 	- 关键参数
 		- .spec.backoffLimit: 6 —— 失败重试次数
@@ -178,5 +180,7 @@
 	- namespace 资源限制
 - ## 命令清单
 	- `kubectl config view`
-	- 开启一个临时 pod：`kubectl run -i -t busybox --image=busybox --restart=Never`
+	- 开启并进入一个临时 pod：
+		- `kubectl run debug-pod -it busybox --image=busybox --rm`
+		- `wget -O- 10.96.71.177` —— 进行网络调试
 	-
