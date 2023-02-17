@@ -180,7 +180,9 @@
 	- namespace 资源限制
 - ## 命令清单
 	- `kubectl config view`
+	-
+- ## 调试相关
 	- 开启并进入一个临时 pod：
-		- `kubectl run debug-pod -it busybox --image=busybox --rm`
+		- `kubectl run debug-pod -it --image=busybox --rm`
 		- `wget -O- 10.96.71.177` —— 进行网络调试
 	-
