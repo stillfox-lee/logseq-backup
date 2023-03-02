@@ -1,0 +1,135 @@
+- ## Circuit breaker
+	- 失败或者错误的原因
+		- Networking issues
+		- System overload
+		- Resource starvation (OOM)
+		- Bad deployment/configuration
+		- Bad request (auth issue or miss request data)
+	- 从调用方视角看错误的原因有：
+		- slow response
+		- no response at all
+		- response in wrong format
+		- response does not contain the expected data
+	- circuit breaker 对调用方的好处
+		- 通常情况下，circuit breaker 都是用于包含 upstream 的。但是，circuit breaker 也可以保护服务本身。
+	- `Fallback`机制
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303011040292.png)
+		- Fallback 的常规做法：
+			- Retry —— 从 loadbalance 获取另外的节点重试
+			- Cache —— 从 cache 获取旧的数据
+	- CircuitBreaker 应该记录什么错误
+		- 网络或者是 infra 的错误。例如：503、500
+		- 400 或者 401 的错误不需要记录。设想一下一个黑客发送大量的非法请求，你的circuit breaker 就会打开了。
+	- ### CircuitBreaker 的构成
+		- 超时时间。
+		- 最大并发量。在half-open阶段的最大并发量
+		- 计算函数。用于计算断路器状态变化的函数。（opend-halfopen-close）
+		- 唯一标识。
+	- 关于 Circuitbreak 的粒度
+		- **以 Endpoint 为粒度**：每一个 Endpoint 对应一个断路器。消耗的内存多，但是可以避免 Service 粒度中某个 Endpoint 异常导致的整个 Service 不可用。
+		- **以 Service为粒度**
+			- 每个 instance 一个断路器
+				- https://engineering.grab.com/img/designing-resilient-systems-part-1/cb-service-to-service-large.png
+			- 所有 instance 共用一个断路器
+				- https://engineering.grab.com/img/designing-resilient-systems-part-1/cb-service-to-host.png
+				-
+			- 这个就涉及到了负载均衡器是在客户端还是服务端。如果 LB 是在服务端，那么断路器自然就是所有 Service共用一个，因为在*调用方*来看，只有一个*被调用方*。
+		- **拓展一下**：这个还可以与服务发现的 health check 结合一下。如果 health check 发现节点故障了，LB 中就没有这个节点了。断路器中的错误率也会下降。
+- ## Retry
+	- 第一次Retry失败，是否要记录在 CircuitBreaker 中？
+	- Retry 的机制
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303012102505.png)
+		- 核心的机制是：如果一个 request 失败，那么就应该向另一个instance发 request。
+		- 这里涉及一个随机概率问题：如果每次发起 request 时，都是 round-robin 选择 instance 的话。第一次访问到*Broken instance*的概率是 50%；第二次能够访问到 *Working instance*的概率是 25%。
+	- ### 什么错误应该要 retry
+		- 重试能够成功的错误。例如 503 或者 500
+		- 重试也无法成功的错误，例如 400、401.
+	- ### Retry 应该有的功能
+		- #### 非幂等性接口的 retry
+			- 假设被调用的是一个*Update*操作，如果第一次 request timeout 了。然后发起了 retry，这就会导致数据不一致的问题。因为第一次的操作其实后端还在执行，只是耗时长了一点。第二次的 request 会再次被执行，从而导致数据不一致。
+			- 一个解决方案是：在调用方生成一个**UniqueID**，在 retry 的时候也带上这个 ID。被调用方可以通过这个 Request 的 ID 来确定是不是一个重复的请求。
+			- 在实际的场景中，这个 ID 其实可以用作一个分布式锁的 key。
+		- #### 指数级退让 Backoff
+			- 如果 upstream 出现了问题，那么立马重试它不一定能够恢复。*设想 Retry 的 upstream 和第一次失败的 upstream 出于同一个环境中*。所以，需要有`backoff`的 Retry。
+			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303020947154.png)
+		- #### Jitter
+			- 这个是源于 AWS 的一篇[blog](https://aws.amazon.com/cn/blogs/architecture/exponential-backoff-and-jitter/)，主要介绍的就是指数级退让的内容。
+			- Backoff 还存在一个问题。设想一个场景：Upstream 因为并发量太大拒绝了请求。这个时候这些请求会在同一 Delay 时间之后再次发起，Upstream 同样会无法响应。即使有 Delay，并没有进行`削峰`处理。
+	- ### Retry的设计
+		- **Maximum Retries**：失败的请求最大的 Retry 次数
+		- **Retry Filter**：是一个函数，它决定失败是否需要 Retry。
+		- **Base and Max Delay**：结合了`backoff`和`jitter`特性。Base 是 Retry 之间的最小间隔时间。Max 是最大间隔时间。
+	- ### Time-boxing
+		- 在 Retry 中，有几个东西是需要注意的：**Max Retries**、**Request Timeout**、**Maximum Delay**。最坏的情况下，请求完成的时间=`max retries * request timeout + max reties * max delay`
+		- 例如：
+		  ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303021011489.png)
+	- ### Circuit Breakers vs Retry
+		- #### Retry only
+			- 只有 Retry 没有 Circuit Breaker 的情况，如果有节点故障可能会导致其他节点 Overload。
+			  ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303021027658.png)
+		- #### Circuit breaker only
+			- 只有 Circuit Break 没有 Retry 的情况。那么系统的错误率会比较高，因为没有 Retry，而影响了用户体验。而且，没有了 Retry 保护之后，断路器可能会比较容易**open**，从而使得整个系统不可用。
+		- #### Circuit Breaker & Retry
+			- Retry In Circuit Breaker
+				- Circuit Breaker 如果识别到失败，则是 Retry 之后的失败。
+				- 这个情况下，CircuitBreaker 的**错误率**可以设置得小一点。
+			- Circuit Breaker In Retry
+				- Circuit Breaker 能够识别到 Retry 的所有失败。Retry 失败的可能有两种：1.的确是请求失败了；2.CircuitBreaker 已经打开了。
+				- 这个情况下，CircuitBreaker 的**错误率**就需要高一点了
+- ## Ratelimit
+	- #Ratelimit
+	-
+	- ratelimit 有很多不同的算法实现。可以参考[kong](https://konghq.com/blog/how-to-design-a-scalable-rate-limiting-algorithm)
+	- ratelimit 的类型
+		- **Per-client, per-endpoint**：对用户 A 请求`sendEmail`接口，做限制。不是所有的接口都需要这样设置，但是对重要的接口可以这么做。
+		- **Per-client**：对用户 A 的所有请求，做一个总量的限制。
+		- **Per-endpoint**：让每一个接口都不会过载。
+		- **Server-wide**：对服务进行设置。因为即使每个 Endpoint 都有保护，整体也可能会过载。考虑一下网络连接的开销等等。
+	- ### 全局和局部限流
+		- 通常情况下，服务过载很大的一部分原因不是因为服务本身。而是因为外部资源（数据库、缓冲、其他微服务）。这个情况下，即使我们每个微服务都有限流，如果服务数据增加，全局来看对外部的流量限制也是会增加的。这样就需要一个集中式的全局限流策略了。
+	- ### 客户端限流和服务端限流
+		- 限流一般都是在服务端进行包含的措施，因为客户端不一定可靠。但是，在请求量足够大的情况下，单单是执行：建立连接-限流检测-返回错误。就可能会导致服务端过载了。这种情况下，可以通过一个微服务网关来限流**（注意不要变成一个单点）**。
+		- 还有一种做法：在 response 的 header 携带限流信息，这样客户端可以在本地做好记录，配合服务端的限流策略。
+- ## Quota System
+	- 它是一个高度可扩展的API请求速率限制解决方案，旨在缓解服务滥用和级联服务故障的问题 #system-design
+	- Quota 系统面临的问题
+		- 需要动态获取系统中所有的节点，以及节点的请求量
+		- 需要一个集中式的存储 *如Redis* 来存储数据
+		- 因为所有的服务都依赖它，所以它不能成为一个单点
+		- 它的服务调用过程中造成的 latency 必须可忽略
+	- ### 系统设计
+		- 指导原则
+			- 1.提供一个轻量的，与 quota 系统通信的 SDK
+			- 2.为了拓展性，与 quota 系统的通信使用异步 pipline 而不是同步。
+			- 3. quota系统支持通过动态配置scale out
+		- #### 整体架构
+			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303021615694.png)
+			- 如上图所示：
+				- 1. Quota client (Service B Service C)会将自己收到的 API 请求数据通过`topic`发送给 Kafka。Quota service 则订阅消费相应的 message，处理限流的逻辑。
+				- 2.Quota service 通过 *application-specific* `topic` 将限流结果的 message 发送到 Kafka。Quota client 的 SDK 消费限流 message，更新本地的限流缓存数据。
+				- 3. 同时将所有的 message 都发送到 S3 中，以待后续的数据分析处理。
+		- #### Quota client 的细节
+			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303021631565.png)
+			- Service B —— Quota Client。但 Service B 收到 Service A 的请求的时候，Service B 的逻辑是：
+				- **Quota Middleware** 拦截请求，调用 Quota SDK 把请求的相关数据发送出去，同时调用 Quota SDK 看现在是否触发限流。
+					- 如果 throttle，Service B 返回 status code 告知已经 ratelimit
+					- 如果没有 throttle，Service B 继续正常处理请求
+				- **Quota SDK**会消费 kafka 的限流消息，同时更新本地内存的限流标志。
+				- **Quota SDK** 会提供一个 API，Service 可以通过这个 API 查询知道现在是否需要限流。
+		- #### Quote server 的细节
+			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303021650511.png)
+			- 消费 kafka 的消息
+			- 聚合 API 的请求数据并且计算是否需要限流
+			- 发送限流消息给 kafka
+			- 周期性的将数据存储到 Redis
+			- 将状态信息发送给 datadog，以便处理告警
+	- ### 一些细节和优化
+		- 在 Quota server 侧，使用了基于 Kafka的流式处理方案。使用了[[SlideWindow]]提供了基于 1 秒、5 秒的限流功能。
+		- 为了支持极高的 TPS 需求，Quota 内部大部分操作都是异步执行的。整个限流的决策逻辑 latency 在 200ms 左右。
+		- 在初始阶段，Quota 实例每次从 Kafka 接收到流事件的时候，都会将数据记录到 Redis 中。量大的情况下 Redis 就成为了瓶颈。后续改为了本地内存聚合数据，再每 50ms 向 Redis 写入一次数据。
+		- 同时，另外设计了 hash key，以保证数据在 [[redis]] 多个实例之间均衡分布。
+- ## 隔离
+	- `Bulkheading` `Isolation`
+	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303021739143.png)
+	- 通过**Hystrix**库的`MaxConcurrentRequests`参数来实现隔离。每个 CircuitBreaker 都是相互独立、隔离的。
+	-

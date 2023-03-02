@@ -1,0 +1,2 @@
+- https://engineering.grab.com/designing-resilient-systems-part-1
+-
