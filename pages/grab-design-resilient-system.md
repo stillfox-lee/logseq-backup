@@ -53,7 +53,7 @@
 			- 如果 upstream 出现了问题，那么立马重试它不一定能够恢复。*设想 Retry 的 upstream 和第一次失败的 upstream 出于同一个环境中*。所以，需要有`backoff`的 Retry。
 			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303020947154.png)
 		- #### Jitter
-			- 这个是源于 AWS 的一篇[blog](https://aws.amazon.com/cn/blogs/architecture/exponential-backoff-and-jitter/)，主要介绍的就是指数级退让的内容。
+			- 这个是源于 AWS 的一篇[blog](https://aws.amazon.com/cn/blogs/architecture/exponential-backoff-and-jitter/)，主要介绍的就是指数级退让的内容。 [[Exponential-Backoff-And-Jitter]]
 			- Backoff 还存在一个问题。设想一个场景：Upstream 因为并发量太大拒绝了请求。这个时候这些请求会在同一 Delay 时间之后再次发起，Upstream 同样会无法响应。即使有 Delay，并没有进行`削峰`处理。
 	- ### Retry的设计
 		- **Maximum Retries**：失败的请求最大的 Retry 次数
