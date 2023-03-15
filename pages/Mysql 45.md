@@ -1,0 +1,108 @@
+- ## 自增主键
+	- 为什么需要自增主键：因为单调递增的主键可以避免`页分裂`，索引更加紧凑。
+	- auto increment 出现 **空洞**
+		- MySQL5.7 之前的版本，自增值保存在内存中。8.0 之后的版本才被持久化到 `redo log`中。所以，自增值是会丢失的。
+		- 自增值无法 rollback。如果有事务消耗了一个自增值，但是 rollback 了。这个自增值也会出现空洞。
+		- 为了优化批量插入数据的场景，MySQL 在分配自增 ID 的时候会按倍数去分配。这样也会导致一些 ID 没有被使用。
+- MySQL 的 [[WAL]]
+	- 优化 IO，将随机 IO（写数据页） 改为顺序 IO（写日志）。先写入 `redo-log`，再通过后台线程异步写入数据页。其实也类似于 Linux 的 [[writeback]]的思路。
+- [[redo-log]]
+	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303141700575.png){:height 375, :width 551}
+	- redo-log 设计为可循环写入
+	- 通过`innodb_log_file_size`可以指定文件的大小
+	- 通过`innodb_log_files_in_group`可以指定文件的数量
+	- **write pos** —— 当前写入的位置
+	- **check point** —— 已经落盘的问题
+	- redo-log 的内容是物理日志。记录的是物理上的操作，例如：*将 X 页的Y 数据更新为 W*。
+	- redo log buffer
+	  id:: 64104716-7754-4c18-af42-c6f8e4659801
+		- 事务开始执行的时候，会将数据先写入到 redo log buffer，等特定时刻再写入到磁盘。具体逻辑如下：
+		- buffer 的配置参数 [ref](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit)
+		  id:: 641143ca-4028-48da-9f07-7749ca45338a
+			- innodb_flush_log_at_trx_commit = 0. 每秒都从 buffer write 并且flush 一次到磁盘。
+			- innodb_flush_log_at_trx_commit = 1. 事务提交每次都 从 buffer write 并且 flush 到磁盘
+			- innodb_flush_log_at_trx_commit = 2. 事务提交每次都从 buffer write，每秒 flush 到磁盘一次
+		- write 和 flush 指的都是都是 syscall。write 只是将 buffer 的内容写入到了文件系统中的 Page Cache，并没有实际写入到硬盘。而 flush就是`fsync`这个系统调佣，它要求内核将 Page Cache 中的内容写入到硬盘中，是一个同步操作。
+		-
+- bin-log
+	- 逻辑日志，记录的是执行的 sql 语句的逻辑，例如：*为 ID=2 的一行字段加 1*
+	- bin-log 有几种模式
+		- statement —— 记录 SQL
+		- row —— 记录行的内容
+		- mixed ——
+	- 与 redo-log 不同，bin-log 是追加写。
+	- bin-log 也有对应的 binlog cache。由参数`sync_bilog`控制：
+		- sync_binlog = 0，每次提交事务只调用`write`，不强制`fsync`
+		- sync_binlog = 1，每次提交事务都会`fsync`
+		- sync_binlog = N，每次提交事务都会`write`，累积 N 个事务之后再`fsync`
+- ## 基于 redolog 和 binlog 的 2PC
+	- MySQL 利用 redolog 和 binlog 实现了 [[2PC]]。核心是先写 redolog，redolog prepare 之后，在写 binlog。完成之后 二者都可以commit。
+	-
+	- 如果数据库发生了异常，可以通过二者结合恢复数据。
+	- 具体流程
+	  https://static001.geekbang.org/resource/image/2e/be/2e5bff4910ec189fe1ee6e2ecc7b4bbe.png?wh=1142*1522
+	- 也可以从分布式事务的角度来看：binlog 和 redolog 是两个分布式服务。
+	-
+-
+- 一些概念
+	- group commit
+	- buffer_pool
+		- undo page
+	- undo log
+	- redo log
+	- redo log buffer
+		- ((64104716-7754-4c18-af42-c6f8e4659801))
+		-
+	- binlog cache
+	- change buffer page
+	- doublewrite buffer
+	-
+- ## innodb 的线程模型
+	- Master thread
+		- 负责将缓冲区的数据 flush
+	- IO thread
+		- write thread
+		- read thread
+		- insert buffer thread
+		- log IO thread
+	- Purge Thread
+	- Page Cleaner Thread
+- ## Buffer Pool
+	- 淘宝月报
+		- [buffer pool 浅析](http://mysql.taobao.org/monthly/2020/02/02/)
+		- [各个版本中的 buffer pool](http://mysql.taobao.org/monthly/2019/07/03/)
+		- [2017 年的 buffer pool 介绍](http://mysql.taobao.org/monthly/2017/05/01/)
+		- [2020 buffer pool 生命周期](http://mysql.taobao.org/monthly/2020/08/04/)
+		-
+	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303151023691.png)
+	- innodb buffer pool
+		- data page
+		- index page
+		- undo page
+		- insert buffer
+		- adaptive hash index
+		- lock info
+		- data dictionary
+		- redo log buffer
+			- 落盘
+				- Master Thread 每秒一次的刷新
+				- free size 小于 1/2 的时候
+				- ((641143ca-4028-48da-9f07-7749ca45338a))
+		- 实际上，数据库会存在多个buffer pool 的实例，每个页会哈希到不同的实例中。通过`show variables like 'innodb_buffer_pool_instances'`能够得到实例的数量。
+	- buffer pool 的管理链表
+		- 这些链表都是逻辑链表，内部有指向`数据页`的指针。设计这些链表主要是为了方便对 buffer pool 进行管理。
+		- LRU List
+			- 用于缓存淘汰的管理。Free List 没有可用节点的话，就会淘汰 LRU List 的末尾节点。
+		- Free List
+			- 其上的节点都是未被使用的节点，如果需要从数据库中分配新的数据页，直接从上获取即可。InnoDB需要保证Free List有足够的节点，提供给用户线程用，否则需要从FLU List或者LRU List淘汰一定的节点。
+		- Flush List
+			- 这个链表中的所有节点都是脏页，也就是说这些数据页都被修改过，但是还没来得及被刷新到磁盘上。在FLU List上的页面一定在LRU List上，但是反之则不成立。一个数据页可能会在不同的时刻被修改多次，在数据页上记录了最老(也就是第一次)的一次修改的lsn，即oldest_modification。不同数据页有不同的oldest_modification，FLU List中的节点按照oldest_modification排序，链表尾是最小的，也就是最早被修改的数据页，当需要从FLU List中淘汰页面时候，从链表尾部开始淘汰。加入FLU List，需要使用flush_list_mutex保护，所以能保证FLU List中节点的顺序。
+	- 淘汰策略
+		- midpoint-LRU
+			- 引入一个 midpoint的概念。新读取的页，放到 midpoint 的位置，而不是队首。通过 `show variables like 'innodb_old_blocks_pct';`可以看到这个值。
+			- **背景原因**：一个大范围数据查询，但数据不是热点数据。这种情况如果放队首的话，会导致热点数据被淘汰。
+	- buffer pool 和 B+数的关系是什么？
+		- 读取数据的时候，先从B+数遍历索引，找到对应的数据页。得到数据页的ID 之后，就可以去buffer pool 查找了。
+		- 读取数据的时候，会先找 buffer，不存在就读磁盘，再放入 buffer
+- ### Insert Buffer
+	- Buffer Pool中只有 Insert Buffer 的部分信息，真正的 Insert Buffer 其实也是一个物理页的数据页。

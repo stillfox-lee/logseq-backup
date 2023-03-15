@@ -21,7 +21,10 @@
 		- [缓存一致性系列文章](https://zhuanlan.zhihu.com/p/136300660)
 	- 编译
 		- **Python Conference** 如何在 30 分钟写一个[[jit]]编译器 [video](https://www.youtube.com/watch?v=DKns_rH8rrg)
-		-
+- [[Mysql]]
+	- [B+树与Buffer Pool](https://lvwenhan.com/tech-epic/506.html)
+	- [45讲的汇总](https://fanlv.fun/2020/08/01/mysql-45-lesson/)
+	-
 - [[golang]]
 	- [[profiling]] 相关资料
 		- [data-dog-profile-note](https://github.com/DataDog/go-profiler-notes/blob/main/guide/README.md)
