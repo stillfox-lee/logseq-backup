@@ -1,0 +1,6 @@
+- 参考月报
+	- [漫谈](http://mysql.taobao.org/monthly/2015/04/01/)
+- 作用
+	- 事务回滚
+	- 支持 [[mvcc]]
+-

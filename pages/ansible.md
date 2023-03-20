@@ -1,0 +1,7 @@
+- inventory
+- playbook
+	- task
+	- module
+- 幂等性问题
+- 执行失败的 retry 问题
+-

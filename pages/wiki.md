@@ -85,4 +85,7 @@
 - [[vscode]]
 	- vscode-vim 的入门[教程](https://www.barbarianmeetscoding.com/blog/boost-your-coding-fu-with-vscode-and-vim)
 	-
--
+- AI 产品
+	- 代码仓库阅读工具 https://bloop.ai/
+	- [copilot hub](https://app.copilothub.co/) 训练特定的人，让你和它聊天。（乔布斯、马斯克）
+	-

@@ -1,3 +1,4 @@
+- #Mysql
 - ## 自增主键
 	- 为什么需要自增主键：因为单调递增的主键可以避免`页分裂`，索引更加紧凑。
 	- auto increment 出现 **空洞**
@@ -29,7 +30,7 @@
 	- bin-log 有几种模式
 		- statement —— 记录 SQL
 		- row —— 记录行的内容
-		- mixed ——
+		- mixed —— 如果有风险的 sql 就记录 row，否则记录 statement
 	- 与 redo-log 不同，bin-log 是追加写。
 	- bin-log 也有对应的 binlog cache。由参数`sync_bilog`控制：
 		- sync_binlog = 0，每次提交事务只调用`write`，不强制`fsync`
@@ -48,7 +49,7 @@
 	- group commit
 	- buffer_pool
 		- undo page
-	- undo log
+	- [[undo-log]]
 	- redo log
 	- redo log buffer
 		- ((64104716-7754-4c18-af42-c6f8e4659801))
@@ -80,6 +81,8 @@
 		- index page
 		- undo page
 		- insert buffer
+		- change buffer
+			- 对于不需要磁盘 IO 的更新，就只写在 change buffer 中即可。等后续需要读这个数据页的时候，再做 merge。
 		- adaptive hash index
 		- lock info
 		- data dictionary
@@ -91,7 +94,7 @@
 		- 实际上，数据库会存在多个buffer pool 的实例，每个页会哈希到不同的实例中。通过`show variables like 'innodb_buffer_pool_instances'`能够得到实例的数量。
 	- buffer pool 的管理链表
 		- 这些链表都是逻辑链表，内部有指向`数据页`的指针。设计这些链表主要是为了方便对 buffer pool 进行管理。
-		- LRU List
+		- [[LRU]] List
 			- 用于缓存淘汰的管理。Free List 没有可用节点的话，就会淘汰 LRU List 的末尾节点。
 		- Free List
 			- 其上的节点都是未被使用的节点，如果需要从数据库中分配新的数据页，直接从上获取即可。InnoDB需要保证Free List有足够的节点，提供给用户线程用，否则需要从FLU List或者LRU List淘汰一定的节点。
@@ -100,9 +103,112 @@
 	- 淘汰策略
 		- midpoint-LRU
 			- 引入一个 midpoint的概念。新读取的页，放到 midpoint 的位置，而不是队首。通过 `show variables like 'innodb_old_blocks_pct';`可以看到这个值。
-			- **背景原因**：一个大范围数据查询，但数据不是热点数据。这种情况如果放队首的话，会导致热点数据被淘汰。
+			- **背景原因**：一个大范围数据查询，但数据不是热点数据。这种情况如果放队首的话，会导致热点数据被淘汰。改良了传统的 [[LRU]]算法在数据库场景下的不足。
 	- buffer pool 和 B+数的关系是什么？
 		- 读取数据的时候，先从B+数遍历索引，找到对应的数据页。得到数据页的ID 之后，就可以去buffer pool 查找了。
 		- 读取数据的时候，会先找 buffer，不存在就读磁盘，再放入 buffer
 - ### Insert Buffer
 	- Buffer Pool中只有 Insert Buffer 的部分信息，真正的 Insert Buffer 其实也是一个物理页的数据页。
+-
+- ## 索引
+	- 回表
+		- 二级索引的叶子节点存储的是主键 ID。所以通过二级索引查询数据的话，需要`回表`。
+	- 覆盖索引
+		- 为了优化回表的情况，最好是使得二级索引的叶子节点能够持有`select`的数据，这样就不用回表了。
+	- 左前缀匹配
+		- 左前缀匹配。指的是索引查找的时候，可以用`联合索引`的最左 N 个字段，或者字符串索引的最左 M 个字符来匹配。
+	- 索引下推
+		- 5.6 引入的新功能，需要覆盖索引。
+		- 在联合索引的查询中，（如果 where 条件的字段能够覆盖索引）可以先基于联合索引的值进行匹配。不符合条件的就不用`回表`了。
+	- 重建索引
+		- 由于数据的删除也`页分裂`，可能会导致数据空洞。索引重建之后可以使得数据更加紧凑。
+		- 对于二级索引，可以执行`alter table T drop index *` `alter table T add index *`完成
+		- 对于主键，直接执行这个语句会整个表重建（包括二级索引）。可以使用`alter table T engine=InnoDB`来完成。
+		- TODO 重建的底层是什么？删除为什么会有空洞？
+	- 自适应哈希索引
+		- innodb 会监控查询，为一些高频的查询建立哈希索引。使得复杂度减低为O(1)。
+	- 优化器
+		- 优化器主要目的是为了减少 CPU 的资源消耗来确定选择什么方式查表（选索引）。主要考量的方面有：**扫描行数**、**是否使用临时表**、**是否排序**等
+		- 区分度
+			- 使用 `show index from T;`可以查看索引的情况
+			  https://static001.geekbang.org/resource/image/16/d4/16dbf8124ad529fec0066950446079d4.png?wh=1850*209
+			- `cardinality` 就是区分度，这个值越大越好
+		-
+- ## 锁
+	- 全局锁
+	- 表锁
+		- 显示执行 `lock tables T1 read, T2 write`
+		- MDL（metadata lock）
+			- 为了保障读写的正确性，设计的一个锁。在访问表的时候会自动添加。
+			- 设想一个场景：读数据，同时删除表中的一个字段。
+			- MDL 的逻辑：
+				- 执行 DML 的时候，会加上 MDL 的 read lock
+				- 执行 DDL 的时候，会加上 MDL 的 write lock
+				- MDL 的 read lock 可以共享，read lock 与 write lock 互斥
+			- MDL 的死锁情况
+			  https://static001.geekbang.org/resource/image/7c/ce/7cf6a3bf90d72d1f0fc156ececdfb0ce.jpg?wh=1142*856
+			- 注意给 DDL 语句加上一个超时时间，避免长时间的等待导致死锁问题。
+	- 行锁
+		- 2PL (两阶段锁)
+			- 分为 shard lock 和 exclusive lock。两阶段指的是：lock 阶段和 unlock 阶段。
+			- lock阶段：读操作的时候加上 shared lock，写操作的时候加上 exclusive lock。
+			- unlock 阶段：事务 commit 或者 rollback
+		- 死锁问题
+		  https://static001.geekbang.org/resource/image/4d/52/4d0eeec7b136371b79248a0aed005a52.jpg?wh=1142*856
+	- gap lock
+	- next lock
+	- #### 锁的优化
+		- > MySQL 有死锁的检测机制，但它本身会耗费资源。所以大量并发的时候，可能会因为死锁检测导致 CPU 很高。
+		- 避免长事务持有锁 *把有竞争的 SQL 放在事务后面执行*
+		- 降低同一行的更新并发度。考虑请求排队或者数据层面的行切分。
+		-
+	-
+- ## 事务
+	- 月报
+		- [事务系统](http://mysql.taobao.org/monthly/2017/12/01/)
+		-
+	- consistent snapshot
+		- 事务的 `RR` 隔离是依靠事务启动时，创建的一个 consistent snapshot 实现的。可以用语句`start transaction with consistent snapshot`来主动触发*立即*创建一个快照。
+		- 具体是实现是通过 [[undo-log]] 来完成的，每次有 DML 的时候，就会记录下对应的 undo-log。如果想要得到某个版本的数据，就可以通过 undo-log 回滚得到。这样也就实现了 [[mvcc]]
+	- [[mvcc]]
+		- 内部记录一个全局活跃的读写事务数组，通过它来判断事务的可见性。
+		- consistent read view —— 开始一个事务的时候，会构建一个当前事务的`readview`。后续事务中对数据的查询，根据不同的可见性，会按照 readview 来获取不同版本的数据。
+		  id:: 641280eb-9ae7-4665-9f02-c42d039748c6
+		- 查询出来的每一行记录，都会用readview来判断一下当前这行是否可以被当前事务看到，如果可以，则输出，否则就利用undolog来构建历史版本，再进行判断，直到记录构建到最老的版本或者可见性条件满足。
+		- 相关数据结构
+			- ```c
+			  struct trx_t {
+			    
+			  };
+			  ```
+			- ```c
+			  struct trx_sys_t {
+			    int max_trx_id;  // 当前未分配的最小 id，系统创建新事务就用这个 id，递增
+			    []int descriptors;	// 当前所有活跃(未提交)的读写事务 id
+			  }
+			  ```
+			- ```c
+			  struct read_view_t {
+			    int low_limit_id;		// 所有大于等于此值的记录都不应该被此 readview 见到，high water mark
+			    int up_limit_id;		// 所有小于此值的记录都应该被此 readview 见到，low water mark
+			    []int descriptors;	// readview 创建时的所有读写事务 id
+			  };
+			  ```
+		- 实现逻辑
+			- 每一行数据都有一个`trx_id`，它代表着最后更新这行记录的事务 ID。
+			- 当事务需要一个`readview`的时候，会从`trx_sys_t.descriptors`复制一份当前所有**读写事务**，当做一个快照。
+			- `read_view_t.up_limit_id`就是`read_view_t.descriptors`中的最小值。同时也是当前事务创建时，所有的`读写事务`中的最小事务 ID。作为**低水位标记**。
+			- `read_view_t.low_limit_id`是创建 readview 时`trx_sys_t.max_trx_id`值。同时也是创建事务时，系统中最大的事务 ID。作为**高水位标记**。
+			- 每个事务的可见性逻辑，就是基于这三个元素*（trx_id、低水位、高水位）*计算得到的。
+			- https://static001.geekbang.org/resource/image/88/5e/882114aaf55861832b4270d44507695e.png?wh=1142*856{:height 284, :width 530}
+		- 可见性判断规则
+			- 如果记录上的`trx_id`小于`低水位`，则说明这条记录的最后修改在readview创建之前，因此这条记录可以被看见。
+			- 如果记录上的`trx_id`大于等于`高水位`，则说明这条记录的最后修改在readview创建之后，因此这条记录肯定不可以被看见。
+			- 如果记录上的`trx_id`在`低水位`和`高水位`之间，且`trx_id`在`read_view_t.descriptors`之中，则表示这条记录的最后修改是在readview创建之时，被另外一个活跃事务所修改，所以这条记录也不可以被看见。如果`trx_id`不在`read_view_t.descriptors`之中，则表示这条记录的最后修改在readview创建之前，所以可以看到。
+			- 基于上述判断，如果记录不可见，则尝试使用undo去构建老的版本(`row_vers_build_for_consistent_read`)，直到找到可以被看见的记录或者解析完所有的undo。
+			-
+	- current read (当前读)
+		- update 语句。所有更新数据都是**先读后写**，读的时候会读取最新的**当前值**。
+		- 加锁语句
+	- XA 事务
+	-
