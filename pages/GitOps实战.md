@@ -1,0 +1,15 @@
+- 容器构建
+	- 利用`Buildx`实现多平台构建，核心是使用了 Docker QEMU。
+	- 利用多阶段构建
+	- 合理利用 Docker 构建缓存
+		- 把不易变更的指令放前面
+	- 镜像选择
+		- **Ubuntu/Debian**
+		- **Alpine**
+			- 没有 glibc，只有 Musl libc。二者区别可以[参考](https://wiki.musl-libc.org/functional-differences-from-glibc.html)
+		- **专用镜像**
+- 使用 [[Tekton]] 自建 CI 系统
+- 使用 Kustomize 定义应用
+	- 多环境的支持
+		- 采用 `patchesStrategicMerge` 策略，可以为多个环境创建不同的配置
+	-

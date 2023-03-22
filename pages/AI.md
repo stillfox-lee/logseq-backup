@@ -1,0 +1,25 @@
+- 理论知识
+	- LaMDA
+- 编程
+	- 代码仓库阅读工具 https://bloop.ai/
+	- gptcommit https://github.com/zurawiki/gptcommit
+	- Cursor
+- 学习助手类产品
+	- ChatPDF
+	- 翻译
+		- OCR
+	- 个人生词本
+	- [如何用 ChatGPT 学习英语](https://www.youtube.com/watch?v=-IBxIXBaei8&t=3s)
+- AIGC
+	- 产品
+		- [copilot hub](https://app.copilothub.co/) 训练特定的人，让你和它聊天。（乔布斯、马斯克）
+		- [Adobe Firefly](https://firefly.adobe.com/generate/images)
+	- 最佳实践
+		- [使用 midjourney 生成 logo](https://www.ebaqdesign.com/blog/midjourney-logo-design#do45l)
+		- [midjourney v5 比较以及 prompt](https://medium.com/@catmus2048/midjourney-v5-%E6%AF%94-v4-%E6%9B%B4%E5%A5%BD%E5%90%97-%E7%BB%BC%E5%90%88%E8%AF%84%E6%B5%8B-prompt-%E5%85%A8%E5%85%AC%E5%BC%80-bd8a1d909867)
+- prompt 相关
+	- [sharegpt](https://sharegpt.com/)
+- 商业
+	- OpenAI 投资板块 https://research-assets.cbinsights.com/2023/02/23153811/OpenAI_investmentthesismap_022323V3.png
+	-
+	-
