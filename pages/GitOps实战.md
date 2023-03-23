@@ -12,4 +12,42 @@
 - 使用 Kustomize 定义应用
 	- 多环境的支持
 		- 采用 `patchesStrategicMerge` 策略，可以为多个环境创建不同的配置
-	-
+- 使用 [[Argo]] 完成GitOps
+	- 基础的使用
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303230923686.png){:height 243, :width 746}
+		- 通过监听CI 中 Ops repo 的修改 *Helm Chart values.yaml*，触发对应的 CD 执行。
+	- 通过 **ArgoCD Image Updater** 监控 **Image** 的更新来触发 CD
+		- > 可以将 *Application* 和 *Ops* 的 repo 拆分
+		- ![](https://static001.geekbang.org/resource/image/c2/27/c23e00e27754a19a91321c85bfba5e27.jpg?wh=1920x1400){:height 530, :width 716}
+- 通过 Argo Rollout 实现南北向高级发布策略
+	- 实现原理
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303230942356.png)
+		- 通过使用`Rollout`资源代替了原本的`Deployment`资源，通过`Rollout`来管理 Pod 的变更。
+	- 蓝绿发布
+		- 通过 Ingress 做切换，将流量切换到不同环境
+	- 金丝雀发布
+		- 核心思路是：通过流量标记，路由到不同的环境中
+	- 渐进式金丝雀
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303230942356.png)
+		- Argo `strategy.canary.analysis` 关联特定的 `AnalysisTemplate`资源，`AnalysisTemplate`资源负责描述成功和失败的指标
+- Argo 多环境管理
+	- 通过 ApplicationSet Generator 来创建`ApplicationSet` `Application`，实现**代码即环境**。
+- GitOps 中的安全问题
+	- 镜像安全
+		- 构建镜像时，不要把敏感信息放入
+		- 使用 hadolint 类似的检测工具，检测 Dockerfile
+		- 使用 Docker Content Trust 来验证签名。同时，自己构建的镜像也应该要签名。
+		- 使用 `docker scan` 来扫描镜像
+	- 软件供应链安全
+		- 使用`docker sbom`分析第三方依赖，再通过类似于 *osv-scanner*来批量查询漏洞
+	- 原则
+		- CI 与集群隔离
+		- 使用不可变镜像版本
+		- 使用私有镜像仓库
+	- 秘钥管理
+		- 常用方案
+			- Sealed-Secrets
+				- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303231039762.png)
+			- External-Secrets
+			- Vault
+		-
