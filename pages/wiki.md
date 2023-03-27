@@ -77,6 +77,10 @@
 	- [DDIA 作者分布式课程](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)
 	- [维基百科一致性模型介绍](https://en.wikipedia.org/wiki/Consistency_model#Session_guarantees) #[[Distributed System]]
 	- 一致性在现代分布式系统中的 tradeoff [论文](http://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf) #paper #[[Distributed System]]
+	- 分布式锁相关
+		- [阿里内核月报的分布式锁](http://mysql.taobao.org/monthly/2018/10/07/)
+		- [redis 分布式锁](http://kaito-kidd.com/2021/06/08/is-redis-distributed-lock-really-safe/)
+		- [Redis 分布式锁两个大佬交锋的解析](http://zhangtielei.com/posts/blog-redlock-reasoning.html)
 - [[k8s]]
 	- [what-happen-when](https://github.com/jamiehannaford/what-happens-when-k8s)
 	- [deployment-strategies](https://github.com/ContainerSolutions/k8s-deployment-strategies)

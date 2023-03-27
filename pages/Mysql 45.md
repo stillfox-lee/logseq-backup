@@ -155,14 +155,38 @@
 			- unlock 阶段：事务 commit 或者 rollback
 		- 死锁问题
 		  https://static001.geekbang.org/resource/image/4d/52/4d0eeec7b136371b79248a0aed005a52.jpg?wh=1142*856
-	- gap lock
 	- next lock
 	- #### 锁的优化
 		- > MySQL 有死锁的检测机制，但它本身会耗费资源。所以大量并发的时候，可能会因为死锁检测导致 CPU 很高。
 		- 避免长事务持有锁 *把有竞争的 SQL 放在事务后面执行*
 		- 降低同一行的更新并发度。考虑请求排队或者数据层面的行切分。
+	- ### 幻读
+		- 由于事务`当前读`的特性，所以在同一个事务中进行多次同样的`当前读`的SQL，会不一样的结果。*设想在两次 SQL 之间，有其他的事务执行了`insert`*
+		- 幻读带来的问题
+			- 语义失效
+				- 使得`select * from T where *** for update`的语义失效。
+				- 在事务中执行了`for update`之后，只锁了 3 行数据；此时再插入了一条新的符合`where`的数据并不会被锁上。
+			- 数据一致性问题
+		- 幻读与`当前读`在 RR 隔离级别下的场景
+			- 如果当前读命中**主键**，则通过`写锁`即可解决幻读问题
+			- 如果当前读未命中**主键**，则会添加**next-key lock**
+			  ![死锁](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303251558031.png)
+			- 如果当前读是走**非唯一索引**，则会添加**next-key lock**
+			- 如果没有走索引，则全表加 **gap lock**
+	- ### gap lock
+		- 为了解决幻读的问题，能够在行之间的 gap 加入一个锁。使得这个 gap 之间无法进行更新的操作。
+		- gap lock 之间是可共存的。
+	- ### next-key lock
+		- 行锁和 gap lock 合称 next-key lock，是前开后闭区间 `( ]`。因为 gap lock 是开区间，并没有锁上记录行，所以通过 next-key lock，就可以完整覆盖。
+	- ## 加锁的规则
+		- 原则 1：加锁的基本单位是 next-key lock。
+		- 原则 2：查找过程中访问到的对象才会加锁。
+		- 优化 1：索引上的等值查询，给唯一索引加锁的时候，next-key lock 退化为行锁。
+		- 优化 2：索引上的等值查询，向右遍历时且最后一个值不满足等值条件的时候，next-key lock 退化为间隙锁。
+		- 一个 bug：唯一索引上的范围查询会访问到不满足条件的第一个值为止。
+	- ### 加锁的一些场景
+		- 锁是加在索引上的。如果有覆盖索引，那么只会锁住二级索引，而不会锁主键。
 		-
-	-
 - ## 事务
 	- 月报
 		- [事务系统](http://mysql.taobao.org/monthly/2017/12/01/)
@@ -207,8 +231,24 @@
 			- 如果记录上的`trx_id`在`低水位`和`高水位`之间，且`trx_id`在`read_view_t.descriptors`之中，则表示这条记录的最后修改是在readview创建之时，被另外一个活跃事务所修改，所以这条记录也不可以被看见。如果`trx_id`不在`read_view_t.descriptors`之中，则表示这条记录的最后修改在readview创建之前，所以可以看到。
 			- 基于上述判断，如果记录不可见，则尝试使用undo去构建老的版本(`row_vers_build_for_consistent_read`)，直到找到可以被看见的记录或者解析完所有的undo。
 			-
-	- current read (当前读)
+	- **current read** (当前读)
 		- update 语句。所有更新数据都是**先读后写**，读的时候会读取最新的**当前值**。
 		- 加锁语句
 	- XA 事务
-	-
+- ## 性能相关
+	- 可能影响性能的几种场景
+		- redo log 写满，flush 脏页
+		- buffer pool 的脏页比例高
+			- 合理设置`innodb_io_capacity`
+			- 关注一下脏页比例
+- SQL 语句相关
+	- order by
+		- 实现：每个线程会有一个 `sort_buffer`，将获取到的数据放入排序。如果需要排序的内容大于`sort_buffer`的大小的话，那就需要使用磁盘作为临时文件辅助排序。外部排序一般是使用*归并排序*算法。
+		- 排序过程
+			- 按照`where`条件，选出所有的数据，放入 sort_buffer中，再sort，再 limit，返回。
+		- 全字段排序
+			- 将需要返回的数据 *（select的字段）*，全部放入 sort_buffer中。
+			- `max_length_for_sort_data`配置规定了单行数据在 sort_buffer中的值，超过的话，就需要使用**rowid**排序。
+		- rowid 排序
+			- 只将需要排序的 column 和主键 ID 放入 sort_buffer
+			- 最后返回数据需要回表去捞数据
