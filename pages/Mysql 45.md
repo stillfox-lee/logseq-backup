@@ -24,20 +24,30 @@
 			- innodb_flush_log_at_trx_commit = 1. 事务提交每次都 从 buffer write 并且 flush 到磁盘
 			- innodb_flush_log_at_trx_commit = 2. 事务提交每次都从 buffer write，每秒 flush 到磁盘一次
 		- write 和 flush 指的都是都是 syscall。write 只是将 buffer 的内容写入到了文件系统中的 Page Cache，并没有实际写入到硬盘。而 flush就是`fsync`这个系统调佣，它要求内核将 Page Cache 中的内容写入到硬盘中，是一个同步操作。
-		-
-- bin-log
+		- **每秒 flush**这个操作是由 MySQL 的后台线程负责执行的。而redo log buffer 中也可能有**未提交**的事务，所以一些未提交的事务也会被写入到磁盘。
+- ## binlog
 	- 逻辑日志，记录的是执行的 sql 语句的逻辑，例如：*为 ID=2 的一行字段加 1*
-	- bin-log 有几种模式
+	- binlog 有几种模式
 		- statement —— 记录 SQL
 		- row —— 记录行的内容
 		- mixed —— 如果有风险的 sql 就记录 row，否则记录 statement
 	- 与 redo-log 不同，bin-log 是追加写。
-	- bin-log 也有对应的 binlog cache。由参数`sync_bilog`控制：
-		- sync_binlog = 0，每次提交事务只调用`write`，不强制`fsync`
-		- sync_binlog = 1，每次提交事务都会`fsync`
-		- sync_binlog = N，每次提交事务都会`write`，累积 N 个事务之后再`fsync`
+	- binlog 的 cache
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303280726978.png)
+		- `write`和`fsync`操作可以理解为对应的系统调用。`write`只写入到了文件系统的**PageCache**中，并未落盘。
+		- binlog 的`write`和`fsync`的机制，由参数`sync_bilog`控制：
+			- sync_binlog = 0，每次提交事务只调用`write`，不强制`fsync`
+			- sync_binlog = 1，每次提交事务都会`fsync`
+			- sync_binlog = N，每次提交事务都会`write`，累积 N 个事务之后再`fsync`
+		- 如果 binlog cache 占用空间太大（超过`binlog_cache_size`），就需要将它写入到磁盘中。
+- ## group commit
+	- group commit。指的是将一组多个事务的`fsync`合并为一次调用，将多个事务一次写入，减少实际的 IO 次数。
+	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303280750207.png)
+	- 在 MySQL 的 [[2PC]]中，也使用了 group commit 来优化磁盘的 IO。
+	  ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303280755434.png)
+	  将两个 log 的`fsync`**延迟**，从而更好地利用 group commit来提升 IO。
 - ## 基于 redolog 和 binlog 的 2PC
-	- MySQL 利用 redolog 和 binlog 实现了 [[2PC]]。核心是先写 redolog，redolog prepare 之后，在写 binlog。完成之后 二者都可以commit。
+	- MySQL 利用 redolog 和 binlog 实现了 [[2PC]]。核心是先写 redolog，redolog prepare 之后，在写 binlog。完成之后就 commit redo log。
 	-
 	- 如果数据库发生了异常，可以通过二者结合恢复数据。
 	- 具体流程
@@ -241,6 +251,8 @@
 		- buffer pool 的脏页比例高
 			- 合理设置`innodb_io_capacity`
 			- 关注一下脏页比例
+	- `query_rewrite`功能可以将 SQL 语句改写，从而提升效率。
+	- [检查所有 SQL 语句的返回结果](https://www.percona.com/doc/percona-toolkit/3.0/pt-query-digest.html)
 - SQL 语句相关
 	- order by
 		- 实现：每个线程会有一个 `sort_buffer`，将获取到的数据放入排序。如果需要排序的内容大于`sort_buffer`的大小的话，那就需要使用磁盘作为临时文件辅助排序。外部排序一般是使用*归并排序*算法。
