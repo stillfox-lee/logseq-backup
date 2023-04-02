@@ -245,6 +245,24 @@
 		- update 语句。所有更新数据都是**先读后写**，读的时候会读取最新的**当前值**。
 		- 加锁语句
 	- XA 事务
+- ## 分布式相关
+	- 双 M 结构
+	- 主备延迟
+		- slave 库消费 **relay log** 的速度比 master 生产 binlog 的速度要慢。可能是磁盘 IOPS 的能力问题
+		- 避免大事务的执行，大事务本身耗时比较高
+		- slave 的并行复制能力
+	- 主备切换
+		- 可靠性优先策略
+			- master 设置为 read only，待 slave 完全同步完成，再切换。牺牲了 A 而获得了 C。
+		- 可用性优先策略
+			- 直接将 slave 设置为可读写。获得了 A 但是牺牲了 C。
+			- 遇到一致性问题的时候，可考虑通过 binlog 来实现恢复。
+		- 一些相关工具
+			- semi-sync
+			- async
+			- AliSQL
+			- WAITING 业内成熟的 HA方案是什么
+			-
 - ## 性能相关
 	- 可能影响性能的几种场景
 		- redo log 写满，flush 脏页
@@ -253,6 +271,8 @@
 			- 关注一下脏页比例
 	- `query_rewrite`功能可以将 SQL 语句改写，从而提升效率。
 	- [检查所有 SQL 语句的返回结果](https://www.percona.com/doc/percona-toolkit/3.0/pt-query-digest.html)
+	- > 一般情况下，把生产库改成“非双 1”配置，是设置 innodb_flush_logs_at_trx_commit=2、sync_binlog=1000。
+	-
 - SQL 语句相关
 	- order by
 		- 实现：每个线程会有一个 `sort_buffer`，将获取到的数据放入排序。如果需要排序的内容大于`sort_buffer`的大小的话，那就需要使用磁盘作为临时文件辅助排序。外部排序一般是使用*归并排序*算法。
