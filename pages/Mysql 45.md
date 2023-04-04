@@ -262,6 +262,20 @@
 			- async
 			- AliSQL
 			- WAITING 业内成熟的 HA方案是什么
+	- ### 主备并行复制策略的演进
+		- 背景：原本的 MySQL 中，slave 只有一个`sql_thread`负责从 relay log 中读取 SQL 并执行。当 master 的 TPS 高的时候，slave 就会产生大延迟。需要使用多线程提高并发度。
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202304021512663.png)
+		- `coordinator`的角色就是分发 SQL 给`worker`执行。执行 SQL 的粒度自然是以*事务*为单位。那么，为了保障正确性，`coordinator`分发事务的时候，会有两条规则：
+			- **保证事务原子性**。同一个事务，必须在同一个`worker`中执行。
+			- **不能造成更新覆盖**。更新同一 row 的两个事务，必须在同一个`worker`中。
+		- #### 按表分发策略
+			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202304021525113.png)
+			- 每个`worker`都记录着自己正在更新的table，当有一个新事务需要分配的时候，需要将事务涉及的表与`worker`中正在执行的 table 对比，根据冲突情况来决定如何执行。对应的策略是：
+				- 如果跟所有 worker 都不冲突，coordinator 线程就会把这个事务分配给最空闲的 woker;
+				- 如果跟多于一个 worker 冲突，coordinator 线程就进入等待状态，直到和这个事务存在冲突关系的 worker 只剩下 1 个；
+				- 如果只跟一个 worker 冲突，coordinator 线程就会把这个事务分配给这个存在冲突关系的 worker。
+			- **缺点**：如果存在*热点表*的话，那么这个并发就相当于是单线程的并发度了。
+		- #### 按行分发策略
 			-
 - ## 性能相关
 	- 可能影响性能的几种场景

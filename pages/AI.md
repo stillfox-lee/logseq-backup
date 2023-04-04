@@ -1,6 +1,9 @@
 - 理论知识
 	- LaMDA
 	- langchain
+- AI 相关的一些 [[paper]]
+	- [Meta 的 Toolformer](https://arxiv.org/abs/2302.04761)
+	-
 - 编程
 	- 代码仓库阅读工具 https://bloop.ai/
 	- gptcommit https://github.com/zurawiki/gptcommit
