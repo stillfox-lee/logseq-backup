@@ -18,7 +18,7 @@
 	- redo log buffer
 	  id:: 64104716-7754-4c18-af42-c6f8e4659801
 		- 事务开始执行的时候，会将数据先写入到 redo log buffer，等特定时刻再写入到磁盘。具体逻辑如下：
-		- buffer 的配置参数 [ref](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit)
+		- buffer 的配置参数 [MySQLManual](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit)
 		  id:: 641143ca-4028-48da-9f07-7749ca45338a
 			- innodb_flush_log_at_trx_commit = 0. 每秒都从 buffer write 并且flush 一次到磁盘。
 			- innodb_flush_log_at_trx_commit = 1. 事务提交每次都 从 buffer write 并且 flush 到磁盘
@@ -40,6 +40,12 @@
 			- sync_binlog = 1，每次提交事务都会`fsync`
 			- sync_binlog = N，每次提交事务都会`write`，累积 N 个事务之后再`fsync`
 		- 如果 binlog cache 占用空间太大（超过`binlog_cache_size`），就需要将它写入到磁盘中。
+	- **一些难点问题**
+		- binlog_format与事务隔离级别 [月报](http://mysql.taobao.org/monthly/2018/08/04/)
+			- 在`Read-Commited`和`Read-Uncommited`隔离级别下，MySQL 会禁止 statement格式的日志写入。
+			- 因为在这两个隔离级别中，无法解决事务的*不可重复*和*幻读*问题。例如，slave 根据 statement 重放时，由于幻读，执行结果会与 master 不一致。
+			  id:: 643df0d7-9618-4c7c-bc4d-7ed12823a7c7
+			-
 - ## group commit
 	- group commit。指的是将一组多个事务的`fsync`合并为一次调用，将多个事务一次写入，减少实际的 IO 次数。
 	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202303280750207.png)
@@ -93,6 +99,10 @@
 		- insert buffer
 		- change buffer
 			- 对于不需要磁盘 IO 的更新，就只写在 change buffer 中即可。等后续需要读这个数据页的时候，再做 merge。
+			- 不需要磁盘 IO 就能完成更新的场景：**对非唯一索引的数据进行更新**。因为数据库不需要考虑唯一性约束，可以直接写入 change buffer 就完成。如果是唯一索引，必须将该数据读入内存中进行唯一性校验；这种场景 change buffer 就没有效果了。
+			- **change buffer 最高效的场景**：写多读少。如果写完马上就要读取的话，就会涉及到磁盘 IO 和 Merge。单纯的写就只需要操作 change buffer即可。后台线程去完成异步的 Merge，这样change buffer 就能起到特别好的效果。
+			- 所以，change buffer 和普通索引，在数据量大的表的更新场景下能起到的优化效果是比较好的。
+			  id:: 6444873d-2989-49c0-b911-9ea586045f79
 		- adaptive hash index
 		- lock info
 		- data dictionary
@@ -145,9 +155,15 @@
 			- `cardinality` 就是区分度，这个值越大越好
 		-
 - ## 锁
+	- 相关月报列表
+		- [Innodb 事务锁系统](http://mysql.taobao.org/monthly/2016/01/01/)
+		- [Innodb 锁子系统浅析](http://mysql.taobao.org/monthly/2017/12/02/)
+		- [row-lock 和 range-lock](http://mysql.taobao.org/monthly/2015/04/03/)
+		- [事务并发控制 two-phase lock Protocol](http://mysql.taobao.org/monthly/2021/10/02/)
+		- [事务锁调度分析](http://mysql.taobao.org/monthly/2021/09/01/)
 	- 全局锁
-	- 表锁
-		- 显示执行 `lock tables T1 read, T2 write`
+	- ### 表锁
+		- 显式执行 `lock tables Table1 read, Table2 write`
 		- MDL（metadata lock）
 			- 为了保障读写的正确性，设计的一个锁。在访问表的时候会自动添加。
 			- 设想一个场景：读数据，同时删除表中的一个字段。
@@ -157,8 +173,9 @@
 				- MDL 的 read lock 可以共享，read lock 与 write lock 互斥
 			- MDL 的死锁情况
 			  https://static001.geekbang.org/resource/image/7c/ce/7cf6a3bf90d72d1f0fc156ececdfb0ce.jpg?wh=1142*856
+			- >  MySQL 对于锁的调度默认是 FCFS（First Come First Served）。所以，SessionD 必须等待 SessionC 申请、释放锁之后，才能获得锁。这样就会导致整个表都不可读了。
 			- 注意给 DDL 语句加上一个超时时间，避免长时间的等待导致死锁问题。
-	- 行锁
+	- ### 行锁
 		- 2PL (两阶段锁)
 			- 分为 shard lock 和 exclusive lock。两阶段指的是：lock 阶段和 unlock 阶段。
 			- lock阶段：读操作的时候加上 shared lock，写操作的时候加上 exclusive lock。
@@ -177,6 +194,8 @@
 				- 使得`select * from T where *** for update`的语义失效。
 				- 在事务中执行了`for update`之后，只锁了 3 行数据；此时再插入了一条新的符合`where`的数据并不会被锁上。
 			- 数据一致性问题
+				- ((643df0d7-9618-4c7c-bc4d-7ed12823a7c7))
+				-
 		- 幻读与`当前读`在 RR 隔离级别下的场景
 			- 如果当前读命中**主键**，则通过`写锁`即可解决幻读问题
 			- 如果当前读未命中**主键**，则会添加**next-key lock**
@@ -185,17 +204,23 @@
 			- 如果没有走索引，则全表加 **gap lock**
 	- ### gap lock
 		- 为了解决幻读的问题，能够在行之间的 gap 加入一个锁。使得这个 gap 之间无法进行更新的操作。
-		- gap lock 之间是可共存的。
+		- 特性
+			- gap lock 之间是可共存的
+			- 只在 RR 隔离级别下生效
+			- gap lock 锁的是 write 行为
 	- ### next-key lock
 		- 行锁和 gap lock 合称 next-key lock，是前开后闭区间 `( ]`。因为 gap lock 是开区间，并没有锁上记录行，所以通过 next-key lock，就可以完整覆盖。
-	- ## 加锁的规则
+	- ### RR 级别下加锁的规则
+		- [45 讲](https://time.geekbang.org/column/article/75659)
 		- 原则 1：加锁的基本单位是 next-key lock。
-		- 原则 2：查找过程中访问到的对象才会加锁。
+		- 原则 2：查找过程中访问到的对象才会加锁。*limit 语言会影响扫描的行*
 		- 优化 1：索引上的等值查询，给唯一索引加锁的时候，next-key lock 退化为行锁。
-		- 优化 2：索引上的等值查询，向右遍历时且最后一个值不满足等值条件的时候，next-key lock 退化为间隙锁。
+		- 优化 2：索引上的等值查询，向右遍历时且最后一个值不满足等值条件的时候，next-key lock 退化gap lock。
 		- 一个 bug：唯一索引上的范围查询会访问到不满足条件的第一个值为止。
 	- ### 加锁的一些场景
 		- 锁是加在索引上的。如果有覆盖索引，那么只会锁住二级索引，而不会锁主键。
+		- 如果在二级索引上使用了`for update`这些 write lock，那么会在二级索引以及主键索引同时加锁。
+		- `select * from t where id>9 and id<12 order by id desc for update;`这类语句，在查找的时候，首先是**等值查询**找到 id=12 的值；再进行**范围查询**。所以，这里的加锁规则就要分两种情况进行了。
 		-
 - ## 事务
 	- 月报
@@ -241,7 +266,7 @@
 			- 如果记录上的`trx_id`在`低水位`和`高水位`之间，且`trx_id`在`read_view_t.descriptors`之中，则表示这条记录的最后修改是在readview创建之时，被另外一个活跃事务所修改，所以这条记录也不可以被看见。如果`trx_id`不在`read_view_t.descriptors`之中，则表示这条记录的最后修改在readview创建之前，所以可以看到。
 			- 基于上述判断，如果记录不可见，则尝试使用undo去构建老的版本(`row_vers_build_for_consistent_read`)，直到找到可以被看见的记录或者解析完所有的undo。
 			-
-	- **current read** (当前读)
+	- 触发**current read** (当前读)的情况
 		- update 语句。所有更新数据都是**先读后写**，读的时候会读取最新的**当前值**。
 		- 加锁语句
 	- XA 事务
@@ -286,6 +311,8 @@
 	- `query_rewrite`功能可以将 SQL 语句改写，从而提升效率。
 	- [检查所有 SQL 语句的返回结果](https://www.percona.com/doc/percona-toolkit/3.0/pt-query-digest.html)
 	- > 一般情况下，把生产库改成“非双 1”配置，是设置 innodb_flush_logs_at_trx_commit=2、sync_binlog=1000。
+	- WAITING Explain 语句如何使用
+	- ((6444873d-2989-49c0-b911-9ea586045f79))
 	-
 - SQL 语句相关
 	- order by

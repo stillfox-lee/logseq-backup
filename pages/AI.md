@@ -3,6 +3,8 @@
 	- langchain
 - AI 相关的一些 [[paper]]
 	- [Meta 的 Toolformer](https://arxiv.org/abs/2302.04761)
+- 模型
+	- https://www.databricks.com/blog/2023/04/12/dolly-first-open-commercially-viable-instruction-tuned-llm
 	-
 - 编程
 	- 代码仓库阅读工具 https://bloop.ai/
