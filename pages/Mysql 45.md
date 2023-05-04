@@ -83,7 +83,10 @@
 		- insert buffer thread
 		- log IO thread
 	- Purge Thread
+		- 在执行了`DELETE`语句之后，数据没有被实际删除，而是添加了一个 flag 标记。等异步的线程来完成实际的删除操作。
+		- [[purge]] 用于最终完成`UPDATE`和`DELETE`的操作。
 	- Page Cleaner Thread
+	-
 - ## Buffer Pool
 	- 淘宝月报
 		- [buffer pool 浅析](http://mysql.taobao.org/monthly/2020/02/02/)
@@ -96,13 +99,26 @@
 		- data page
 		- index page
 		- undo page
-		- insert buffer
-		- change buffer
-			- 对于不需要磁盘 IO 的更新，就只写在 change buffer 中即可。等后续需要读这个数据页的时候，再做 merge。
-			- 不需要磁盘 IO 就能完成更新的场景：**对非唯一索引的数据进行更新**。因为数据库不需要考虑唯一性约束，可以直接写入 change buffer 就完成。如果是唯一索引，必须将该数据读入内存中进行唯一性校验；这种场景 change buffer 就没有效果了。
-			- **change buffer 最高效的场景**：写多读少。如果写完马上就要读取的话，就会涉及到磁盘 IO 和 Merge。单纯的写就只需要操作 change buffer即可。后台线程去完成异步的 Merge，这样change buffer 就能起到特别好的效果。
+		- ### change buffer
+			- [月报](http://mysql.taobao.org/monthly/2015/07/01/)
+			- 介绍
+				- Change buffer的主要目的是将对二级索引的数据操作缓存下来，以此减少二级索引的随机IO，并达到**操作合并**的效果（将多个写入变为一个写入）。
+				- 在MySQL5.5之前的版本中，由于只支持缓存insert操作，所以最初叫做insert buffer，只是后来的版本中支持了更多的操作类型缓存，才改叫change buffer。
+				- 不需要磁盘 IO 就能完成更新的场景：**对非唯一索引的数据进行更新**。因为数据库不需要考虑唯一性约束，可以直接写入 change buffer 就完成。如果是唯一索引，必须将该数据读入内存中进行唯一性校验；这种场景 change buffer 就没有效果了。
+				- **change buffer 最高效的场景**：写多读少。如果写完马上就要读取的话，就会涉及到磁盘 IO 和 Merge。单纯的写就只需要操作 change buffer即可。后台线程去完成异步的 Merge，这样change buffer 就能起到特别好的效果。
+			-
+			- 如何工作
+				- **写入**：对于不需要磁盘 IO 的更新，就只写在 change buffer 中即可。等后续需要读这个数据页的时候，再做 merge。
+				- **merge**：将 change buffer 中的操作，应用到实际的page 中。例如，执行了二级索引的数据查询，需要将索引 page 读入内存；这个时候就要将 change buffer 中的内容应用到内存中的 page 了。
+				- [[purge]]
+			- change buffer 的数据结构
+				- 在物理上，change buffer 就是一个`btree`，存储在 ibdata 系统表空间中。
+				- 这就是一个 change buffer 的一个 entity 的结构：
+				  ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202304250905447.png)
+				-
 			- 所以，change buffer 和普通索引，在数据量大的表的更新场景下能起到的优化效果是比较好的。
 			  id:: 6444873d-2989-49c0-b911-9ea586045f79
+			- 在事务中，SQL 对应的操作不仅在change buffer 会记录，在 [[redo-log]] 中也会记录。所以，即使掉电 change buffer未持久化，也可以通过 redo log 来完成恢复。
 		- adaptive hash index
 		- lock info
 		- data dictionary
@@ -129,6 +145,7 @@
 		- 读取数据的时候，会先找 buffer，不存在就读磁盘，再放入 buffer
 - ### Insert Buffer
 	- Buffer Pool中只有 Insert Buffer 的部分信息，真正的 Insert Buffer 其实也是一个物理页的数据页。
+	- 现在已经升级为 change buffer
 -
 - ## 索引
 	- 回表
@@ -147,12 +164,15 @@
 		- TODO 重建的底层是什么？删除为什么会有空洞？
 	- 自适应哈希索引
 		- innodb 会监控查询，为一些高频的查询建立哈希索引。使得复杂度减低为O(1)。
-	- 优化器
-		- 优化器主要目的是为了减少 CPU 的资源消耗来确定选择什么方式查表（选索引）。主要考量的方面有：**扫描行数**、**是否使用临时表**、**是否排序**等
-		- 区分度
-			- 使用 `show index from T;`可以查看索引的情况
-			  https://static001.geekbang.org/resource/image/16/d4/16dbf8124ad529fec0066950446079d4.png?wh=1850*209
-			- `cardinality` 就是区分度，这个值越大越好
+	- ### 优化
+		- 优化器
+			- 优化器主要目的是为了减少 CPU 的资源消耗来确定选择什么方式查表（选索引）。主要考量的方面有：**扫描行数**、**是否使用临时表**、**是否排序**等
+			- 区分度
+				- 使用 `show index from T;`可以查看索引的情况
+				  https://static001.geekbang.org/resource/image/16/d4/16dbf8124ad529fec0066950446079d4.png?wh=1850*209
+				- `cardinality` 就是区分度，这个值越大越好
+			- 优化器对于索引的区分度数组，采用的是采样统计。结果可能会不够准确，可以使用`analyze table T`来重新统计索引信息。
+		- > SQL 如何选择索引执行查询，主要就是看优化器如何评估**查询计划**的代价。优化器会选择它认为代价小的计划去执行，但是它评估的结果并不一定是准确的。这里就产生了很多问题。
 		-
 - ## 锁
 	- 相关月报列表

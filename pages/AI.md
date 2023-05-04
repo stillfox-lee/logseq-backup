@@ -20,6 +20,8 @@
 	- 产品
 		- [copilot hub](https://app.copilothub.co/) 训练特定的人，让你和它聊天。（乔布斯、马斯克）
 		- [Adobe Firefly](https://firefly.adobe.com/generate/images)
+		- [AudioGPT](https://twitter.com/dotey/status/1651745422103248897)
+		-
 	- 最佳实践
 		- [使用 midjourney 生成 logo](https://www.ebaqdesign.com/blog/midjourney-logo-design#do45l)
 		- [midjourney v5 比较以及 prompt](https://medium.com/@catmus2048/midjourney-v5-%E6%AF%94-v4-%E6%9B%B4%E5%A5%BD%E5%90%97-%E7%BB%BC%E5%90%88%E8%AF%84%E6%B5%8B-prompt-%E5%85%A8%E5%85%AC%E5%BC%80-bd8a1d909867)
@@ -27,6 +29,7 @@
 	- https://learningprompt.wiki/
 	- [sharegpt](https://sharegpt.com/)
 	- https://github.com/openai/openai-cookbook
+	- [用指令模式，让 GPT 多角度扮演角色进行讨论]( https://twitter.com/Scobleizer/status/1651370329267396608)
 	-
 - 商业
 	- OpenAI 投资板块 https://research-assets.cbinsights.com/2023/02/23153811/OpenAI_investmentthesismap_022323V3.png
