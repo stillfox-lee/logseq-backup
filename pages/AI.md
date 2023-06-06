@@ -3,6 +3,7 @@
 	- langchain
 - AI 相关的一些 [[paper]]
 	- [Meta 的 Toolformer](https://arxiv.org/abs/2302.04761)
+	- [Prompt Engineering](https://arxiv.org/abs/2305.10601)
 - 模型
 	- https://www.databricks.com/blog/2023/04/12/dolly-first-open-commercially-viable-instruction-tuned-llm
 	-
