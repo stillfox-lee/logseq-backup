@@ -220,7 +220,7 @@
 			- >  MySQL 对于锁的调度默认是 FCFS（First Come First Served）。所以，SessionD 必须等待 SessionC 申请、释放锁之后，才能获得锁。这样就会导致整个表都不可读了。
 			- 注意给 DDL 语句加上一个超时时间，避免长时间的等待导致死锁问题。
 	- ### 行锁
-		- 2PL (两阶段锁)
+		- [[2PL]] (两阶段锁)
 			- 分为 shard lock 和 exclusive lock。两阶段指的是：lock 阶段和 unlock 阶段。
 			- lock阶段：读操作的时候加上 shared lock，写操作的时候加上 exclusive lock。
 			- unlock 阶段：事务 commit 或者 rollback
@@ -269,9 +269,17 @@
 - ## 事务
 	- 月报
 		- [事务系统](http://mysql.taobao.org/monthly/2017/12/01/)
-		-
+	- 隔离级别
+		- Read-uncommitted
+			- 没有 *consistent snapshot*
+		- Read-commited
+			- 每个 SQL 执行时，创建一个 *consistent snapshot*
+		- Repeatable-read
+			- 事务启动时就创建一个 *consistent snapshot*
+		- Serializable
 	- consistent snapshot
 		- 事务的 `RR` 隔离是依靠事务启动时，创建的一个 consistent snapshot 实现的。可以用语句`start transaction with consistent snapshot`来主动触发*立即*创建一个快照。
+		- **注意**：这个快照并不是在事务启动的时候*立即*创建的，而是在执行第一个 SQL 语句的时候创建的。
 		- 具体是实现是通过 [[undo-log]] 来完成的，每次有 DML 的时候，就会记录下对应的 undo-log。如果想要得到某个版本的数据，就可以通过 undo-log 回滚得到。这样也就实现了 [[mvcc]]
 	- [[mvcc]]
 		- 内部记录一个全局活跃的读写事务数组，通过它来判断事务的可见性。

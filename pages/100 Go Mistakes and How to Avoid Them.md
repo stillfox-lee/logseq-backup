@@ -64,7 +64,7 @@ url:: https://readwise.io/reader/document_raw_content/8740249
 			- 尽可能接收 interface 参数
 		- 返回一个 interface，会导致调用方被限制于一个固定的抽象。可能会不够灵活。
 - ## 泛型
-	- **类型参数**的使用
+	- golang[[泛型]]**类型参数**的使用
 		- 函数中使用泛型参数：`func Foo[T comparable, V any] (m map[K]V) []K {}`
 			- 可以分为两个部分来看：
 				- 函数的输入输出 signature：`func Foo (m map[K]V) []K`
@@ -92,15 +92,49 @@ url:: https://readwise.io/reader/document_raw_content/8740249
 			  // ./main.go:29:15: methods cannot have type parameters
 			  ```
 			-
-	- **constraint**
-		- 一系列行为的约束（methods）
-		- 类型的约束
+		- **constraint**
+			- 一系列行为的约束（methods）
+			- 类型的约束
+				- ```go
+				  type customConstraint interface {
+				    ~int | ~string	// 底层类型是 int 或者 string
+				  }
+				  
+				  func getKeys[K customConstraint, v any] (m map[K]V) []K {
+				    
+				  }
+				  ```
+- ## Slice 相关
+	- 初始化的小技巧
+		- ```go
+		  var s int[]
+		  s = append(s, 1)
+		  
+		  // 等价于
+		  s := append([]int(nil), 1)
+		  
+		  // []int(nil) 相当于是声明了一个 nil slice
+		  ```
+	- ### empty & nil slice
+		- 对于 json 序列化中的不同表现
 			- ```go
-			  type customConstraint interface {
-			    ~int | ~string	// 底层类型是 int 或者 string
+			  type customer {
+			    ID string
+			    Operations []float32
 			  }
 			  
-			  func getKeys[K customConstraint, v any] (m map[K]V) []K {
-			    
-			  }
+			  var s1 []float32	// nil slice
+			  customer1 := customer{ID: "foo", Operations: s1}
+			  s2 := make([]float32, 0)	// empty slice
+			  customer2 := customer{ID: "bar", Operations: s2}
+			  
+			  b1, _ := json.Marshal(customer1)
+			  fmt.Println(string(b1))
+			  b2, _ := json.Marshal(customer2)
+			  fmt.Println(string(b2))
+			  
+			  // result
+			  // b1: {"ID": "foo", "Operations": null}
+			  // b2: {"ID": "bar", "Operations": []}
 			  ```
+		- 同样的，在标准库中`reflect.DeepEqual()`函数也是一样的。
