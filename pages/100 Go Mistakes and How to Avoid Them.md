@@ -138,3 +138,36 @@ url:: https://readwise.io/reader/document_raw_content/8740249
 			  // b2: {"ID": "bar", "Operations": []}
 			  ```
 		- 同样的，在标准库中`reflect.DeepEqual()`函数也是一样的。
+	- ### Copy 函数
+		- `copy(dst, src)`
+		- 首先是参数次序与直觉是相反的
+		- copy 函数实际拷贝值的数量=min(len(dst), len(src))
+		-
+	- ### full slice expression
+		- 一个切片表达式：`[low:high:max]`。限制了 slice 的容量只能是 max。
+		- 使用场景：在 append
+	- ### slice memory leaks
+		- #### leaking capacity
+			- ```go
+			  func consumeMessages() {
+			  	for {
+			      	msg := receiveMessage()
+			          // Do something with msg
+			          sotreMessageType(getMessageType(msg))
+			      }
+			  }
+			  
+			  func getMessageType(msg []byte) []byte {
+			    returm msg[:5]	// get message type from first 5 bytes
+			  }
+			  ```
+			- `getMessageType`函数可能会带来**内存泄漏**
+			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202307030907346.png)
+			- `msg[:5]`会持有与 msg 一样的容量*（共享底层数组）*。`msg[:5]`虽然只截取了一小部分，但是它如果没有被 GC 回收的话。这里也会造成大量的内存泄漏。
+			- 考虑一个情况：
+			  ```go
+			  func storeMessageType(msgType []byte) {
+			      // 将msgType保存到某个全局变量中
+			      globalCache[msgType] = time.Now()
+			  }
+			  ```

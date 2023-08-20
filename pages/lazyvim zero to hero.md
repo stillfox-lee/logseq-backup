@@ -1,0 +1,9 @@
+- #vim
+- > 很多配置可以参考 https://github.com/AstroNvim/astrocommunity
+-
+- golang
+	- 需要使用 impl 自动实现 interface
+- git
+	- gitsign 自动启用 line blame
+	- git 状态颜色显示有问题
+	-
