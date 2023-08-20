@@ -21,6 +21,12 @@
 		- [What Every Programmer Should Know About Memory](https://people.freebsd.org/~lstewart/articles/cpumemory.pdf)
 		- [Russ Cox 内存模型文章](https://research.swtch.com/hwmm) 、[中文翻译](https://colobu.com/2021/06/30/hwmm/)
 		- [缓存一致性系列文章](https://zhuanlan.zhihu.com/p/136300660)
+	- [[networking]] 资料
+		- [小林TCPIP](https://www.zsythink.net/archives/1182)
+		- [package-cloud 关于网络收发数据的文章](https://blog.packagecloud.io/monitoring-tuning-linux-networking-stack-receiving-data/)
+		- [tcp协议原理总结](https://writings.sh/post/network-tcp)
+		-
+		-
 	- 编译
 		- **Python Conference** 如何在 30 分钟写一个[[jit]]编译器 [video](https://www.youtube.com/watch?v=DKns_rH8rrg)
 - [[Mysql]]
@@ -55,7 +61,10 @@
 	- [Rust Atomics and Locks](https://marabos.nl/atomics/) #concurrency
 	-
 	-
-	-
+- [[devops]]
+	- [[Tekton]] 资料
+		- https://developer.ibm.com/components/tekton/
+		-
 - [[SRE]]
 	- [linkedin SRE 101](https://linkedin.github.io/school-of-sre/)
 - 云原生
@@ -71,6 +80,10 @@
 		- [Redis 限流最佳实践](https://redis.com/redis-best-practices/basic-rate-limiting/)
 		- [aws 限流算法](https://aws.amazon.com/cn/blogs/architecture/exponential-backoff-and-jitter/)
 		- [微软限流设计模式](https://docs.microsoft.com/zh-cn/azure/architecture/patterns/rate-limiting-pattern)
+	- 负载均衡
+		- https://alex-ii.github.io/notes/2019/02/13/predictive_load_balancing.html
+		- https://www.zsythink.net/archives/1182
+		-
 - 分布式
 	- 书籍
 		- 《DDIA》
@@ -82,6 +95,17 @@
 		- [redis 分布式锁](http://kaito-kidd.com/2021/06/08/is-redis-distributed-lock-really-safe/)
 		- [Redis 分布式锁两个大佬交锋的解析](http://zhangtielei.com/posts/blog-redlock-reasoning.html)
 - [[k8s]]
+	- [[CNI]] 相关学习资料
+		- https://medium.com/swlh/customise-your-kind-clusters-networking-layer-1249e7916100
+		- https://morningspace.github.io/tech/k8s-net-service-2/
+		- https://www.cni.dev/docs/spec/
+		- https://www.tkng.io/services/clusterip/dataplane/iptables/
+		- [cni-talk](https://www.caseyc.net/cni-talk-kubecon-18.pdf)
+		- https://learnk8s.io/kubernetes-network-packets#kubernetes-networking-requirements
+		- https://mp.weixin.qq.com/s/w-poLOhUs7Lcofqm8aWN_A
+		- https://developers.redhat.com/blog/2018/10/22/introduction-to-linux-interfaces-for-virtual-networking#macvtap_ipvtap
+		-
+		-
 	- [what-happen-when](https://github.com/jamiehannaford/what-happens-when-k8s)
 	- [deployment-strategies](https://github.com/ContainerSolutions/k8s-deployment-strategies)
 	- {{embed ((63d87662-a2d0-4665-8efc-78e159df6961))}}
@@ -90,4 +114,5 @@
 	- > paper query
 - [[vscode]]
 	- vscode-vim 的入门[教程](https://www.barbarianmeetscoding.com/blog/boost-your-coding-fu-with-vscode-and-vim)
+	- https://www.barbarianmeetscoding.com/boost-your-coding-fu-with-vscode-and-vim/dedication/
 	-
