@@ -1,13 +1,20 @@
-- 参考 [[开贴写一下我如何让 Github Copilot...]] 对自己内容做补充
+- TODO 参考 [[开贴写一下我如何让 Github Copilot...]] 对自己内容做补充
+- TODO 搜索一下其他人的分享：Twitter、github、Microsoft 官方等等
+-
 - 我的一些用法
-	- 写好注释让它写代码（反向操作）
-	- 写测试用例
+	- 生成代码
+		- 写好注释让它写代码（反向操作）
+		- 好的命名
+		- 在 chat 里面生成代码
+	- 生成测试用例
 		- 光标选中被测试代码
 		- chat 指引它参考的用例
 		- *不要期望一次生成大量用例覆盖*
 			- 先编写一个用例，再让 LLM 参考来写
 			- 通过其他方式，让它参考用例的风格
 				- 演示：table-drive、test function
+	- 辅助阅读代码
+	- commit message
 - 如何做好 prompt
 	- 原则：**give llm more time to think**
 	- 抓包分析请求，几个关键参数
