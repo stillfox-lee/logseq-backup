@@ -78,15 +78,18 @@
 			- 通过内部存储实现缓存
 		- 特性
 			- Informer 会处理 Watch 的网络连接问题，比如错误重连等。
+			- Informer 提供
 		- 使用：
 			- Informer 可以配置一个定时器，用于处理业务逻辑与内存缓存之间的差异：*通过调用已注册的事件处理函数，把完整的对象列表通知过去*。
 			- 使用共享 Informer Factory 来创建 Informer，它可以减少对 APIServer 的负担。*对于一个 GroupVersionResource 只会生成一个 Informer，底层使用一个 Watch 连接*。
 			- EventHandler
 				- EventHandler是 Informer 的消费者
 				- 通常只将修改过的对象放到`workqueue`中
-		- Index
-		- Lister
+		- **Index**
+		- **Lister**
 			- Lister 获取的对象是内存中的对象，如果要修改它的话，需要执行一次 DeepCopy。
+		- **SharedInformer**
+			- 在同一个 controller 进程中，通过共享 Informer，实现对于 ApiServer 只有一个 Watch 链接。而不是每个 GVR 都有一个 Watch 的链接。
 	- WorkerQueue
 		- ```go
 		  type Interface interface {
@@ -103,6 +106,11 @@
 				- EventHandler 获取到 interface{} 的 object
 				- EventHandler 将数据发送到 WorkerQueue 中
 				- Worker 通过 Lister 获取到实际的 Resource。
+		- WorkerQueue 的处理流程：
+			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202312181153353.png)
+			- `AddRateLimited` —— 处理 event失败，将 event 放回 queue 中，待下次处理
+			- `Forget`、`Done` —— 处理 event 成功，从 queue 删除。
+			-
 - ## API Machinery
 	- ### Kubernetes 的基础类型系统
 		- Kind

@@ -1,11 +1,15 @@
 - 理论知识
 	- LaMDA
 	- langchain
+	- https://bbycroft.net/llm 图形化介绍 LLM 如何工作
+	-
 - AI 相关的一些 [[paper]]
 	- [Meta 的 Toolformer](https://arxiv.org/abs/2302.04761)
 	- [Prompt Engineering](https://arxiv.org/abs/2305.10601)
 - 模型
 	- https://www.databricks.com/blog/2023/04/12/dolly-first-open-commercially-viable-instruction-tuned-llm
+- 开源的一些方案
+	- https://github.com/coqui-ai/tts  text-to-speech
 	-
 - 编程
 	- 代码仓库阅读工具 https://bloop.ai/
@@ -22,6 +26,7 @@
 		- [copilot hub](https://app.copilothub.co/) 训练特定的人，让你和它聊天。（乔布斯、马斯克）
 		- [Adobe Firefly](https://firefly.adobe.com/generate/images)
 		- [AudioGPT](https://twitter.com/dotey/status/1651745422103248897)
+		- https://github.com/tldraw/draw-a-ui draw-to-ui-html
 		-
 	- 最佳实践
 		- [使用 midjourney 生成 logo](https://www.ebaqdesign.com/blog/midjourney-logo-design#do45l)
@@ -31,7 +36,7 @@
 	- [sharegpt](https://sharegpt.com/)
 	- https://github.com/openai/openai-cookbook
 	- [用指令模式，让 GPT 多角度扮演角色进行讨论]( https://twitter.com/Scobleizer/status/1651370329267396608)
-	-
+	- [OpenAi 的 prompt 最佳实践](https://platform.openai.com/docs/guides/prompt-engineering)
 - 商业
 	- OpenAI 投资板块 https://research-assets.cbinsights.com/2023/02/23153811/OpenAI_investmentthesismap_022323V3.png
 	-

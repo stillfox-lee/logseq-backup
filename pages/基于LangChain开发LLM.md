@@ -1,0 +1,21 @@
+- Output Parser
+	- 格式化解析 LLM 的 output。*str --> JSON*
+- Memory
+	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202312150915186.png)
+	- **问题场景**：LLM 是 stateless 的，它不会存储chat 的内容。所以容易带来的问题是：LLM 的 chat 中容易丢失 context。
+	- **一种解决方案是**：通过一个 localstorage 存储所有的 context，然后每次都带上所有的 context 在 prompt 里面，让 LLM 回答问题的时候同时基于 context 回答。
+	- **context 方案的问题**：随着对话的进行，context 的数量会急剧增加，token 的消耗和费用也会增加。
+	- *这个 memory 是如何实现的？在 chat 中它只是一个 context 的存储并且限制大小？*
+	- 提供的方法：
+		- `ConversationChain`
+		- `ConversationBufferMemory`
+		- `ConversationBufferWindowMemory`
+		- `ConversationTokenBufferMenory`
+		- `ConversationSummaryBufferMemory`
+	- 基于 Memory 的 Conversation 是如何实现的：
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202312180945366.png)
+		- LangChain会开启一个持续的对话，将input 和 output 存储在 buffer 中。
+- 一些术语
+	- `Chain-of-Thought`
+	- `ReAct` —— 一种写 Prompt 的框架
+-

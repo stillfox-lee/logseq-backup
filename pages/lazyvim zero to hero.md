@@ -7,3 +7,6 @@
 	- gitsign 自动启用 line blame
 	- git 状态颜色显示有问题
 	-
+- 一些好用的快捷键
+	- `Shift+k` 浮窗展示说明文档
+	-
