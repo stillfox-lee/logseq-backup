@@ -1,0 +1,122 @@
+- #Reading #AI
+- 一些术语
+	- predict the next character 极简架构
+- 参考阅读
+	- https://blog.laisky.com/p/what-is-gpt/
+	-
+	-
+- LLM 的演进路线
+	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403021640297.png)
+	- 这里分叉出来两个路线`Decoder-only`、`Encoder-only`。
+		- 在自然语言处理（NLP）中，Encoder-only 和 Decoder-only 是指两种不同类型的语言模型架构，它们在处理和生成自然语言时扮演不同的角色。
+			- 1. **Encoder-only（仅编码器）**：
+			- Encoder-only 模型，如BERT（Bidirectional Encoder Representations from Transformers）及其变体（例如RoBERTa、ALBERT等），主要关注于理解输入文本的上下文信息。这类模型通常用于自然语言理解（NLU）任务，例如情感分析、命名实体识别（NER）、问答（QA）等。
+			- 在BERT风格的模型中，输入文本首先被编码成一个固定长度的向量表示，然后这个表示可以用于各种下游任务。这些模型在预训练阶段通常采用遮蔽语言模型（Masked Language Model, MLM）的方式，即随机遮蔽输入文本中的一些单词，然后让模型预测这些遮蔽单词，以此来学习语言的深层表示。
+			- 2. **Decoder-only（仅解码器）**：
+			- Decoder-only 模型，如GPT（Generative Pre-trained Transformer）系列，专注于生成连贯的文本序列。这类模型主要用于自然语言生成（NLG）任务，例如文本续写、机器翻译、对话生成等。
+			- 在GPT风格的模型中，输入文本被用作生成下一个单词或序列的上下文。这些模型在预训练阶段通常采用自回归语言模型（Autoregressive Language Model）的方式，即基于前面的单词预测下一个单词，从而学习语言的生成能力。
+			- 总结来说，Encoder-only 模型更擅长理解语言的语义和上下文，而 Decoder-only 模型则更专注于生成连贯的文本。在实际应用中，这两种模型可以根据任务的需求进行选择和优化。
+	- OpenAI 提出了 scaling law —— 大模型。（暴力解决问题，量变引起的质变）
+	- GTP-3 部分人员离开，建立Anthropic。提出论文《A General Language Assistant as a Laboratory for Alignment》。推出 Claude。
+	- 《Emergent Abilities of Large Language Models》论文指出，模型参数达到一定量级之后，才会有`涌现`能力。
+- 预测下一个词
+	- 在文本生成的场景中，输入一段文本。让模型做到一个事情：“基于当前的上下文，最合理的下一个词是什么”。如此反复，就能生成文本内容了。
+	- 概率如何得到
+		- 一个简单的问题：考虑逐字母（而非逐词）地生成英文文本。怎样才能计算出每个字母应当出现的概率呢？
+		- 解法是：通过足够大的英文样本，得到每个字母的概率，按照概率来选择下一个字母。这样生成的内容基本没有意义。然后作者考虑使用二元字母（o 后面跟随字母的概率）来生成，效果会更好一点。
+		- 所以，同样的思路可以用在生成单词场景下。问题是，样本足够大的情况下，预测下一个词或者词组的数量会超过**可计算容量**。
+		- LLM 的思路是：建立一个模型，能够预估序列出现的概率。即使是在已有语料库中从未见过的序列。
+- 大模型参数
+	- 模型参数——为了更好的拟合实际数据，模型有很多参数用于控制。以更好地实现拟合。GPT-3 有1750 亿参数。
+	- 模型会有很多 layer，在每个 layer 中都会有不同的参数。
+	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403031236321.png)
+	- > 模型可以解决一个问题：样本数据里面，没有 x -> y 这个记录的时候，通过模型可以计算出来给定的 x 对应的 y 值应该是多少。
+- 神经网络（以图像识别为例）
+	- 神经网络通过 `attractor` 来“识别事物”。*一种分类任务*
+	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403040934779.png)
+	- 我们希望将相似的手写体，吸引到一起。
+	- `吸引子盆地`：
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403040942360.png)
+	- 这样，图像识别任务已经被转换为：寻找最近的点。**而这个寻找最近的点的过程，就是神经网络计算的过程。**
+	- 神经网络的推导示例：（简化版）
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403042230600.png)
+		-
+	- 神经网络的不可描述性
+		- 神经网络通常由多层构成，每层之间也有相互关联。在特定的任务中，每一层的计算都是一个统一的抽象公式。但其中都有不同的 weight 和 activation function。
+		- 所以，一个任务会由多层协同完成。对于这个过程，其实是可以推导的。但是对于：“它为什么会得出这样的结果”。却是无法根据第一性原则推导出来的。
+- 机器学习和神经网络训练
+	- > 当构建一个神经网络来区分猫和狗的图像时，我们不需要编写一个程序来（比如）明确地找到胡须，只需要展示很多关于什么是猫和什么是狗的样例，然后让神经网络从中“机器学习”如何区分它们即可。
+	- > 神经网络的训练究竟是如何起效的呢？本质上，我们一直在尝试找到能使神经网络成功复现给定样例的权重。然后，我们依靠神经网络在这些样例“之间”进行“合理”的“插值”（或“泛化”）。
+	- 如何找到复现给定样例的权重？
+		- 提供大量的`输入->输出`样例以供“学习”，尝试找到能够复现这些样例的权重。
+		- 调整权重的思路：
+			- 在每个阶段，调整与“理想”结果有多远，然后调整该阶段权重，做“拟合”。
+			- 我们可以通过`损失函数`计算与“理想”之间的距离。
+			- 然后重复这个过程，减少距离。直到模型成功复现*（近似）*目标。
+		- 调整权重的细节
+			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403111130829.png)
+			- 假设神经网络中只有两个参数`w1` `w2`。右图中每一圈，就是一层神经网络中`损失函数`的值。要找到最小的损失值，就是在每一层之间找到**最陡**的路径。
+			- 这种方法，可以找到局部最优解，无法得到全局最优解。很可能就只找到一个“山湖”。但是在 LLM 的场景情况下，参数有千亿级别，找**最陡**的方法得出的效果反而比较好。因为参数多，即使是山湖，在人的视角来说最终效果已经是可以接受的了。*类似于小数点后忽略不计。*
+			- `神经网络解决复杂问题的效果更好`
+	- 反向传播法 `back propagation`
+		- 如何调整权重，让 cost function 更小？原理上可以通过数值分析可以解决。在工程上来说，就是使用`Back Propagation`。
+		- Inference 做的是正向的计算，每一次推理中，会根据输入，计算出一个输出。这个输入输出和期望值之间存在一个差值。可以从输出节点回溯，计算出差值，并且根据每个节点权重公式的导数，计算出每个节点的权重调整值应该是多少。
+- 神经网络训练的实践和学问
+	- 关键部分
+		- 针对特定任务使用何种神经网络架构
+		- 如何获取用于训练的数据
+	- 摘录
+		- > 但是后来发现，（至少对于“类人任务”）最好的方法通常是尝试训练神经网络来“解决端到端的问题”，让它自己“发现”必要的中间特征、编码等。
+- embedding
+	- > 可以将嵌入视为一种尝试通过数的数组来表示某些东西“本质”的方法，其特性是“相近的事物”由相近的数表示。
+	- 将词 embedding 数据从多维空间投射到二维空间后，可以观察它们的相似性：
+	  ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403130939233.png)
+	- 如何获得 embedding 数值
+		- 实际上，embedding 就是找出特定“对象”的数值表示。
+		- 以识别手写数字为例，我们需要一个神经网络来做这个识别工作。神经网络最终会给出结果是哪个数字。但是，在这个“最后一步”之前，神经网络会有一些数值用来表示这个输入的手写字图像。我们可以尝试通过获取这些数值，来作为 embedding 的内容。
+		- 神经网络的最后一层就是`softmax`，在这一层之前的数值表示，就是 embedding。
+	- 关于 embedding 的泛化
+		- > 我们刚刚谈论了为图像创建特征（并嵌入）的方法，它的基础实际上是通过（根据我们的训练集）确定一些图像是否对应于同一个手写数字来识别它们的相似性。如果我们有一个训练集，可以识别每个图像属于5000种常见物体（如猫、狗、椅子……）中的哪一种，就可以做更多这样的事情。这样，就能以我们对常见物体的识别为“锚点”创建一个图像嵌入，然后根据神经网络的行为“围绕它进行泛化”。关键是，这种行为只要与我们人类感知和解读图像的方式一致，就将最终成为一种“我们认为正确”且在实践中对执行“类人判断”的任务有用的嵌入。
+	- 预测下一个词
+		- 基本原理：embedding 之间，距离越近，它们越相似。
+		- 基于这个原理，GTP 要预测下一个词的时候。它可以基于已经输入的内容生成一个 embedding，然后找到与当前 embedding 相似的 embedding，给出预测。
+		- 实际上，模型中是按照 token 而不是词为单位处理的。**这可能会创造出不存在的词，也可能会有天才般的创作**
+		-
+- ChatGPT 内部原理
+	- 基于 Transformer 架构的神经网路。
+	- RNN 卷积神经网络
+		- 全连接的
+	- [[Attention]] Mechanism
+		- RNN 的问题：RNN 的每一轮计算中，只接受了上一轮的 hidden state。如果轮次多的情况下，RNN cell 会遗忘更早的上下文信息。**RNN 中负责输出的 decoder 缺乏全文上下文意识，更多关注于邻近的前几个词**
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403181149175.png)
+		- Attention 就是给每个`decoder cell`额外添加了一个`context  vector`作为输入，提高了长文的处理能力。
+	- Transformer
+		- 获取下一个 token 要做的事情：
+			- 1：获取当前文本对应的 token
+			- 2：找到 token 对应的 embedding（embedding 通过神经网络计算得出）；
+			- 3：对这个 embedding，再次通过神经网络计算出一个新的 embedding；
+			- 4：获取新的 embedding 的最后一部分，用于生成包含约 50000 个值的数组，这些数组就是下一个 token 的概率。
+		- 其中每一步都是一个经过*端到端*训练确定的神经网络。除了整体的架构之外，所有的细节都是从训练中“学会”的。
+		- Tokenization
+			- 参考学习：
+			  {{twitter https://twitter.com/karpathy/status/1759996549109776702}}
+			- 这里要做的事情就是一个：将输入的文本，通过特定的Tokenizer，转化为 token。然后再将 token 转化为计算机能处理的数值表示。
+			-
+		- embedding 模块
+			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403190932241.png)
+			- 1：input N 个 token 向量，将每个向量通过神经网络转换为embedding
+			- 2：将每个 token 在当前输入中所在的位置，也转换为 embedding
+			- 3：将两个 embedding 值相加，得到**最终的 embedding**。 `embed(token-vale)+enbed(token-positon)`
+			- #+BEGIN_NOTE
+			  为什么要分别 embedding 在相加？不知道，这这是 Google 的人尝试这么做了，发现效果不错。
+			  #+END_NOTE
+			- wolfram：
+				- > 此外，神经网络的学问告诉我们，（在某种意义上）只要我们的设置“大致正确”，通常就可以通过足够的训练来确定细节，而不需要真正“在工程层面上理解”神经网络是如何配置自己的。
+		- gpt attention #Attention
+			- 在上面处理完 token-> embedding之后，就到了 Transformer 中重要的 attention部分。attention 部分其实就是提供了一种语义上的**回溯**能力。
+			- GPT2 有 12 个 attention block，GPT-3 有 96 个 attention block。每一个 attention block 中都有一组 attention head。每个 attention head 都独立地在 embedding
+			-
+			-
+- 衍生阅读
+	- State of GPT
+	-

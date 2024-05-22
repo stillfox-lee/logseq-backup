@@ -2,6 +2,10 @@
 	- LaMDA
 	- langchain
 	- https://bbycroft.net/llm 图形化介绍 LLM 如何工作
+- RAG
+	- https://github.com/NVIDIA/trt-llm-rag-windows NVIDIA 基于 LlanaIndex 搭建的 [[RAG]]
+	- https://github.com/leptonai/search_with_lepton 贾扬清的 [[RAG]] 示例
+	-
 	-
 - AI 相关的一些 [[paper]]
 	- [Meta 的 Toolformer](https://arxiv.org/abs/2302.04761)
@@ -27,6 +31,7 @@
 		- [Adobe Firefly](https://firefly.adobe.com/generate/images)
 		- [AudioGPT](https://twitter.com/dotey/status/1651745422103248897)
 		- https://github.com/tldraw/draw-a-ui draw-to-ui-html
+		- https://github.com/lavague-ai/LaVague 自然语言完成 web 页面的操作（QA）
 		-
 	- 最佳实践
 		- [使用 midjourney 生成 logo](https://www.ebaqdesign.com/blog/midjourney-logo-design#do45l)
@@ -37,6 +42,7 @@
 	- https://github.com/openai/openai-cookbook
 	- [用指令模式，让 GPT 多角度扮演角色进行讨论]( https://twitter.com/Scobleizer/status/1651370329267396608)
 	- [OpenAi 的 prompt 最佳实践](https://platform.openai.com/docs/guides/prompt-engineering)
+	- [沃顿商学院教师和学生使用案例](https://quail.ink/op7418/p/bao-zang-nei-rong-wo-dun-shang-xue-yuan-gei-jiao-shi-he-xue-sheng-de-ti-shi-ci-ku)
 - 商业
 	- OpenAI 投资板块 https://research-assets.cbinsights.com/2023/02/23153811/OpenAI_investmentthesismap_022323V3.png
 	-

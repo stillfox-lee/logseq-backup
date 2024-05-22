@@ -1,0 +1,6 @@
+- 全平台本地 LLM 聊天软件 [Jan](https://github.com/janhq/jan)
+	- 各种设计资源也挺不错的
+	- https://www.figma.com/file/ytn1nRZ17FUmJHTlhmZB9f/Jan-App-(version-1)?type=design&mode=design&t=g6ABf5u3Hg1s2rfo-0
+- AI 相关项目
+	- https://midreal.ai *交互向游戏。设置一个场景，自动续写，用户可以选择发展不同走向。带有分享功能，只能看用户的整个完整故事，要是分享的内容能够基于用户的分叉来继续游戏可能效果会更好。*
+	-

@@ -1,7 +1,11 @@
-- ## 基础概念
+## 基础概念
 	- PV
 	- PVC
 	- StorageClass
+		- 通过 StorageClass 将 PV 与 PVC 绑定，同时 StorageClass 可以指定一个存储插件（Provisioner）
+	- Provisioner（存储插件）
+		- in-tree out-of-tree的区别：out-of-tree 就是非 k8s 内置的插件。
+		- 支持 Dynamic Provisioning 或者是 Static Provisioning
 	- 生命周期相关
 		- 1: Provision
 		- 2: Bind
@@ -100,7 +104,15 @@
 	- ReadOnlyMany —— 多个 node 挂载，只读
 	- ReadWriteMany —— 多个 node 挂载，读写
 	- ReadWriteOncePod —— 只能被一个 Pod 挂载，读写。*粒度不一样了*
--
+- ## PV、PVC 、StorageClass
+	- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202405071234984.png)
+	-
+	- PV 和 PVC 通过 `storageClassName` 关联。
+	- 工作流程：
+		- Attach
+		- Provision
+- ## CSI
+	-
 - [凤凰架构](http://icyfenix.cn/immutable-infrastructure/storage/storage-evolution.html)
 	- docker 的存储演进过程
 		- 最初只有`Bind`的概念。docker 只是为宿主机的磁盘在内部做了一个映射而已。没有管理、隔离。

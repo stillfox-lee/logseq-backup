@@ -1,5 +1,13 @@
 - [[AI]] 相关资料
 - [[数字身份]]
+- 一些工具库
+	- https://github.com/Filimoa/open-parse #OCR
+	- https://www.mikeborozdin.com/post/json-streaming-from-openai 处理 streaming json 数据
+	- 抓取URL，将正文转换为良好的Markdown格式的工具：
+		- jina reader (open source): [https://github.com/jina-ai/reader/](https://t.co/Ug864iMX1v)
+		- [https://markdowndown.vercel.app](https://t.co/buDyt3ixUJ)
+		- Web-scraper(open source): [https://github.com/zzzgydi/webscraper…](https://t.co/inuuZWQlwt)
+		- code-html-to-markdown: [https://github.com/SivilTaram/code-html-to-markdown…](https://t.co/PsxPWBkOKf) （偏向于更好地处理代码块）
 - 性能
 	- [bgregg性能问题速查手册](https://www.brendangregg.com/Articles/Netflix_Linux_Perf_Analysis_60s.pdf)
 	- 书籍
@@ -26,6 +34,8 @@
 		- [package-cloud 关于网络收发数据的文章](https://blog.packagecloud.io/monitoring-tuning-linux-networking-stack-receiving-data/)
 		- [tcp协议原理总结](https://writings.sh/post/network-tcp)
 		-
+	- [[CPU]]
+		- https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/6_CPU_Scheduling.html *CPU调度的讲义*
 		-
 	- 编译
 		- **Python Conference** 如何在 30 分钟写一个[[jit]]编译器 [video](https://www.youtube.com/watch?v=DKns_rH8rrg)
