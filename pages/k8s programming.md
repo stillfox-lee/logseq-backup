@@ -203,7 +203,7 @@
 			  versionPriority: 20
 			  ```
 	- Custom API Server 的结构
-		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20221124104210.png)
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/20221124104210.png){:height 482, :width 718}
 		-
 	- apiextensions-apiserver —— 为 CRD 提供服务
 	-

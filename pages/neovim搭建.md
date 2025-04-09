@@ -13,6 +13,11 @@
 	- buffer 的切换快捷键
 	- golang gd find
 - ## Plugin
+	- nvim-cmp
+		- 在展示 sinppet的时候，move 快捷键无效。
+		- Insert 模式下 `ctl+A`无效
+		- 有snippet 的情况下，enter 键会失去“回车”，而变成了“确认”。
+		- surround 输入`"`的时候，一定会强制输入两个。
 	- neo-tree
 		- 快捷键
 			- `shift+h` 展示所有隐藏文件

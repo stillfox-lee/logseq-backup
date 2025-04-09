@@ -25,6 +25,10 @@
 		- OCR
 	- 个人生词本
 	- [如何用 ChatGPT 学习英语](https://www.youtube.com/watch?v=-IBxIXBaei8&t=3s)
+- AI 辅助编程类的产品和工具
+	- https://github.com/BloopAI/bloop?tab=readme-ov-file *tree-sitter+full text search* 做 repo 级别的搜索和问答
+	- https://github.com/SilasMarvin/lsp-ai *AI LSP server*
+	-
 - AIGC
 	- 产品
 		- [copilot hub](https://app.copilothub.co/) 训练特定的人，让你和它聊天。（乔布斯、马斯克）

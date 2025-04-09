@@ -20,7 +20,8 @@
 	- GTP-3 部分人员离开，建立Anthropic。提出论文《A General Language Assistant as a Laboratory for Alignment》。推出 Claude。
 	- 《Emergent Abilities of Large Language Models》论文指出，模型参数达到一定量级之后，才会有`涌现`能力。
 - 预测下一个词
-	- 在文本生成的场景中，输入一段文本。让模型做到一个事情：“基于当前的上下文，最合理的下一个词是什么”。如此反复，就能生成文本内容了。
+	- 在文本生成的场景中，输入一段文本。让模型做到一个事情：“基于当前的上下文，最**合理**的下一个词是什么”。如此反复，就能生成文本内容了。
+	-
 	- 概率如何得到
 		- 一个简单的问题：考虑逐字母（而非逐词）地生成英文文本。怎样才能计算出每个字母应当出现的概率呢？
 		- 解法是：通过足够大的英文样本，得到每个字母的概率，按照概率来选择下一个字母。这样生成的内容基本没有意义。然后作者考虑使用二元字母（o 后面跟随字母的概率）来生成，效果会更好一点。
@@ -88,7 +89,7 @@
 		- 全连接的
 	- [[Attention]] Mechanism
 		- RNN 的问题：RNN 的每一轮计算中，只接受了上一轮的 hidden state。如果轮次多的情况下，RNN cell 会遗忘更早的上下文信息。**RNN 中负责输出的 decoder 缺乏全文上下文意识，更多关注于邻近的前几个词**
-		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403181149175.png)
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202403181149175.png){:height 406, :width 718}
 		- Attention 就是给每个`decoder cell`额外添加了一个`context  vector`作为输入，提高了长文的处理能力。
 	- Transformer
 		- 获取下一个 token 要做的事情：
