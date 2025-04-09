@@ -1,0 +1,875 @@
+{:blocks (
+{:block/content "kubelet 负责为 Pod 在 node 创建目录，然后根据 Volume 类型"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/properties 
+{}
+:block/uuid #uuid "6662bbae-cabb-447e-8636-65f776c12746"} 
+{:block/created-at 1717746690172
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:blockType "B"
+:stroke ""
+:collapsed false
+:borderRadius 8
+:index 0
+:scale [1 1]
+:pageId "6662bbae-cabb-447e-8636-65f776c12746"
+:scaleLevel "md"
+:fill ""
+:compact true
+:isAutoResizing true
+:type "logseq-portal"
+:size [400 65]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "8ca61050-24a2-11ef-b713-c3ff4ccbfc36"
+:noFill false
+:point [168 184]
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:collapsedHeight 0
+:nonce 1717746603480}}
+:block/updated-at 1717746690172} 
+{:block/created-at 1717747387520
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:stroke ""
+:rotation 0
+:borderRadius 2
+:index 1
+:scale [1 1]
+:scaleLevel "md"
+:fill ""
+:type "box"
+:size [288 192]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:label "两阶段处理：\n- Attach 负责将 device 挂到 node\n- Mount 负责将 device 格式化挂载到 node 指定目录\n目录就是 Pod 对应的目录"
+:id "ec866fb0-24a2-11ef-b713-c3ff4ccbfc36"
+:fontWeight 400
+:noFill false
+:point [176 352]
+:fontSize 20
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717746765031
+:italic false}}
+:block/updated-at 1717747387520} 
+{:block/content ""
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662bbae-cabb-447e-8636-65f776c12746"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be6b-e452-42da-8984-d87954c80a5b"} 
+{:block/content "两阶段处理："
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be6d-aa1b-4184-9e35-06b563f617ec"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be6c-f067-494f-9f97-eb46c8f6d3dd"} 
+{:block/content "Attach 负责将 device 挂到 node"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be6c-f067-494f-9f97-eb46c8f6d3dd"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be6c-ed01-4066-a362-efc69c6adba3"} 
+{:block/content "Mount 负责将 device 格式化挂载到 node 指定目录"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be6c-ed01-4066-a362-efc69c6adba3"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be6c-3dfe-4f86-82d9-34b901f0eae0"} 
+{:block/content "两阶段处理："
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be75-0731-453c-86e7-7e57996685a3"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be6d-bf0c-4796-981f-f9bc08c0a204"} 
+{:block/content "Attach 负责将 device 挂到 node"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be6d-bf0c-4796-981f-f9bc08c0a204"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be6d-b072-481b-a656-9fff3389e503"} 
+{:block/content "Mount 负责将 device 格式化挂载到 node 指定目录"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be6d-b072-481b-a656-9fff3389e503"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be6d-aa1b-4184-9e35-06b563f617ec"} 
+{:block/content "两阶段处理："
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be76-f6ff-4a64-8eb8-dbf379e9bf05"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be75-a6fc-478d-aac7-974c9b2b250f"} 
+{:block/content "Attach 负责将 device 挂到 node"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be75-a6fc-478d-aac7-974c9b2b250f"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be75-8f30-4526-a7f4-3b93f0e71e61"} 
+{:block/content "Mount 负责将 device 格式化挂载到 node 指定目录"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be75-8f30-4526-a7f4-3b93f0e71e61"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be75-0731-453c-86e7-7e57996685a3"} 
+{:block/content "两阶段处理："
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be76-af50-4ced-97bb-d7f6ad6d37d8"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be76-6007-4084-a893-2e9ba4d9e6d2"} 
+{:block/content "Attach 负责将 device 挂到 node"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be76-6007-4084-a893-2e9ba4d9e6d2"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be76-a278-4bed-9dda-a418bf660fce"} 
+{:block/content "Mount 负责将 device 格式化挂载到 node 指定目录"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be76-a278-4bed-9dda-a418bf660fce"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be76-f6ff-4a64-8eb8-dbf379e9bf05"} 
+{:block/content "两阶段处理："
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be6b-e452-42da-8984-d87954c80a5b"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be76-899a-4c4b-8581-25de4296f2b0"} 
+{:block/content "Attach 负责将 device 挂到 node"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be76-899a-4c4b-8581-25de4296f2b0"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be76-f32c-4a2a-8cea-279403bf4fd5"} 
+{:block/content "Mount 负责将 device 格式化挂载到 node 指定目录"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be76-f32c-4a2a-8cea-279403bf4fd5"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662be76-af50-4ced-97bb-d7f6ad6d37d8"} 
+{:block/created-at 1717747519597
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:stroke ""
+:borderRadius 2
+:index 2
+:scale [1 1]
+:scaleLevel "md"
+:fill ""
+:type "box"
+:size [112 80]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:label "kube-controller-manager"
+:id "6e1919f0-24a4-11ef-b713-c3ff4ccbfc36"
+:fontWeight 400
+:noFill false
+:point [664 328]
+:fontSize 20
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717747411474
+:italic false}}
+:block/updated-at 1717747519597} 
+{:block/created-at 1717747456611
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:stroke ""
+:borderRadius 2
+:index 3
+:scale [1 1]
+:refs []
+:scaleLevel "md"
+:fill ""
+:type "box"
+:size [112 80]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:label "Volume Controller"
+:id "83a1f300-24a4-11ef-b713-c3ff4ccbfc36"
+:fontWeight 400
+:noFill false
+:point [884 328]
+:fontSize 20
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717747447374
+:italic false}}
+:block/updated-at 1717747456611} 
+{:block/created-at 1717747519597
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:stroke ""
+:index 4
+:scale [1 1]
+:fill ""
+:type "line"
+:strokeType "line"
+:strokeWidth 1
+:opacity 1
+:label ""
+:id "83a1f301-24a4-11ef-b713-c3ff4ccbfc36"
+:fontWeight 400
+:noFill true
+:point [777 368]
+:fontSize 20
+:handles 
+{:start 
+{:id "start"
+:canBind true
+:point [0 0]
+:bindingId "83a1f302-24a4-11ef-b713-c3ff4ccbfc36"}
+:end 
+{:id "end"
+:canBind true
+:point [103 0]
+:bindingId "83a21a10-24a4-11ef-b713-c3ff4ccbfc36"}}
+:decorations 
+{:end "arrow"}
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717747447351
+:italic false}}
+:block/updated-at 1717747519597} 
+{:block/created-at 1717747479331
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:stroke ""
+:borderRadius 2
+:index 5
+:scale [1 1]
+:refs []
+:scaleLevel "md"
+:fill ""
+:type "box"
+:size [112 80]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:label "AttachDetachController"
+:id "90425f00-24a4-11ef-b713-c3ff4ccbfc36"
+:fontWeight 400
+:noFill false
+:point [1096 328]
+:fontSize 20
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717747468550
+:italic false}}
+:block/updated-at 1717747479331} 
+{:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:stroke ""
+:index 6
+:scale [1 1]
+:fill ""
+:type "line"
+:strokeType "line"
+:strokeWidth 1
+:opacity 1
+:label ""
+:id "90425f01-24a4-11ef-b713-c3ff4ccbfc36"
+:fontWeight 400
+:noFill true
+:point [940 368]
+:fontSize 20
+:handles 
+{:start 
+{:id "start"
+:canBind true
+:point [0 0]
+:bindingId "90428610-24a4-11ef-b713-c3ff4ccbfc36"}
+:end 
+{:id "end"
+:canBind true
+:point [212 0]
+:bindingId "90428611-24a4-11ef-b713-c3ff4ccbfc36"}}
+:decorations 
+{:end "arrow"}
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717747468529
+:italic false}}
+:block/updated-at 1717747468531} 
+{:block/content "master 节点"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662be6c-3dfe-4f86-82d9-34b901f0eae0"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/properties 
+{}
+:block/uuid #uuid "6662bf4d-ad3c-42d5-94c6-fba8d575b05f"} 
+{:block/created-at 1717747533557
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:blockType "B"
+:stroke ""
+:collapsed false
+:borderRadius 8
+:index 7
+:scale [1 1]
+:pageId "6662bf4d-ad3c-42d5-94c6-fba8d575b05f"
+:scaleLevel "md"
+:fill ""
+:compact true
+:isAutoResizing true
+:type "logseq-portal"
+:size [400 41]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "b63d1e70-24a4-11ef-b713-c3ff4ccbfc36"
+:noFill false
+:point [704 280]
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:collapsedHeight 0
+:nonce 1717747532250}}
+:block/updated-at 1717747533557} 
+{:block/created-at 1717747601339
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:isSizeLocked true
+:stroke ""
+:borderRadius 0
+:index 8
+:scale [1 1]
+:scaleLevel "md"
+:fill ""
+:type "text"
+:size [79 34]
+:fontFamily "var(--ls-font-family)"
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "d5eb7870-24a4-11ef-b713-c3ff4ccbfc36"
+:padding 4
+:fontWeight 400
+:noFill true
+:point [672 504]
+:lineHeight 1.2
+:fontSize 20
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717747585413
+:italic false
+:text "kubelet"}}
+:block/updated-at 1717747601339} 
+{:block/created-at 1717747636847
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:isSizeLocked true
+:stroke ""
+:borderRadius 0
+:index 9
+:scale [1 1]
+:scaleLevel "md"
+:fill ""
+:type "text"
+:size [252 34]
+:fontFamily "var(--ls-font-family)"
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "e921d600-24a4-11ef-b713-c3ff4ccbfc36"
+:padding 4
+:fontWeight 400
+:noFill true
+:point [800 504]
+:lineHeight 1.2
+:fontSize 20
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717747617778
+:italic false
+:text "VolumeManagerReconciler"}}
+:block/updated-at 1717747636847} 
+{:block/content "Dynaimc Provisioning\nStorageClass"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662bf4d-ad3c-42d5-94c6-fba8d575b05f"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/properties 
+{}
+:block/uuid #uuid "6662bfd6-1e6f-4cd4-ae59-083922949202"} 
+{:block/created-at 1717747682390
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:blockType "B"
+:stroke ""
+:collapsed false
+:borderRadius 8
+:index 10
+:scale [1 1]
+:pageId "6662bfd6-1e6f-4cd4-ae59-083922949202"
+:scaleLevel "md"
+:fill ""
+:compact true
+:isAutoResizing true
+:type "logseq-portal"
+:size [400 65]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "07f5fca0-24a5-11ef-b713-c3ff4ccbfc36"
+:noFill false
+:point [576 648]
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:collapsedHeight 0
+:nonce 1717747669357}}
+:block/updated-at 1717747682390} 
+{:block/content "```yaml\napiVersion: storage.k8s.io/v1\nkind: StorageClass\nmetadata:\n  annotations:\n    kubectl.kubernetes.io/last-applied-configuration: |\n      {\"apiVersion\":\"storage.k8s.io/v1\",\"kind\":\"StorageClass\",\"metadata\":{\"annotations\":{},\"name\":\"nfs-client\"},\"mountOptions\":[\"vers=3\"],\"parameters\":{\"archiveOnDelete\":\"false\"},\"provisioner\":\"52tt.io/overlay-nfs-provisioner\"}\n  creationTimestamp: \"2023-06-19T11:01:30Z\"\n  name: nfs-client\n  resourceVersion: \"57432706\"\n  uid: c6c1f935-e9c4-4278-b092-37c93d7bdd73\nmountOptions:\n- vers=3\nparameters:\n  archiveOnDelete: \"false\"\nprovisioner: 52tt.io/overlay-nfs-provisioner\nreclaimPolicy: Delete\nvolumeBindingMode: Immediate\n```"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662bfd6-1e6f-4cd4-ae59-083922949202"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/properties 
+{}
+:block/uuid #uuid "6662c03d-c97a-4337-b15c-0fe611d91e27"} 
+{:block/created-at 1717747803523
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:blockType "B"
+:stroke ""
+:collapsed false
+:borderRadius 8
+:index 11
+:scale [1 1]
+:pageId "6662c03d-c97a-4337-b15c-0fe611d91e27"
+:scaleLevel "md"
+:fill ""
+:compact true
+:isAutoResizing true
+:type "logseq-portal"
+:size [400 688.8671875]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "455b7480-24a5-11ef-b713-c3ff4ccbfc36"
+:noFill false
+:point [696 744]
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:collapsedHeight 0
+:nonce 1717747772509}}
+:block/updated-at 1717747803523} 
+{:block/content "apiVersion: storage.k8s.io/v1\nkind: StorageClass\nmetadata:\n  annotations:\n    kubectl.kubernetes.io/last-applied-configuration: |\n      {\"apiVersion\":\"storage.k8s.io/v1\",\"kind\":\"StorageClass\",\"metadata\":{\"annotations\":{},\"name\":\"nfs-client\"},\"mountOptions\":[\"vers=3\"],\"parameters\":{\"archiveOnDelete\":\"false\"},\"provisioner\":\"52tt.io/overlay-nfs-provisioner\"}\n  creationTimestamp: \"2023-06-19T11:01:30Z\"\n  name: nfs-client\n  resourceVersion: \"57432706\"\n  uid: c6c1f935-e9c4-4278-b092-37c93d7bdd73\nmountOptions:"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c03f-6777-444d-9236-f36a28b8eff8"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662c03e-0383-4c70-9928-5e0c74b18e42"} 
+{:block/content "vers=3\nparameters:\narchiveOnDelete: \"false\"\nprovisioner: 52tt.io/overlay-nfs-provisioner\nreclaimPolicy: Delete\nvolumeBindingMode: Immediate"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c03e-0383-4c70-9928-5e0c74b18e42"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662c03e-ef16-47b8-9d21-69ffaac392e9"} 
+{:block/content "apiVersion: storage.k8s.io/v1\nkind: StorageClass\nmetadata:\n  annotations:\n    kubectl.kubernetes.io/last-applied-configuration: |\n      {\"apiVersion\":\"storage.k8s.io/v1\",\"kind\":\"StorageClass\",\"metadata\":{\"annotations\":{},\"name\":\"nfs-client\"},\"mountOptions\":[\"vers=3\"],\"parameters\":{\"archiveOnDelete\":\"false\"},\"provisioner\":\"52tt.io/overlay-nfs-provisioner\"}\n  creationTimestamp: \"2023-06-19T11:01:30Z\"\n  name: nfs-client\n  resourceVersion: \"57432706\"\n  uid: c6c1f935-e9c4-4278-b092-37c93d7bdd73\nmountOptions:"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c03d-c97a-4337-b15c-0fe611d91e27"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662c03f-3cc1-4377-a2f4-f1d15174fbdc"} 
+{:block/content "vers=3\nparameters:\narchiveOnDelete: \"false\"\nprovisioner: 52tt.io/overlay-nfs-provisioner\nreclaimPolicy: Delete\nvolumeBindingMode: Immediate"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c03f-3cc1-4377-a2f4-f1d15174fbdc"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662c03f-6777-444d-9236-f36a28b8eff8"} 
+{:block/created-at 1717748093977
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:isSizeLocked true
+:stroke ""
+:borderRadius 0
+:index 12
+:scale [1 1]
+:scaleLevel "md"
+:fill ""
+:type "text"
+:size [312 58]
+:fontFamily "var(--ls-font-family)"
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "69034340-24a5-11ef-b713-c3ff4ccbfc36"
+:padding 4
+:fontWeight 400
+:noFill true
+:point [1136 1160]
+:lineHeight 1.2
+:fontSize 20
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717747832491
+:italic false
+:text "provisioner 就是plugin 的 name，\n通过它来指定存储插件"}}
+:block/updated-at 1717748093977} 
+{:block/created-at 1717748093979
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:isSizeLocked true
+:stroke ""
+:borderRadius 0
+:index 13
+:scale [1 1]
+:scaleLevel "md"
+:fill ""
+:type "text"
+:size [223 34]
+:fontFamily "var(--ls-font-family)"
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "8391d0f0-24a5-11ef-b713-c3ff4ccbfc36"
+:padding 4
+:fontWeight 400
+:noFill true
+:point [1144 1248]
+:lineHeight 1.2
+:fontSize 20
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717747876776
+:italic false
+:text "paramters 是 PV 的参数"}}
+:block/updated-at 1717748093979} 
+{:block/content "CSI 工作原理：\n![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202406071615083.png)"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c03e-ef16-47b8-9d21-69ffaac392e9"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/properties 
+{}
+:block/uuid #uuid "6662c1c8-88dd-4e25-af15-75f9bcf1c09c"} 
+{:block/created-at 1717748264715
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:blockType "B"
+:stroke ""
+:rotation 0
+:collapsed false
+:borderRadius 8
+:index 14
+:scale [1 1]
+:pageId "6662c1c8-88dd-4e25-af15-75f9bcf1c09c"
+:scaleLevel "md"
+:fill ""
+:compact true
+:isAutoResizing true
+:type "logseq-portal"
+:size [664 544.59375]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "305dcf00-24a6-11ef-b713-c3ff4ccbfc36"
+:noFill false
+:point [1384 400]
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:collapsedHeight 0
+:nonce 1717748166830}}
+:block/updated-at 1717748264715} 
+{:block/content ""
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c1c8-88dd-4e25-af15-75f9bcf1c09c"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/uuid #uuid "6662c242-47be-4d50-8f8f-df23bcb9218f"} 
+{:block/content "CSI 组件：\n![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202406071618278.png)"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c242-47be-4d50-8f8f-df23bcb9218f"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/properties 
+{}
+:block/uuid #uuid "6662c24f-8ed1-47a6-ac75-28c011db144f"} 
+{:block/created-at 1717749547302
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:blockType "B"
+:stroke ""
+:rotation 0
+:collapsed false
+:borderRadius 8
+:index 15
+:scale [1 1]
+:pageId "6662c24f-8ed1-47a6-ac75-28c011db144f"
+:scaleLevel "md"
+:fill ""
+:compact true
+:isAutoResizing true
+:type "logseq-portal"
+:size [760 407.1171875]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "7e16cfd0-24a6-11ef-b713-c3ff4ccbfc36"
+:noFill false
+:point [2088 448]
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:collapsedHeight 0
+:nonce 1717748297841}}
+:block/updated-at 1717749547302} 
+{:block/content "Driver Registrar \n将 plugin 注册到 kubelet，它请求 **CSI Identity**服务获取 plugin 信息。"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c24f-8ed1-47a6-ac75-28c011db144f"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/properties 
+{}
+:block/uuid #uuid "6662c72d-4ced-478c-98d8-934524766868"} 
+{:block/created-at 1717749677670
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:blockType "B"
+:stroke ""
+:collapsed false
+:borderRadius 8
+:index 16
+:scale [1 1]
+:pageId "6662c72d-4ced-478c-98d8-934524766868"
+:scaleLevel "md"
+:fill ""
+:compact true
+:isAutoResizing true
+:type "logseq-portal"
+:size [400 89]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "68134120-24a9-11ef-b713-c3ff4ccbfc36"
+:noFill false
+:point [2128 888]
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:collapsedHeight 0
+:nonce 1717749548815}}
+:block/updated-at 1717749677670} 
+{:block/content "External Provisioner \n在 Provision 阶段，watch APIServer 中的 PVC 创建。然后调用 **CSI Controller.CreateVolume**，实现创建 PV。"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c72d-4ced-478c-98d8-934524766868"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/properties 
+{}
+:block/uuid #uuid "6662c7af-da44-4ae6-8415-bf4c880c7395"} 
+{:block/created-at 1717749755075
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:blockType "B"
+:stroke ""
+:collapsed false
+:borderRadius 8
+:index 17
+:scale [1 1]
+:pageId "6662c7af-da44-4ae6-8415-bf4c880c7395"
+:scaleLevel "md"
+:fill ""
+:compact true
+:isAutoResizing true
+:type "logseq-portal"
+:size [400 113]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "b5957a80-24a9-11ef-b713-c3ff4ccbfc36"
+:noFill false
+:point [2568 888]
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:collapsedHeight 0
+:nonce 1717749678882}}
+:block/updated-at 1717749755075} 
+{:block/content "External  Attacher\n负责处理 Attach 阶段，watch APIServer 的 Volume Attachment对象创建。调用**CSI Controller.ControllerPublish** 完成 Attach"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c7af-da44-4ae6-8415-bf4c880c7395"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/properties 
+{}
+:block/uuid #uuid "6662c953-b859-41a0-994c-f3e9468752d6"} 
+{:block/created-at 1717751264842
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:blockType "B"
+:stroke ""
+:collapsed false
+:borderRadius 8
+:index 18
+:scale [1 1]
+:pageId "6662c953-b859-41a0-994c-f3e9468752d6"
+:scaleLevel "md"
+:fill ""
+:compact true
+:isAutoResizing true
+:type "logseq-portal"
+:size [400 113]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "af9dcf50-24aa-11ef-b713-c3ff4ccbfc36"
+:noFill false
+:point [2120 1016]
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:collapsedHeight 0
+:nonce 1717750098296}}
+:block/updated-at 1717751264842} 
+{:block/created-at 1717752177939
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:isSizeLocked true
+:stroke ""
+:borderRadius 0
+:index 19
+:scale [1 1]
+:scaleLevel "md"
+:fill ""
+:type "text"
+:size [449 58]
+:fontFamily "var(--ls-font-family)"
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "f6b10010-24aa-11ef-b713-c3ff4ccbfc36"
+:padding 4
+:fontWeight 400
+:noFill true
+:point [2592 1064]
+:lineHeight 1.2
+:fontSize 20
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:nonce 1717750217616
+:italic false
+:text "Mount 阶段则是由 kubelet 通过pkg/volume/csi，\n调用 CSI Node 服务完成 Mount。"}}
+:block/updated-at 1717752177939} 
+{:block/content "## 部署\n**External Components** 作为sidecar 与 CSI plugin 放在同一个 Pod 中。"
+:block/format :markdown
+:block/left 
+{:block/uuid #uuid "6662c953-b859-41a0-994c-f3e9468752d6"}
+:block/parent 
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"}
+:block/properties 
+{:heading 2}
+:block/uuid #uuid "6662ca8b-93a3-4248-ac8d-fd83098b1290"} 
+{:block/created-at 1717750529646
+:block/properties 
+{:ls-type :whiteboard-shape
+:logseq.tldraw.shape 
+{:blockType "B"
+:stroke ""
+:collapsed false
+:borderRadius 8
+:index 20
+:scale [1 1]
+:pageId "6662ca8b-93a3-4248-ac8d-fd83098b1290"
+:scaleLevel "md"
+:fill ""
+:compact true
+:isAutoResizing true
+:type "logseq-portal"
+:size [400 40]
+:strokeType "line"
+:strokeWidth 2
+:opacity 1
+:id "69a1be70-24ab-11ef-b713-c3ff4ccbfc36"
+:noFill false
+:point [2544 192]
+:parentId "66612033-b5c5-456c-be65-99ae88b5dce7"
+:collapsedHeight 0
+:nonce 1717750410207}}
+:block/updated-at 1717750529646})
+:pages (
+{:block/uuid #uuid "66612033-b5c5-456c-be65-99ae88b5dce7"
+:block/properties 
+{:ls-type :whiteboard-page
+:logseq.tldraw.page 
+{:id "66612033-b5c5-456c-be65-99ae88b5dce7"
+:name "k8s csi plugin"
+:bindings 
+{:83a1f302-24a4-11ef-b713-c3ff4ccbfc36 
+{:id "83a1f302-24a4-11ef-b713-c3ff4ccbfc36"
+:type "line"
+:fromId "83a1f301-24a4-11ef-b713-c3ff4ccbfc36"
+:toId "6e1919f0-24a4-11ef-b713-c3ff4ccbfc36"
+:handleId "start"
+:point [0.5 0.5]
+:distance 4}
+:83a21a10-24a4-11ef-b713-c3ff4ccbfc36 
+{:id "83a21a10-24a4-11ef-b713-c3ff4ccbfc36"
+:type "line"
+:fromId "83a1f301-24a4-11ef-b713-c3ff4ccbfc36"
+:toId "83a1f300-24a4-11ef-b713-c3ff4ccbfc36"
+:handleId "end"
+:point [0.5 0.5]
+:distance 4}
+:90428610-24a4-11ef-b713-c3ff4ccbfc36 
+{:id "90428610-24a4-11ef-b713-c3ff4ccbfc36"
+:type "line"
+:fromId "90425f01-24a4-11ef-b713-c3ff4ccbfc36"
+:toId "83a1f300-24a4-11ef-b713-c3ff4ccbfc36"
+:handleId "start"
+:point [0.5 0.5]
+:distance 4}
+:90428611-24a4-11ef-b713-c3ff4ccbfc36 
+{:id "90428611-24a4-11ef-b713-c3ff4ccbfc36"
+:type "line"
+:fromId "90425f01-24a4-11ef-b713-c3ff4ccbfc36"
+:toId "90425f00-24a4-11ef-b713-c3ff4ccbfc36"
+:handleId "end"
+:point [0.5 0.5]
+:distance 4}}
+:nonce 1
+:assets []
+:shapes-index ("8ca61050-24a2-11ef-b713-c3ff4ccbfc36" "ec866fb0-24a2-11ef-b713-c3ff4ccbfc36" "6e1919f0-24a4-11ef-b713-c3ff4ccbfc36" "83a1f300-24a4-11ef-b713-c3ff4ccbfc36" "83a1f301-24a4-11ef-b713-c3ff4ccbfc36" "90425f00-24a4-11ef-b713-c3ff4ccbfc36" "90425f01-24a4-11ef-b713-c3ff4ccbfc36" "b63d1e70-24a4-11ef-b713-c3ff4ccbfc36" "d5eb7870-24a4-11ef-b713-c3ff4ccbfc36" "e921d600-24a4-11ef-b713-c3ff4ccbfc36" "07f5fca0-24a5-11ef-b713-c3ff4ccbfc36" "455b7480-24a5-11ef-b713-c3ff4ccbfc36" "69034340-24a5-11ef-b713-c3ff4ccbfc36" "8391d0f0-24a5-11ef-b713-c3ff4ccbfc36" "305dcf00-24a6-11ef-b713-c3ff4ccbfc36" "7e16cfd0-24a6-11ef-b713-c3ff4ccbfc36" "68134120-24a9-11ef-b713-c3ff4ccbfc36" "b5957a80-24a9-11ef-b713-c3ff4ccbfc36" "af9dcf50-24aa-11ef-b713-c3ff4ccbfc36" "f6b10010-24aa-11ef-b713-c3ff4ccbfc36" "69a1be70-24ab-11ef-b713-c3ff4ccbfc36")}}
+:block/updated-at 1717752177939
+:block/created-at 1717641267598
+:block/type "whiteboard"
+:block/name "k8s csi plugin"
+:block/original-name "k8s csi plugin"})}

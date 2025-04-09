@@ -1,0 +1,81 @@
+- 相关性
+	- >有关这类搜索应用的相关性，其基本定义来源于为图书馆组织信息而建立的解决方案。例如，在医学上，如图1.2所示的Medical Subject Headings（医学主题词表，简称MeSH）分类法，对医学概念进行了有效组织，以帮助人们获得有关同义或近义主题词的信息。对专家搜索而言，相关性意味着，在搜索查询与被搜索内容之间，将主题词与所要讨论的话题审慎关联起来。一个具备相关性的搜索结果就像是给被难住的研究人员带来的“灵光乍现”（“Aha！”moment）—一种他们自己不太容易找到的“顿悟”
+	- **相关性是一种改进用户搜索结果的实践，它在用户体验的具体上下文中满足用户的信息需求，同时平衡排名对业务需求的影响。**
+	- 如何解决相关性
+		- 识别能够刻画内容、用户或者搜索查询的关键特征
+		- 通过对特征的提取和对内容的丰富，想办法让搜索引擎理解这些特征
+		- 在搜索期间，通过构造信号来对用户搜索的相关性加以度量
+		- 在对结果进行排名时，通过控制排名函数，仔细平衡多个信号之间的影响。
+- 搜索引擎
+	- 倒排索引（inverted index）
+		- 词典（term dictionary）
+		- 倒排表（posting list）
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202407272122563.png)
+		- 其他关键的元数据和数据结构
+			- **文档频率** —— 包含某个词的文档数量
+			- **词频** —— 一个词在某篇文档中出现的次数
+			- **词位置** —— 一个词在谋篇文档中出现的位置列表：`[3,5,10]`。这在`短语匹配`(phrase match)中特别重要：查询 `dress AND shoes` 和查询 `dress shoes` 的语义是不同的，有了词位置数据才能给搜索 `dress shoes` 返回准确的数据。
+			- **词偏移量** —— 为用户提供反馈（高亮）场景使用。
+			- **payload** —— 可以为词添加任意关联数据。例如`词性`(part of speech)，例如*评价值*。
+- ETL (extract、transform、load) 提取、转换、加载
+	- 在搜索引擎中，ETL 这一流程中通常包含这几个动作：`extraction`（提取）--> `enrichment`（充实）--> `analysis`（分析）--> `indexing`（索引）。 *Indexing 指的是将数据存储到搜索引擎的数据结构中。*
+	- **enrichment 环节**
+		- 清理数据
+			- 修正数据中的错误部分
+			- 去重数据
+		- 强化已有数据（augmenting）
+			- 基于机器学习的`分类`（classify）、 `聚类`（cluster）
+			- 基于机器学习的`情感分析`（sentiment analysis）
+			- 各种可以为文档添加`特征`的元数据处理
+		- 合并外部数据
+	- **analysis 环节**
+		- analysis 就是将文本（或者其他格式的数据）转换为 token 的过程。如何转化 token，决定了搜索引擎如何执行匹配。
+			- *搜索引擎的查询，无非就是将输入的文本转换为 token，将 token 索引中的 token 进行匹配，再返回结果。*
+			- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202407282216528.png)
+		- analysis 的3 个步骤
+			- `字符过滤` (character filtering)
+				- 按照业务的相关性，对数据进行过滤。
+				- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202407282230505.png)
+				-
+			- `分词处理`（tokenization）
+				- **在分析链上，只可能有一个 tokenizer。**
+				- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202407282232970.png){:height 172, :width 516}
+			- `token 过滤` (token filtering)
+				- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202407282233557.png)
+		- 在分析阶段，通常会将一些额外的 metadata 与 token 一起保存。例如`词位置`，`词偏移量`。
+	- 索引
+		- 索引的过程指的是：利用提取到的 token对倒排索引加以更新。
+		- 在这个阶段，必须想清楚哪些字段需要索引，哪些字段需要存储，哪些字段需要索引同时存储。
+		- `存储`指的是保留未经改动的文档内容，将其存入`存储字段`的数据结构中。为了优化，在工程上也可以存储原始文档的一个引用，在需要返回的时候再次执行外部查询即可。
+		-
+- 文档的搜索和获取
+	- 布尔搜索 `AND/OR/NOT`
+	-
+	-
+- 调试相关性问题
+	- 通过 tmdb 数据构建索引，实现一个电影搜索的应用。
+	- 输入`“basketball with cartoon aliens”`，期望找到的电影是`《Space Jam》`。用户尝试通过一个描述性的查询，搜索一部电影。
+	- 第一次搜索优化
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202407282319194.png)
+		- 通过分析发现，tokenizer 有问题：将 with 这种无意义token 放入了索引中，导致《Fire with Fire》、《Dances with Wolves》无关内容被匹配上了。
+		- 通过优化 tokenizer（选用英文 tokenizer），优化的结果如下：
+		  ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202407282332963.png)
+	- 进行相关性排名优化
+		- 分析问题：《Alien》、《Aliens》、《The Basketball Diaries》这种无关的电影排名在《Space Jam》前面。这个是不符合预期的。
+		- **需要找到一个方法，对相关性进行分析。**
+		- 通过向量计算相关性 #embedding
+		  id:: 66a707d3-2ae4-43c9-9372-dbd1a36b7dbe
+			- 通过`向量空间`来代表某个`特征空间`，用`维度`来代表物体的各种特征，每个向量维度都是一个特征。物体就可以通过计算空间中的向量值，来表征它在这个特征空间下的特征值。进而，我们可以通过计算两个物体的向量点积，来确定两个物体的相似度。
+			- 以水果为例说明向量相似性的解决方案
+				- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202407291135309.png)
+				- 将水果的相关性简单抽象为：果汁含量、尺寸两个维度特征。如果两个水果的坐标越近，那么它们的特征就越相似。在数学上可以通过计算两种水果的`向量点积`来判断相似度：`dotprod(fruit1, fruit2) = juiciness(fruit1) * juiciness(fruit2) + size(fruit1) * size(fruit2)` 。水果的共性越多，点积值越大。
+				- *这里只抽象了大小、果汁含量两个维度的特征，实际可以建立更多维度的特征来计算向量点积值。*
+			- 文本向量
+				- `词袋模型`（bag of words model ） BoW
+					- 以英语作为一个特征空间，每个单词都有可能是一个维度。
+	-
+- 驾驭 token
+	- tokenization 其实就是提取特征。前面说到的 `analysis` 过程其实也是在分析用户的意图。
+	-
+	-
+	-
