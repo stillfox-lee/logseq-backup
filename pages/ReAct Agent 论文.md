@@ -1,0 +1,13 @@
+- ![ReActPaper.pdf](../assets/ReActPaper_1745283758608_0.pdf)
+- ((6806eb41-70c8-4326-bb7f-e2be01cce8ea))
+- > 在本文中，我们探索使用 LLMs 以**交错方式**生成推理轨迹（reasoning traces）和任务特定动作（task-specific actions），从而实现两者之间更强的协同作用：reasoning traces 帮助模型引导、追踪和更新 action plans，并处理异常情况；而 actions 则允许模型与外部来源（如知识库或环境）接口交互并收集额外信息。
+- ((6806eeb2-e457-40e1-82be-8e4359f7c6c1))
+- > 只有 Action 的基准测试比有 Action + Reasoning 的效果要差
+-
+- ## 翻译部分
+	- ### 摘要
+		- 虽然大型语言模型（LLMs）在语言理解和交互式决策制定等任务中展现了令人印象深刻的性能，但它们的推理（例如 chain-of-thought prompting）和行动（例如 action plan 生成）能力主要还是作为独立主题进行研究。在本文中，我们探索使用 LLMs 以**交错方式生成推理轨迹（reasoning traces）和任务特定动作（task-specific actions），从而实现两者之间更强的协同作用：reasoning traces 帮助模型引导、追踪和更新 action plans，并处理异常情况；而 actions 则允许模型与外部来源（如知识库或环境）接口交互并收集额外信息。我们将我们命名为 `ReAct` 的方法应用于一系列多样化的语言和决策制定任务，并证明了其相较于 state-of-the-art 基线的有效性，同时提高了人类可解释性（human interpretability）和可信赖性（trustworthiness）。具体来说，在问答（HotpotQA）和事实核查（Fever）任务上，ReAct 通过与一个简单的 Wikipedia API 交互，克服了 chain-of-thought 推理中普遍存在的幻觉（hallucination）和错误传播（error propagation）问题，并生成了比没有 reasoning traces 的基线更易解释的、类似人类解决任务的轨迹。此外，在两个交互式决策制定基准（ALFWorld 和 WebShop）上，ReAct 的性能优于 imitation learning 和 reinforcement learning 方法，绝对成功率分别提高了 34% 和 10%，而这仅仅是在 prompt 中提供了一到两个 in-context examples 的情况下实现的。
+	- ((6806f180-0aca-4621-8146-7c30e48d6452))
+		- 考虑一个 agent 与环境交互以解决任务的一般设置。在时间步 `t`, agent 从环境中接收到一个观察 `ot ∈ O`，并且根据某个策略`π(at|ct)`采取一个行动`at ∈ A`。其中` ct = (o1, a1, · · · , ot−1, at−1, ot) `是 agent 的上下文*Contenxt*。**在`t`这个时候，需要从`ct `中找到对应的`at`，是需要大量的而且隐晦的计算的。**这个过程非常有挑战性。
+		-
+-
