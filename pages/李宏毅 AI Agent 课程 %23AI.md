@@ -1,0 +1,16 @@
+-
+- 根据历史经验调整行为
+	- 问题：loop 太长，step 太多，信息会太大将 Context Window 撑爆。
+	- 通过 Agent+RAG（mem）可以覆盖这个场景。
+	- 对应的 Paper StreamBench
+		- > 里面还有一个 Insight：负面的 Feedback 对提升能力没有用。
+	- Agent Memory
+		- ![](https://raw.githubusercontent.com/stillfox-lee/image/main/picgo/202504282336029.png)
+		- 论文：
+			- MenGPT
+			- Agent Workflow Memory
+			- A-MeM：Agentic Memory for LLM Agents
+- AI 如何使用工具
+	- 工具：只需要知道怎么使用，不需要知道内部原理。
+	- 工具太多怎么办：https://arxiv.org/abs/2502.11271
+	- 模型自己打造工具

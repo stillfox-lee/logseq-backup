@@ -1,0 +1,15 @@
+- AI Agent 课程大纲
+	- AI 做 Plan
+		- Plan-and-Solve Prompting #paper
+		- PlanBench —— 测试模型做 plan 的能力
+		- 如何强化 AI Agent planning 能力
+			- 暴力穷举。
+				- 直接执行所有的可能路径，然后找到一条成功路径。用这条成功路径来执行。但是这个方案需要消耗的算力太大，而且任务可能不一样，无法重复使用这个Plan。
+			- Tree Search
+				- Tree Search  for Language Model Agent #paper
+				- 每次执行完，给“后面步骤能否解决这个问题”进行一个打分，如果分值高于 0.4，则继续执行。如果分值小于 0.4，则换一条路径。比起**暴力穷举**，减少了算力。
+			- World Model 来演习
+				- 使用一个 RL 模型来演习模拟整个过程，通过它来找到一个成功路径。然后让实际的 Agent 按照 Plan 去执行。
+				- > RL 模型 有时候可能会 Overthinking，有可能还不如实际执行一次通过结果再做计划。
+				-
+			-
