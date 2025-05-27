@@ -18,7 +18,6 @@
 - 编程
 	- 代码仓库阅读工具 https://bloop.ai/
 	- gptcommit https://github.com/zurawiki/gptcommit
-	- Cursor
 - 学习助手类产品
 	- ChatPDF
 	- 翻译
