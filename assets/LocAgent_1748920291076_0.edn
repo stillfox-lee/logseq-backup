@@ -503,4 +503,4 @@
                           :page 5},
                :content {:text "Tool Name Input Params Output SearchEntity Keywords Related Entities with Code Snippets TraverseGraph Start Entity IDs Traversed Subgraph, including Entites and Relations Direction Traverse Hops Entity Types Relation Types RetrieveEntity Entity IDs Complete Code of Specified Entities"},
                :properties {:color "blue"}}],
- :extra {:page 4}}
+ :extra {:page 10}}
